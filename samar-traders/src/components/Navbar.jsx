@@ -119,22 +119,23 @@ export default function Navbar() {
         className="fixed top-0 left-0 right-0 z-30 transition-all duration-300"
         style={{ padding: scrolled ? "10px 0" : "18px 0" }}
       >
-        <div className="w-full px-8 xl:px-16 flex items-center justify-between">
+        <div className="w-full px-8 xl:px-16 flex items-center justify-between gap-4">
 
           {/* Logo — glassmorphism pill */}
-          <Link to="/" className="flex items-center gap-3 group">
+          <Link to="/" className="flex items-center gap-3 group flex-shrink-0">
             <div
-              className="w-11 h-11 rounded-2xl flex items-center justify-center shadow-md group-hover:shadow-lg transition-all duration-200"
+              className="w-11 h-11 rounded-2xl flex items-center justify-center transition-all duration-200 group-hover:scale-105"
               style={{
-                background: "rgba(255,255,255,0.55)",
-                backdropFilter: "blur(16px)",
-                border: "1px solid rgba(255,255,255,0.75)",
-                boxShadow: "0 4px 16px rgba(0,0,0,0.08), inset 0 1px 0 rgba(255,255,255,0.9)",
+                background: "rgba(255,255,255,0.72)",
+                backdropFilter: "blur(20px)",
+                WebkitBackdropFilter: "blur(20px)",
+                border: "1.5px solid rgba(255,255,255,0.95)",
+                boxShadow: "0 8px 32px rgba(0,0,0,0.10), 0 1.5px 0 rgba(255,255,255,1) inset, 0 -1px 0 rgba(200,190,170,0.18) inset",
               }}
             >
               <span
-                className="font-serif font-black text-stone-800 text-lg"
-                style={{ textShadow: "0 1px 2px rgba(255,255,255,0.8)" }}
+                className="font-serif font-black text-stone-800 text-lg select-none"
+                style={{ textShadow: "0 1px 3px rgba(255,255,255,0.9)" }}
               >
                 S
               </span>
@@ -143,16 +144,17 @@ export default function Navbar() {
               className="font-serif font-black text-stone-900 text-2xl tracking-tight"
               style={{ letterSpacing: "-0.02em" }}
             >
-              Samar Traders
+              Samar Trading
             </span>
           </Link>
 
           {/* Desktop Pill Nav */}
           <nav
-            className="hidden md:flex items-center gap-0.5 rounded-full px-2 py-1.5"
+            className="hidden md:flex items-center gap-0.5 rounded-full px-2 py-1.5 flex-shrink-0"
             style={{
               background: "rgba(255,255,255,0.65)",
               backdropFilter: "blur(16px)",
+              WebkitBackdropFilter: "blur(16px)",
               border: "1px solid rgba(255,255,255,0.75)",
               boxShadow: "0 2px 12px rgba(0,0,0,0.06)",
             }}
@@ -173,6 +175,25 @@ export default function Navbar() {
             ))}
           </nav>
 
+          {/* Get a Quote CTA — Desktop */}
+          <Link
+            to="/contact"
+            className="hidden md:inline-flex items-center gap-2 flex-shrink-0 text-sm font-medium text-white transition-all duration-200 hover:scale-105 active:scale-95"
+            style={{
+              padding: "10px 22px",
+              borderRadius: "99px",
+              background: "linear-gradient(135deg, #1c1917 0%, #44403c 100%)",
+              boxShadow: "0 4px 16px rgba(28,25,23,0.25), 0 1px 0 rgba(255,255,255,0.12) inset",
+            }}
+            onMouseEnter={(e) => { e.currentTarget.style.boxShadow = "0 6px 24px rgba(28,25,23,0.35), 0 1px 0 rgba(255,255,255,0.12) inset"; }}
+            onMouseLeave={(e) => { e.currentTarget.style.boxShadow = "0 4px 16px rgba(28,25,23,0.25), 0 1px 0 rgba(255,255,255,0.12) inset"; }}
+          >
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2">
+              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+            </svg>
+            Get a Quote
+          </Link>
+
           {/* Mobile Hamburger */}
           <button
             onClick={() => setMobileOpen(true)}
@@ -180,6 +201,7 @@ export default function Navbar() {
             style={{
               background: "rgba(255,255,255,0.55)",
               backdropFilter: "blur(12px)",
+              WebkitBackdropFilter: "blur(12px)",
               border: "1px solid rgba(255,255,255,0.7)",
             }}
           >
