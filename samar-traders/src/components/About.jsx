@@ -187,7 +187,7 @@ export default function About() {
               <span className="font-serif text-base font-semibold text-white">S</span>
             </div>
             <div>
-              <p className="font-serif italic text-[0.88rem] text-stone-900 m-0 mb-0.5">— Satyendra Tiwari</p>
+              <p className="font-serif italic text-[0.88rem] text-stone-900 m-0 mb-0.5">— Satendra Tiwari</p>
               <p className="font-sans text-[0.55rem] tracking-[0.14em] uppercase text-[#a8a29e] m-0">
                 Founder · Gomti Nagar, Lucknow
               </p>

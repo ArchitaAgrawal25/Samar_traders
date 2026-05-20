@@ -3,12 +3,16 @@ import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
 import MarqueeStrip from "./components/MarqueeStrip";
 import About from "./components/About";
+import WhatWeMake from "./components/Whatwemake";
+import OurProducts from "./components/Ourproducts";
 function HomePage() {
   return (
     <>
       <Hero />
       <MarqueeStrip />
       <About />
+      <WhatWeMake />
+      <OurProducts />
     </>
   );
 }
