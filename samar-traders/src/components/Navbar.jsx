@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { gsap } from "gsap";
 import { Menu, X } from "lucide-react";
 
@@ -49,7 +49,12 @@ function MobileMenu({ isOpen, onClose }) {
         style={{ background: "rgba(245,243,238,0.97)", backdropFilter: "blur(20px)" }}
       >
         <div className="flex items-center justify-between px-6 py-5 border-b border-stone-200">
-          <span className="font-serif font-bold text-stone-900 text-lg tracking-tight">Samar Traders</span>
+          {/* Mobile menu header logo */}
+          <img
+            src="/images/samar-logo.png"
+            alt="Samar Trading"
+            style={{ height: "36px", width: "auto", objectFit: "contain" }}
+          />
           <button
             onClick={onClose}
             className="w-9 h-9 rounded-full bg-stone-100 flex items-center justify-center text-stone-500 hover:bg-stone-200 transition-colors"
@@ -89,6 +94,7 @@ export default function Navbar() {
   const [scrolled,   setScrolled]   = useState(false);
   const navRef = useRef(null);
   const location = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -112,41 +118,59 @@ export default function Navbar() {
   const isActive = (path) =>
     path === "/" ? location.pathname === "/" : location.pathname.startsWith(path);
 
+  const handleLogoClick = (e) => {
+    e.preventDefault();
+    if (location.pathname === "/") {
+      // Already on home — refresh the page
+      window.location.reload();
+    } else {
+      navigate("/");
+    }
+  };
+
   return (
     <>
       <header
         ref={navRef}
         className="fixed top-0 left-0 right-0 z-30 transition-all duration-300"
-        style={{ padding: scrolled ? "10px 0" : "18px 0" }}
+        style={{ padding: scrolled ? "8px 0" : "14px 0" }}
       >
         <div className="w-full px-8 xl:px-16 flex items-center justify-between gap-4">
 
-          {/* Logo — glassmorphism pill */}
-          <Link to="/" className="flex items-center gap-3 group flex-shrink-0">
+          {/* Logo — just the image, no separate text */}
+          <a
+            href="/"
+            onClick={handleLogoClick}
+            className="flex items-center flex-shrink-0 group"
+            style={{ textDecoration: "none" }}
+          >
             <div
-              className="w-11 h-11 rounded-2xl flex items-center justify-center transition-all duration-200 group-hover:scale-105"
               style={{
-                background: "rgba(255,255,255,0.72)",
+                padding: "6px 12px",
+                borderRadius: "14px",
+                background: "rgba(255,255,255,0.82)",
                 backdropFilter: "blur(20px)",
                 WebkitBackdropFilter: "blur(20px)",
                 border: "1.5px solid rgba(255,255,255,0.95)",
-                boxShadow: "0 8px 32px rgba(0,0,0,0.10), 0 1.5px 0 rgba(255,255,255,1) inset, 0 -1px 0 rgba(200,190,170,0.18) inset",
+                boxShadow: "0 8px 32px rgba(0,0,0,0.10), 0 1.5px 0 rgba(255,255,255,1) inset",
+                transition: "transform 0.2s, box-shadow 0.2s",
               }}
+              onMouseEnter={e => { e.currentTarget.style.transform = "scale(1.03)"; e.currentTarget.style.boxShadow = "0 10px 38px rgba(0,0,0,0.14), 0 1.5px 0 rgba(255,255,255,1) inset"; }}
+              onMouseLeave={e => { e.currentTarget.style.transform = "scale(1)"; e.currentTarget.style.boxShadow = "0 8px 32px rgba(0,0,0,0.10), 0 1.5px 0 rgba(255,255,255,1) inset"; }}
             >
-              <span
-                className="font-serif font-black text-stone-800 text-lg select-none"
-                style={{ textShadow: "0 1px 3px rgba(255,255,255,0.9)" }}
-              >
-                S
-              </span>
+              <img
+                src="/images/samar-logo.png"
+                alt="Samar Trading"
+                style={{
+                  height: "44px",
+                  width: "auto",
+                  objectFit: "contain",
+                  display: "block",
+                  maxWidth: "180px",
+                }}
+              />
             </div>
-            <span
-              className="font-serif font-black text-stone-900 text-2xl tracking-tight"
-              style={{ letterSpacing: "-0.02em" }}
-            >
-              Samar Trading
-            </span>
-          </Link>
+          </a>
 
           {/* Desktop Pill Nav */}
           <nav
