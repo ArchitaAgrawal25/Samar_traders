@@ -14,11 +14,11 @@ const REVIEWS = [
     date: "23 Dec 2025",
   },
   {
-    name: "Abcd",
+    name: "Aditya Misra",
     rating: 5,
-    text: "The staff was experienced and helpful throughout the process. Good quality products, timely delivery, and attractive discounts made the experience smooth.",
+    text: "I am very happy with the service provided. Very professional approach and professional efficiency of high class. Thanks for the excellent service!",
     place: "Lucknow",
-    date: "05 Jun 2024",
+    date: "25 May 2026",
   },
   {
     name: "Ruby",
@@ -42,9 +42,9 @@ const REVIEWS = [
     date: "21 Dec 2025",
   },
   {
-    name: "Samar Tiwari",
+    name: "Dhirendra Tiwari",
     rating: 5,
-    text: "Samar Trading stands out for friendly staff, quality products, and unbeatable pricing. Highly recommended.",
+    text: "Very good services in all Products.Jamex wpc is good brand. Thankyou samar Trading",
     place: "Lucknow",
     date: "16 Jun 2024",
   },
@@ -339,7 +339,7 @@ filter: "blur(0px)",
               <Stars rating={5} size={20} />
 
               <span className="font-sans text-sm text-white/60">
-                {REVIEWS.length} featured reviews
+                20+ reviews online.
               </span>
             </div>
           </div>

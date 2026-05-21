@@ -14,6 +14,13 @@ const FAQS = [
     tag: "Tilt · Casement · Bay",
   },
   {
+  category: "Maintenance",
+  question: "What is the maintenance cost of uPVC windows and doors?",
+  answer:
+    "uPVC windows and doors generally have very low maintenance costs compared to traditional wooden systems. They do not require regular polishing, painting, or termite treatment, which helps homeowners save on long-term upkeep expenses. In most cases, simple cleaning and occasional servicing of hardware is enough to keep them functioning smoothly for years.",
+  tag: "Low Upkeep",
+},
+  {
     category: "Pricing",
     question: "Is uPVC expensive?",
     answer:

@@ -8,6 +8,7 @@ import OurProducts from "./components/Ourproducts";
 import FAQ from "./components/Faq";
 import { QuoteModalProvider } from "./components/QuoteModal";
 import Reviews from "./components/Reviews";
+import Showroom from "./components/Showroom";
 function HomePage() {
   return (
     <>
@@ -18,6 +19,7 @@ function HomePage() {
       <OurProducts />
       <FAQ />
       <Reviews />
+      <Showroom />
     </>
   );
 }
