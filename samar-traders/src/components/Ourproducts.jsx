@@ -397,7 +397,9 @@ export default function OurProducts() {
           <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-3 mb-10 md:mb-14">
             <div>
               <div ref={eyebrowRef} className="opacity-0 flex items-center gap-3 mb-3">
-                <span className="font-sans tracking-[0.18em] uppercase text-[#999999]" style={{ fontSize: "0.8rem" }}>Our Projects</span>                
+                <span className="font-sans tracking-[0.18em] uppercase text-[#999999]" style={{ fontSize: "0.9rem",
+                fontWeight: 800,
+                color: "#6b6560",}}>Our Projects</span>                
               </div>
 
               <h2

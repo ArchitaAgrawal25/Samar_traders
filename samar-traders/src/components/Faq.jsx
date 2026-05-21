@@ -76,7 +76,7 @@ function FAQRow({ faq, index, isOpen, onToggle, rowRef, isLast }) {
         height: 0,
         opacity: 0,
         duration: 0.3,
-        ease: "power3.in",
+        ease: "power1.in",
       });
     }
   }, [isOpen]);
@@ -90,23 +90,43 @@ function FAQRow({ faq, index, isOpen, onToggle, rowRef, isLast }) {
         opacity: 0,
         borderRadius: isOpen ? "12px" : "0",
         margin: isOpen ? "4px 0" : "0",
-        background: isOpen
-          ? "linear-gradient(135deg, rgba(255,255,255,0.72) 0%, rgba(245,238,224,0.6) 100%)"
-          : "transparent",
+       background: isOpen
+  ? `
+    linear-gradient(
+      135deg,
+      rgba(255,255,255,0.92) 0%,
+      rgba(248,244,236,0.88) 45%,
+      rgba(241,234,223,0.82) 100%
+    )
+  `
+  : `
+    linear-gradient(
+      135deg,
+      rgba(255,240,245,0.22) 0%,
+      rgba(238,244,255,0.16) 45%,
+      rgba(235,255,245,0.12) 100%
+    )
+  `,
         backdropFilter: isOpen ? "blur(10px)" : "none",
-        boxShadow: isOpen ? "0 2px 18px rgba(0,0,0,0.06), 0 1px 0 rgba(255,255,255,0.9) inset" : "none",
-        transition: "background 0.3s ease, border-radius 0.3s ease, margin 0.3s ease, box-shadow 0.3s ease",
+        boxShadow: isOpen
+          ? `
+            0 10px 35px rgba(120,110,90,0.08),
+            0 2px 10px rgba(0,0,0,0.04),
+            inset 0 1px 0 rgba(255,255,255,0.95)
+          `
+          : "none",
+        transition:
+          "background 0.3s ease, border-radius 0.3s ease, margin 0.3s ease, box-shadow 0.3s ease",
       }}
       onClick={onToggle}
     >
       <div
         className="flex items-center gap-4 md:gap-8"
         style={{
-          padding: isOpen ? "18px 16px" : "18px 0",
+          padding: isOpen ? "16px 16px" : "16px 0",
           transition: "padding 0.3s ease",
         }}
       >
-        {/* Category tag */}
         <span
           className="font-sans uppercase tracking-[0.14em] shrink-0 hidden md:block"
           style={{
@@ -120,7 +140,6 @@ function FAQRow({ faq, index, isOpen, onToggle, rowRef, isLast }) {
           {faq.category}
         </span>
 
-        {/* Question */}
         <p
           className="font-serif flex-1 m-0"
           style={{
@@ -135,7 +154,6 @@ function FAQRow({ faq, index, isOpen, onToggle, rowRef, isLast }) {
           {faq.question}
         </p>
 
-        {/* Tag — desktop */}
         <span
           className="font-sans shrink-0 hidden lg:block"
           style={{
@@ -151,7 +169,6 @@ function FAQRow({ faq, index, isOpen, onToggle, rowRef, isLast }) {
           {faq.tag}
         </span>
 
-        {/* Toggle button */}
         <div
           className="shrink-0 w-8 h-8 rounded-full flex items-center justify-center transition-all duration-300"
           style={{
@@ -178,16 +195,15 @@ function FAQRow({ faq, index, isOpen, onToggle, rowRef, isLast }) {
         </div>
       </div>
 
-      {/* Expandable answer */}
       <div
         ref={answerRef}
         style={{ height: 0, overflow: "hidden", opacity: 0 }}
       >
         <div ref={contentRef} style={{ paddingBottom: "20px" }}>
           <div className="flex gap-4 md:gap-8" style={{ paddingLeft: 0 }}>
-            {/* Spacer to align with question on desktop */}
             <span className="hidden md:block shrink-0" style={{ width: "100px" }} />
-            <div className="flex-1" style={{ paddingLeft: isOpen ? "0" : "0" }}>
+
+            <div className="flex-1">
               <p
                 className="font-sans m-0 leading-relaxed"
                 style={{
@@ -198,22 +214,37 @@ function FAQRow({ faq, index, isOpen, onToggle, rowRef, isLast }) {
               >
                 {faq.answer}
               </p>
+
               <div className="flex items-center gap-3 mt-4">
                 <Link
                   to="/contact"
                   onClick={(e) => e.stopPropagation()}
                   className="inline-flex items-center gap-1.5 font-sans no-underline transition-all duration-200 hover:text-stone-900"
-                  style={{ fontSize: "0.72rem", letterSpacing: "0.04em", color: "#44403c" }}
+                  style={{
+                    fontSize: "0.72rem",
+                    letterSpacing: "0.04em",
+                    color: "#44403c",
+                  }}
                 >
-                  <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2">
+                  <svg
+                    width="9"
+                    height="9"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2.2"
+                  >
                     <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
                   </svg>
                   Ask us more →
                 </Link>
               </div>
             </div>
-            {/* Right spacer */}
-            <span className="hidden lg:block shrink-0" style={{ width: "130px" }} />
+
+            <span
+              className="hidden lg:block shrink-0"
+              style={{ width: "130px" }}
+            />
             <span className="shrink-0" style={{ width: "32px" }} />
           </div>
         </div>
@@ -223,7 +254,7 @@ function FAQRow({ faq, index, isOpen, onToggle, rowRef, isLast }) {
 }
 
 export default function FAQ() {
-  const [openIndex, setOpenIndex] = useState(3); // warranty open by default like reference
+  const [openIndex, setOpenIndex] = useState(null);
   const sectionRef = useRef(null);
   const eyebrowRef = useRef(null);
   const headingRef = useRef(null);
@@ -247,6 +278,7 @@ export default function FAQ() {
 
       rowRefs.current.forEach((row, i) => {
         if (!row) return;
+
         gsap.fromTo(
           row,
           { opacity: 0, y: 14 },
@@ -267,8 +299,8 @@ export default function FAQ() {
         {
           opacity: 1,
           y: 0,
-          duration: 0.65,
-          ease: "power3.out",
+          duration: 0.1,
+          ease: "power1.in",
           scrollTrigger: { trigger: footerRef.current, start: "top 95%" },
         }
       );
@@ -283,42 +315,85 @@ export default function FAQ() {
     <section
       ref={sectionRef}
       className="relative w-full overflow-hidden py-16 md:py-24"
-      style={{ background: "#f5f3ee" }}
+      style={{
+        background: `
+          radial-gradient(circle at top left, rgba(168,213,200,0.18), transparent 28%),
+          radial-gradient(circle at top right, rgba(200,185,155,0.22), transparent 32%),
+          radial-gradient(circle at bottom left, rgba(220,210,255,0.12), transparent 28%),
+          linear-gradient(
+            180deg,
+            #f8f6f1 0%,
+            #f5f1ea 45%,
+            #f2ede5 100%
+          )
+        `,
+      }}
     >
-      {/* Subtle blobs */}
+      {/* Ambient gradient blobs */}
       <div
         aria-hidden="true"
-        className="absolute pointer-events-none"
-        style={{
-          top: "10%",
-          right: "-6%",
-          width: "36vw",
-          height: "36vw",
-          borderRadius: "50%",
-          background: "radial-gradient(circle,rgba(200,185,155,0.13) 0%,transparent 70%)",
-        }}
-      />
-      <div
-        aria-hidden="true"
-        className="absolute pointer-events-none"
-        style={{
-          bottom: "5%",
-          left: "-5%",
-          width: "30vw",
-          height: "30vw",
-          borderRadius: "50%",
-          background: "radial-gradient(circle,rgba(168,213,200,0.1) 0%,transparent 70%)",
-        }}
-      />
+        className="absolute inset-0 overflow-hidden pointer-events-none"
+      >
+        <div
+          className="absolute rounded-full blur-3xl"
+          style={{
+            top: "-8%",
+            right: "-10%",
+            width: "38vw",
+            height: "38vw",
+            background:
+              "radial-gradient(circle, rgba(200,185,155,0.28) 0%, rgba(200,185,155,0.08) 45%, transparent 72%)",
+          }}
+        />
+
+        <div
+          className="absolute rounded-full blur-3xl"
+          style={{
+            bottom: "-10%",
+            left: "-8%",
+            width: "34vw",
+            height: "34vw",
+            background:
+              "radial-gradient(circle, rgba(168,213,200,0.22) 0%, rgba(168,213,200,0.05) 45%, transparent 72%)",
+          }}
+        />
+
+        <div
+          className="absolute rounded-full blur-3xl"
+          style={{
+            top: "32%",
+            left: "50%",
+            transform: "translateX(-50%)",
+            width: "28vw",
+            height: "28vw",
+            background:
+              "radial-gradient(circle, rgba(220,210,255,0.12) 0%, transparent 72%)",
+          }}
+        />
+
+        <div
+          className="absolute inset-0 opacity-[0.035]"
+          style={{
+            backgroundImage:
+              "radial-gradient(rgba(0,0,0,0.7) 0.5px, transparent 0.5px)",
+            backgroundSize: "6px 6px",
+          }}
+        />
+      </div>
 
       <div className="relative z-10 w-full max-w-[1200px] mx-auto px-5 md:px-8">
-
-        {/* ── Header ── */}
         <div className="mb-10 md:mb-14">
-          <div ref={eyebrowRef} className="opacity-0 flex items-center gap-3 mb-4">
+          <div
+            ref={eyebrowRef}
+            className="opacity-0 flex items-center gap-3 mb-4"
+          >
             <span
               className="font-sans tracking-[0.18em] uppercase"
-              style={{ fontSize: "0.7rem", fontWeight: 500, color: "#6b6560" }}
+              style={{
+                fontSize: "0.9rem",
+                fontWeight: 800,
+                color: "#6b6560",
+              }}
             >
               Frequently Asked Questions
             </span>
@@ -329,51 +404,72 @@ export default function FAQ() {
               ref={headingRef}
               className="opacity-0 font-serif font-normal text-stone-900 m-0"
               style={{
-                fontSize: "clamp(2rem,4.5vw,3.8rem)",
+                fontSize: "clamp(2rem,4vw,2.8rem)",
                 lineHeight: 1.04,
                 letterSpacing: "-0.025em",
               }}
             >
               Answered,{" "}
-              <em style={{ fontStyle: "italic", color: "#2a7a6a" }}>honestly.</em>
+              <em
+                style={{
+                  fontStyle: "italic",
+                  background:
+                    "linear-gradient(135deg, #2a7a6a 0%, #7a8f6a 45%, #b8956a 100%)",
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                }}
+              >
+                honestly.
+              </em>
             </h2>
 
             <p
               className="font-sans m-0 self-start md:self-end mb-1"
-              style={{ fontSize: "0.72rem", letterSpacing: "0.08em", color: "#6b6560" }}
+              style={{
+                fontSize: "0.92rem",
+                letterSpacing: "0.08em",
+                color: "#6b6560",
+              }}
             >
               {FAQS.length} questions answered
             </p>
           </div>
         </div>
 
-        {/* Column headers — desktop */}
         <div
           className="hidden md:flex items-center gap-4 md:gap-8 border-b pb-3 mb-0"
           style={{ borderColor: "rgba(180,170,155,0.3)" }}
         >
           <span
             className="font-sans uppercase tracking-[0.14em] shrink-0"
-            style={{ fontSize: "0.55rem", width: "100px", color: "#78716c" }}
+            style={{ fontSize: "0.65rem", fontWeight: 500, width: "100px", color: "#78716c" }}
           >
             Category
           </span>
+
           <span
             className="font-sans uppercase tracking-[0.14em] flex-1"
-            style={{ fontSize: "0.55rem", color: "#78716c" }}
+            style={{ fontSize: "0.65rem",fontWeight: 500, color: "#78716c" }}
           >
             Question
           </span>
+
           <span
             className="font-sans uppercase tracking-[0.14em] shrink-0 hidden lg:block"
-            style={{ fontSize: "0.55rem", width: "130px", textAlign: "right", color: "#78716c" }}
+            style={{
+              fontSize: "0.65rem",
+              fontWeight:500,
+              width: "130px",
+              textAlign: "right",
+              color: "#78716c",
+            }}
           >
             Topic
           </span>
+
           <span className="shrink-0" style={{ width: "32px" }} />
         </div>
 
-        {/* ── FAQ rows ── */}
         <div>
           {FAQS.map((faq, i) => (
             <FAQRow
@@ -388,43 +484,46 @@ export default function FAQ() {
           ))}
         </div>
 
-        {/* ── Footer bar ── */}
         <div
           ref={footerRef}
-          className="opacity-0 flex flex-col md:flex-row md:items-center md:justify-between gap-4 mt-8 pt-6"
+          className="opacity-0 flex flex-col md:flex-row md:items-center md:justify-between gap-4 mt-4 pt-5"
           style={{ borderTop: "1px solid rgba(180,170,155,0.25)" }}
         >
           <p
             className="font-sans m-0"
-            style={{ fontSize: "0.7rem", letterSpacing: "0.06em", textTransform: "uppercase", color: "#6b6560" }}
+            style={{
+              fontSize: "0.8rem",
+              fontWeight:800,
+              letterSpacing: "0.06em",
+              textTransform: "uppercase",
+              color: "#6b6560",
+            }}
           >
             Still curious? We reply within 24 hours.
           </p>
 
           <Link
             to="/contact"
-            className="inline-flex items-center gap-2 font-sans font-medium no-underline transition-all duration-200 self-start md:self-auto"
-            style={{
-              fontSize: "0.8rem",
-              padding: "10px 22px",
-              borderRadius: "99px",
-              background: "rgba(255,255,255,0.7)",
-              backdropFilter: "blur(12px)",
-              border: "1px solid rgba(180,168,148,0.6)",
-              letterSpacing: "0.03em",
-              color: "#1c1917",
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.background = "rgba(255,255,255,0.92)";
-              e.currentTarget.style.transform = "scale(1.03)";
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.background = "rgba(255,255,255,0.7)";
-              e.currentTarget.style.transform = "scale(1)";
-            }}
+            className="inline-flex items-center gap-3 self-start md:self-auto rounded-full 
+            px-6 py-3 text-base font-semibold tracking-wide text-white no-underline
+            bg-gradient-to-br from-[#b8956a] to-[#8b6b45]
+            shadow-[0_10px_30px_rgba(139,107,69,0.35)]
+            border border-white/20
+            transition-all duration-300 ease-out
+            hover:scale-105 hover:-translate-y-1
+            hover:from-[#c8a57a] hover:to-[#9b774d]
+            hover:shadow-[0_16px_40px_rgba(139,107,69,0.5)]"
           >
-            Write to us
-            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+            Ask Us
+
+            <svg
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2.7"
+            >
               <path d="M5 12h14M12 5l7 7-7 7" />
             </svg>
           </Link>

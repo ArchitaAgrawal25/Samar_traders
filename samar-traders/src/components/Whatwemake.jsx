@@ -148,7 +148,9 @@ export default function WhatWeMake() {
             >
               <span
                 className="font-sans tracking-[0.18em] uppercase text-[#9a9188]"
-                style={{ fontSize: "0.9rem", fontWeight: 900 }}
+                style={{ fontSize: "0.9rem",
+                fontWeight: 800,
+                color: "#6b6560",}}
               >
                 Services
               </span>
