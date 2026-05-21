@@ -7,6 +7,7 @@ import WhatWeMake from "./components/Whatwemake";
 import OurProducts from "./components/Ourproducts";
 import FAQ from "./components/Faq";
 import { QuoteModalProvider } from "./components/QuoteModal";
+import Reviews from "./components/Reviews";
 function HomePage() {
   return (
     <>
@@ -16,6 +17,7 @@ function HomePage() {
       <WhatWeMake />
       <OurProducts />
       <FAQ />
+      <Reviews />
     </>
   );
 }
