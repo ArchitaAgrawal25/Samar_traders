@@ -110,11 +110,9 @@ function ThankYou({ onClose }) {
 
 const INTERESTS = [
   "uPVC Windows & Doors",
-  "Aluminium Systems",
-  "Sliding & Folding",
-  "Wooden Doors",
-  "Toughened Glass",
-  "Mosquito Mesh",
+  "Modular Kitchen",
+  "Wardrobe",
+  "Interior designs",
   "Other / Not sure",
 ];
 
@@ -253,10 +251,7 @@ export function QuoteModal({ onClose }) {
               </div>
 
               <h2 className="m-0 mb-1.5 pr-8 font-serif text-[clamp(1.45rem,7vw,2.2rem)] font-normal leading-[1.12] tracking-[-0.02em] text-stone-900 sm:pr-0">
-                Tell us what you're{" "}
-                <em className="bg-gradient-to-br from-[#2a7a6a] to-[#c8822a] bg-clip-text italic text-transparent">
-                  dreaming of.
-                </em>
+                Tell us your doubts.
               </h2>
 
               <p className="m-0 font-sans text-[0.82rem] leading-[1.55] text-stone-500">
@@ -270,7 +265,7 @@ export function QuoteModal({ onClose }) {
                   type="text"
                   value={fields.name}
                   onChange={set("name")}
-                  placeholder="Aanya Mehta"
+                  placeholder="Samar Tiwari"
                   disabled={step === "sending"}
                   className={`${inputClass} ${errors.name ? inputErrorClass : ""}`}
                 />

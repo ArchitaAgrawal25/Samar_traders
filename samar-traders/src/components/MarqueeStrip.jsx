@@ -1,14 +1,7 @@
 const ITEMS = [
-  "Aluminium Windows",
-  "Glass Partitions",
-  "Wooden Doors",
-  "Sliding Systems",
-  "Premium Hardware",
-  "Custom Fabrication",
-  "Site Measurement",
-  "Modern Elevations",
-  "Balcony Enclosures",
-  "Office Cabins",
+  "uPVC Doors", "uPVC Windows", "Sliding Doors & Windows", "Casement Doors & Windows", "French Doors & Windows", "Modular Kitchens", "Custom Kitchen Designs", "Kitchen Cabinets & Accessories", "Sliding Wardrobes", 
+  "Hinged Wardrobes", "Walk-in Wardrobes", "Custom Wardrobes", "Residential Interior Design", "Commercial Interior Design",
+
 ];
 
 function Diamond() {

@@ -6,9 +6,9 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 gsap.registerPlugin(ScrollTrigger);
 
 const FEATURES = [
-  { num: "01", title: "Hand-measured",        desc: "Every site, every time. No assumptions." },
-  { num: "02", title: "In-house fabrication", desc: "From raw material to polished frame, under one roof." },
-  { num: "03", title: "Quality warranty",     desc: "Every structural install backed by our commitment." },
+  { num: "01", title: "Custom-tailored designs",  desc: "Every solution shaped to your style, dimensions & needs." },
+  { num: "02", title: "End-to-end service",        desc: "Consultation, design, installation and finishing — all in-house." },
+  { num: "03", title: "Strict quality standards",  desc: "Premium materials, skilled craftsmen, zero compromise." },
 ];
 
 export default function About() {
@@ -60,12 +60,7 @@ export default function About() {
       <div aria-hidden="true" className="absolute pointer-events-none rounded-full -bottom-[8%] -right-[6%] w-[36vw] h-[36vw]"
         style={{ background: "radial-gradient(circle,rgba(168,213,200,0.14) 0%,transparent 70%)" }} />
 
-      {/*
-        Layout:
-        - Mobile:  flex-col  →  eyebrow / image / heading / para / features / founder
-        - Desktop: grid 2col →  image left, all copy right
-      */}
-<div className="w-full max-w-[1200px] mx-auto px-[1vw] flex flex-col md:grid md:grid-cols-2 md:items-center gap-5 md:gap-x-[clamp(32px,5vw,80px)] md:gap-y-4">
+      <div className="w-full max-w-[1200px] mx-auto px-[1vw] flex flex-col md:grid md:grid-cols-2 md:items-center gap-5 md:gap-x-[clamp(32px,5vw,80px)] md:gap-y-4">
         {/* ── EYEBROW — visible above image on mobile, first in copy col on desktop ── */}
         <div
           ref={eyebrowRef}
@@ -100,8 +95,8 @@ export default function About() {
             className="absolute -top-3 right-5 z-[4] opacity-0 rounded-2xl px-3 py-1.5 border border-[rgba(200,185,155,0.5)]"
             style={{ background: "rgba(252,237,210,0.92)", backdropFilter: "blur(10px)", boxShadow: "0 4px 18px rgba(0,0,0,0.08)" }}
           >
-            <p className="font-sans text-[0.5rem] tracking-[0.14em] uppercase text-[#9a7a4a] mb-0.5">Trusted Dealer</p>
-            <p className="font-serif text-[0.82rem] text-stone-700 italic m-0">Gomti Nagar, Lucknow</p>
+            <p className="font-sans text-[0.5rem] tracking-[0.14em] uppercase text-[#9a7a4a] mb-0.5">Premium Quality</p>
+            <p className="font-serif text-[0.82rem] text-stone-700 italic m-0">Trusted in Lucknow</p>
           </div>
 
           {/* main image */}
@@ -118,7 +113,7 @@ export default function About() {
             />
             <div className="absolute bottom-0 left-0 right-0 z-[2] px-5 pt-2 pb-2"
               style={{ background: "linear-gradient(to top,rgba(20,16,12,0.72) 0%,transparent 100%)" }}>
-              <p className="font-serif italic text-[0.9rem] text-white/90 m-0">Workshop · crafting every door.</p>
+              <p className="font-serif italic text-[0.9rem] text-white/90 m-0"> &nbsp Crafted with precision · built to last.</p>
             </div>
           </div>
 
@@ -139,11 +134,10 @@ export default function About() {
           className="about-heading opacity-0 font-serif font-normal leading-tight tracking-tight text-stone-900 m-0 order-3 md:order-none md:col-start-2"
           style={{ fontSize: "clamp(1.6rem,2.8vw,2.6rem)", letterSpacing: "-0.02em", lineHeight: 1.15 }}
         >
-          A business that{" "}
-          <em className="not-italic" style={{ color: "#2a7a6a", fontStyle: "italic" }}>listens first,</em>
-          <br />
-          then builds{" "}
-          <em className="not-italic" style={{ color: "#c8822a", fontStyle: "italic" }}>for you.</em>
+          Premium products,{" "}
+          <em className="not-italic" style={{ color: "#2a7a6a", fontStyle: "italic" }}>crafted for you,</em>
+          delivered with{" "}
+          <em className="not-italic" style={{ color: "#c8822a", fontStyle: "italic" }}>care.</em>
         </h2>
 
         {/* ── PARA ── */}
@@ -152,9 +146,10 @@ export default function About() {
           className="opacity-0 font-sans leading-relaxed text-stone-500 m-0 max-w-[440px] order-4 md:order-none md:col-start-2"
           style={{ fontSize: "clamp(0.8rem,1vw,0.92rem)" }}
         >
-          Established in 2017, Samar Trading is a one-stop destination for premium aluminium,
-          uPVC, glass and wooden solutions in Gomti Nagar, Lucknow. Every window, door and
-          partition we deliver is measured, fabricated and installed by our own team — under one roof.
+          Samar Trading is a leading provider of high-quality uPVC doors and windows, modular
+          kitchens, wardrobes, and interior design solutions. Backed by years of industry
+          experience and a team of skilled professionals, we deliver exceptional craftsmanship,
+          innovative designs and personalized solutions — tailored to your style, space and budget.
         </p>
 
         {/* ── FEATURES ── */}

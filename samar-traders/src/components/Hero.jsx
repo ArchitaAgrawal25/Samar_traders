@@ -1,4 +1,3 @@
-
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { gsap } from "gsap";
@@ -38,7 +37,7 @@ function useCountUp(target, duration = 2.0, start = false) {
 
 const STATS_DATA = [
   { value: "10+", label: "Years Experience" },
-  { value: "200+", label: "Projects Done" },
+  { value: "500+", label: "Projects Delivered" },
   { value: "100%", label: "Client Satisfaction" },
 ];
 
@@ -201,12 +200,11 @@ function AnimatedHeading({ mobile }) {
   const lines = [
     [
       { text: "Premium" },
-      { text: "doors" },
-      { text: "&" },
-      { text: "windows,", style: { fontStyle: "italic", color: "#44403c" } },
-    ],
-    [
-      { text: "designed" },
+      { text: "doors," },
+      { text: "windows" },
+      { text: "&", style: { fontStyle: "italic", color: "#44403c" } },
+      { text: "interiors" },
+      { text: "designed", style: { fontStyle: "italic", color: "#44403c" } },
       { text: "for" },
       { text: "you.", style: { fontStyle: "italic", color: "#78716c" } },
     ],
@@ -551,7 +549,7 @@ export default function Hero() {
                   }}
                 />
               </div>
-              <CardLabel text="Aluminium · Series 90" />
+              <CardLabel text="uPVC · Series 90" />
             </GlassCard>
 
             <GlassCard
@@ -561,7 +559,7 @@ export default function Hero() {
               style={{ top: "3%", left: "38%", right: "0%", height: "44%", zIndex: 2 }}
             >
               <ImagePane imageSrc={wideImage} style={{ flex: 1, minHeight: 0, width: "100%" }} />
-              <CardLabel text="Casement Glass" />
+              <CardLabel text="Modular Kitchens" />
             </GlassCard>
 
             <GlassCard
@@ -583,7 +581,7 @@ export default function Hero() {
                   <ImagePane key={i} imageSrc={src} style={{ flex: 1, minHeight: 0 }} />
                 ))}
               </div>
-              <CardLabel text="Wooden Frame" />
+              <CardLabel text="Wardrobes & Interiors" />
             </GlassCard>
           </div>
         </div>
@@ -642,7 +640,7 @@ export default function Hero() {
                   }}
                 />
               </div>
-              <CardLabel text="Aluminium · Series 90" />
+              <CardLabel text="uPVC · Series 90" />
             </GlassCard>
 
             <GlassCard
@@ -652,7 +650,7 @@ export default function Hero() {
               style={{ top: "4%", left: "40%", right: "0%", height: "43%", zIndex: 2 }}
             >
               <ImagePane imageSrc={wideImage} style={{ flex: 1, minHeight: 0, width: "100%" }} />
-              <CardLabel text="Casement Glass" />
+              <CardLabel text="Modular Kitchens" />
             </GlassCard>
 
             <GlassCard
@@ -674,7 +672,7 @@ export default function Hero() {
                   <ImagePane key={i} imageSrc={src} style={{ flex: 1, minHeight: 0 }} />
                 ))}
               </div>
-              <CardLabel text="Wooden Frame" />
+              <CardLabel text="Wardrobes & Interiors" />
             </GlassCard>
           </div>
         </div>
@@ -720,7 +718,7 @@ function CopyBlock({
             <path d="M2 17l10 5 10-5" />
             <path d="M2 12l10 5 10-5" />
           </svg>
-          Trusted Expertise · Est. 2024
+          Leading Provider · Est. 2024
         </span>
         <p
           style={{
@@ -732,7 +730,7 @@ function CopyBlock({
             paddingLeft: "2px",
           }}
         >
-          10+ years of hands-on industry experience behind every project
+          Years of industry experience behind every product we deliver
         </p>
       </div>
 
@@ -748,8 +746,8 @@ function CopyBlock({
           margin: 0,
         }}
       >
-        Samar Trading delivers high-quality aluminium, glass and wooden solutions — crafted with
-        the calm precision and warmth of a family workshop.
+        Samar Trading delivers premium uPVC doors &amp; windows, modular kitchens, wardrobes and
+        complete interior solutions — crafted with precision, tailored to your space.
       </p>
 
       <div ref={ctaRef} style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>

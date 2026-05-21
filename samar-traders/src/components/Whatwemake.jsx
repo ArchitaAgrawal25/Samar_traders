@@ -8,57 +8,51 @@ gsap.registerPlugin(ScrollTrigger);
 const SERVICES = [
   {
     id: "01",
-    name: "uPVC Windows & Doors",
-    desc: "Thermally efficient frames in soft, modern profiles with multi-point locking.",
-    tags: ["Weather sealed", "Low maintenance", "Noise reducing"],
+    name: "uPVC Doors & Windows",
+    desc: "Premium sliding, casement, and French-style uPVC solutions for modern spaces.",
     bg: "/images/hero1.jpg",
     color: "rgba(168,213,200,0.85)",
     path: "/products/upvc",
   },
   {
     id: "02",
-    name: "Aluminium Systems",
-    desc: "Slim profile aluminium doors and windows for a clean modern aesthetic.",
-    tags: ["Powder coated", "Slim sightlines", "Corrosion resistant"],
+    name: "Modular Kitchen Solutions",
+    desc: "Customized modular kitchens with smart layouts, cabinets, and accessories.",
     bg: "/images/hero2.jpg",
     color: "rgba(200,185,155,0.85)",
-    path: "/products/aluminium",
+    path: "/products/kitchen",
   },
   {
     id: "03",
-    name: "Sliding & Folding",
-    desc: "Space-saving sliding and bi-fold systems that open rooms to the outdoors.",
-    tags: ["Smooth rollers", "Wide spans", "Indoor / outdoor flow"],
+    name: "Custom Wardrobes",
+    desc: "Stylish sliding, hinged, and walk-in wardrobes designed for maximum storage.",
     bg: "/images/hero3.jpeg",
     color: "rgba(220,210,255,0.82)",
-    path: "/products/sliding",
+    path: "/products/wardrobe",
   },
   {
     id: "04",
-    name: "Wooden Doors",
-    desc: "Solid teak, oak and engineered wood doors crafted to last generations.",
-    tags: ["Termite-treated", "Custom finishes", "Sound dampening"],
+    name: "Residential Interior Design",
+    desc: "Complete home interior solutions for elegant and functional living spaces.",
     bg: "/images/hero1.jpg",
     color: "rgba(252,220,170,0.85)",
-    path: "/products/wooden",
+    path: "/products/residential-interior",
   },
   {
     id: "05",
-    name: "Toughened Glass",
-    desc: "Tempered, laminated and frosted glass solutions for safety and style.",
-    tags: ["5× stronger", "Privacy options", "UV resistant"],
+    name: "Commercial Interior Design",
+    desc: "Professional interior designs for offices, showrooms, and commercial spaces.",
     bg: "/images/hero2.jpg",
     color: "rgba(205,232,245,0.85)",
-    path: "/products/glass",
+    path: "/products/commercial-interior",
   },
   {
     id: "06",
-    name: "Mosquito Mesh",
-    desc: "Retractable and fixed mesh systems with fibreglass and stainless options.",
-    tags: ["Pet-friendly", "Retractable", "Rust-proof"],
+    name: "Furniture & Space Planning",
+    desc: "Smart furniture layouts and space optimization for modern interiors.",
     bg: "/images/hero3.jpeg",
     color: "rgba(200,240,200,0.82)",
-    path: "/products/mesh",
+    path: "/products/space-planning",
   },
 ];
 
@@ -154,7 +148,7 @@ export default function WhatWeMake() {
             >
               <span
                 className="font-sans tracking-[0.18em] uppercase text-[#9a9188]"
-                style={{ fontSize: "0.8rem", fontWeight: 600 }}
+                style={{ fontSize: "0.9rem", fontWeight: 900 }}
               >
                 Services
               </span>
@@ -319,9 +313,9 @@ function ServiceCard({ service, cardRef }) {
             <h3
               className="font-serif text-stone-950 m-0 mb-2"
               style={{
-                fontSize: "clamp(1.35rem,2.4vw,1.8rem)",
+                fontSize: "clamp(1.3rem,2.4vw,1.6rem)",
                 lineHeight: 1.08,
-                fontWeight: 800,
+                fontWeight: 2000,
                 letterSpacing: "-0.02em",
               }}
             >
@@ -332,7 +326,7 @@ function ServiceCard({ service, cardRef }) {
               className="font-sans text-stone-800 m-0 leading-snug"
               style={{
                 fontSize: "clamp(0.82rem,1.1vw,0.95rem)",
-                fontWeight: 600,
+                fontWeight: 1000,
               }}
             >
               {service.desc}
