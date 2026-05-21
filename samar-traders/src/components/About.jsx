@@ -129,7 +129,7 @@ export default function About() {
             style={{ background: "rgba(245,243,238,0.95)", backdropFilter: "blur(14px)", boxShadow: "0 8px 28px rgba(0,0,0,0.1)" }}
           >
             <span className="font-sans text-[0.48rem] tracking-[0.12em] uppercase text-[#a8a29e]">Est.</span>
-            <span className="font-serif text-[1.2rem] font-semibold text-stone-900 leading-none">2017</span>
+            <span className="font-serif text-[1.2rem] font-semibold text-stone-900 leading-none">2024</span>
           </div>
         </div>
 

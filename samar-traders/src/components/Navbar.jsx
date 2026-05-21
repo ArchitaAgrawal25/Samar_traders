@@ -2,6 +2,7 @@ import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { gsap } from "gsap";
 import { Menu, X } from "lucide-react";
+import QuoteButton from "./Quotebutton";
 
 const NAV_LINKS = [
   { label: "Home", path: "/" },
@@ -20,7 +21,6 @@ function MobileMenu({ isOpen, onClose }) {
     if (!menuRef.current || !overlayRef.current) return;
 
     const links = linksRef.current.filter(Boolean);
-
     gsap.killTweensOf([overlayRef.current, menuRef.current, ...links]);
 
     if (isOpen) {
@@ -76,44 +76,33 @@ function MobileMenu({ isOpen, onClose }) {
       <div
         ref={overlayRef}
         onClick={onClose}
-        style={{
-          opacity: isOpen ? undefined : 0,
-          pointerEvents: isOpen ? "auto" : "none",
-        }}
-        className="fixed inset-0 bg-black/20 backdrop-blur-sm z-40"
+        className={[
+          "fixed inset-0 z-40 bg-black/20 backdrop-blur-sm",
+          isOpen ? "pointer-events-auto" : "pointer-events-none opacity-0",
+        ].join(" ")}
       />
 
       <div
         ref={menuRef}
-        className="fixed top-0 right-0 h-full w-72 z-50 shadow-2xl flex flex-col"
-        style={{
-          background: "rgba(245,243,238,0.97)",
-          backdropFilter: "blur(20px)",
-          WebkitBackdropFilter: "blur(20px)",
-          transform: "translateX(100%)",
-          willChange: "transform",
-        }}
+        className="fixed right-0 top-0 z-50 flex h-full w-72 translate-x-full flex-col bg-[#f5f3ee]/[0.97] shadow-2xl backdrop-blur-[20px] will-change-transform"
       >
-        <div className="flex items-center justify-between px-6 py-5 border-b border-stone-200">
+        <div className="flex items-center justify-between border-b border-stone-200 px-6 py-5">
           <img
             src="/images/samar-logo.png"
             alt="Samar Trading"
-            style={{
-              height: "36px",
-              width: "auto",
-              objectFit: "contain",
-            }}
+            className="h-9 w-auto object-contain"
           />
 
           <button
+            type="button"
             onClick={onClose}
-            className="w-9 h-9 rounded-full bg-stone-100 flex items-center justify-center text-stone-500 hover:bg-stone-200 transition-colors"
+            className="flex h-9 w-9 items-center justify-center rounded-full bg-stone-100 text-stone-500 transition-colors hover:bg-stone-200"
           >
             <X size={17} />
           </button>
         </div>
 
-        <nav className="flex-1 px-4 py-6 space-y-1">
+        <nav className="flex-1 space-y-1 px-4 py-6">
           {NAV_LINKS.map((link, i) => (
             <Link
               key={link.path}
@@ -122,22 +111,15 @@ function MobileMenu({ isOpen, onClose }) {
               ref={(el) => {
                 linksRef.current[i] = el;
               }}
-              className="block px-4 py-3 rounded-xl text-stone-700 font-medium text-sm hover:bg-stone-100 hover:text-stone-900 transition-all"
+              className="block rounded-xl px-4 py-3 text-sm font-medium text-stone-700 transition-all hover:bg-stone-100 hover:text-stone-900"
             >
               {link.label}
             </Link>
           ))}
         </nav>
 
-        <div className="px-6 py-6 border-t border-stone-200">
-          <Link
-            to="/contact"
-            onClick={onClose}
-            className="block text-center w-full py-3 rounded-full bg-stone-800 text-white text-sm font-medium hover:bg-stone-700 transition-colors"
-          >
-            Get a Quote
-          </Link>
-        </div>
+        <div className="border-t border-stone-200 px-6 py-6" onClick={onClose}>
+<QuoteButton mobile className="w-full justify-center bg-black py-3 hover:bg-stone-900" />        </div>
       </div>
     </>
   );
@@ -148,42 +130,110 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
 
   const navRef = useRef(null);
+  const isHidden = useRef(false);
+  const isAnimating = useRef(false);
+  const entranceDone = useRef(false);
+  const lastScrollY = useRef(0);
+  const ticking = useRef(false);
+
   const location = useLocation();
   const navigate = useNavigate();
 
- useLayoutEffect(() => {
-  const ctx = gsap.context(() => {
-    gsap.fromTo(
-      navRef.current,
-      {
-        y: -24,
-        opacity: 0,
-        willChange: "transform, opacity",
-      },
-      {
-        y: 0,
-        opacity: 1,
-        duration: 0.85,
-        ease: "power4.out",
-        onComplete: () => {
-          gsap.set(navRef.current, {
-            willChange: "auto",
-          });
-        },
-      }
-    );
-  }, navRef);
+  useLayoutEffect(() => {
+    const el = navRef.current;
+    if (!el) return;
 
-  return () => ctx.revert();
-}, []);
+    gsap.set(el, { y: -24, opacity: 0 });
+
+    const tl = gsap.timeline({
+      onComplete: () => {
+        entranceDone.current = true;
+        gsap.set(el, { y: 0, opacity: 1 });
+      },
+    });
+
+    tl.to(el, {
+      y: 0,
+      opacity: 1,
+      duration: 0.85,
+      ease: "power4.out",
+    });
+
+    return () => {
+      tl.kill();
+    };
+  }, []);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 10);
+    const HIDE_THRESHOLD = 80;
+    const el = navRef.current;
 
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
+    const showNav = () => {
+      if (!isHidden.current || isAnimating.current) return;
 
-    return () => window.removeEventListener("scroll", onScroll);
+      isAnimating.current = true;
+      gsap.killTweensOf(el);
+
+      gsap.to(el, {
+        y: 0,
+        opacity: 1,
+        duration: 0.45,
+        ease: "power3.out",
+        onComplete: () => {
+          isHidden.current = false;
+          isAnimating.current = false;
+        },
+      });
+    };
+
+    const hideNav = () => {
+      if (isHidden.current || isAnimating.current) return;
+
+      isAnimating.current = true;
+      gsap.killTweensOf(el);
+
+      gsap.to(el, {
+        y: "-100%",
+        opacity: 0,
+        duration: 0.35,
+        ease: "power3.in",
+        onComplete: () => {
+          isHidden.current = true;
+          isAnimating.current = false;
+        },
+      });
+    };
+
+    const handleScroll = () => {
+      if (ticking.current) return;
+
+      ticking.current = true;
+
+      requestAnimationFrame(() => {
+        if (!entranceDone.current) {
+          ticking.current = false;
+          return;
+        }
+
+        const currentY = window.scrollY;
+        const diff = currentY - lastScrollY.current;
+
+        setScrolled(currentY > 10);
+
+        if (currentY > HIDE_THRESHOLD) {
+          if (diff > 4) hideNav();
+          else if (diff < -4) showNav();
+        } else {
+          showNav();
+        }
+
+        lastScrollY.current = currentY;
+        ticking.current = false;
+      });
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   useEffect(() => {
@@ -196,135 +246,66 @@ export default function Navbar() {
   const handleLogoClick = (e) => {
     e.preventDefault();
 
-    if (location.pathname === "/") {
-      window.location.reload();
-    } else {
-      navigate("/");
-    }
+    if (location.pathname === "/") window.location.reload();
+    else navigate("/");
   };
 
   return (
     <>
       <header
         ref={navRef}
-        className="fixed top-0 left-0 right-0 z-30 transition-[padding] duration-300"
-        style={{
-  padding: scrolled ? "8px 0" : "14px 0",
-  opacity: 0,
-  transform: "translate3d(0,-24px,0)",
-}}
+        className="fixed left-0 right-0 top-0 z-30 transition-[padding] duration-300 ease-in-out"
+        style={{ padding: scrolled ? "8px 0" : "14px 0" }}
       >
-        <div className="w-full px-8 xl:px-16 flex items-center justify-between gap-4">
+        <div className="flex w-full items-center justify-between gap-4 px-8 xl:px-16">
           <a
             href="/"
             onClick={handleLogoClick}
-            className="flex items-center flex-shrink-0 group"
-            style={{ textDecoration: "none" }}
+            className="flex shrink-0 items-center no-underline"
           >
-            <div
-              style={{
-                padding: "6px 12px",
-                borderRadius: "14px",
-                background: "rgba(255,255,255,0.82)",
-                backdropFilter: "blur(20px)",
-                WebkitBackdropFilter: "blur(20px)",
-                border: "1.5px solid rgba(255,255,255,0.95)",
-                boxShadow:
-                  "0 8px 32px rgba(0,0,0,0.10), 0 1.5px 0 rgba(255,255,255,1) inset",
-                transition: "transform 0.2s, box-shadow 0.2s",
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform = "scale(1.03)";
-                e.currentTarget.style.boxShadow =
-                  "0 10px 38px rgba(0,0,0,0.14), 0 1.5px 0 rgba(255,255,255,1) inset";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = "scale(1)";
-                e.currentTarget.style.boxShadow =
-                  "0 8px 32px rgba(0,0,0,0.10), 0 1.5px 0 rgba(255,255,255,1) inset";
-              }}
-            >
+            <div className="flex cursor-pointer items-center gap-2.5 rounded-2xl border-[1.5px] border-white/95 bg-white/[0.88] py-1.5 pl-2 pr-4 shadow-[0_8px_32px_rgba(0,0,0,0.10),0_1.5px_0_rgba(255,255,255,1)_inset] backdrop-blur-[20px] transition duration-200 hover:-translate-y-px hover:scale-[1.03] hover:shadow-[0_12px_40px_rgba(0,0,0,0.13),0_1.5px_0_rgba(255,255,255,1)_inset]">
+              <div className="h-1.5 w-1.5 shrink-0 rounded-full bg-gradient-to-br from-[#c8a96e] to-[#a07840] shadow-[0_0_0_2.5px_rgba(200,169,110,0.2)]" />
+
               <img
                 src="/images/samar-logo.png"
                 alt="Samar Trading"
-                style={{
-                  height: "44px",
-                  width: "auto",
-                  objectFit: "contain",
-                  display: "block",
-                  maxWidth: "180px",
-                }}
+                className="block h-10 max-w-40 object-contain"
               />
+
+              <div className="flex flex-col gap-px border-l border-[rgba(200,190,170,0.35)] pl-2.5">
+                <span className="whitespace-nowrap font-serif text-[0.62rem] italic leading-[1.2] tracking-[0.02em] text-stone-500">
+                  Since 2024
+                </span>
+                <span className="whitespace-nowrap font-sans text-[0.5rem] font-semibold uppercase tracking-[0.14em] text-stone-400">
+                  Lucknow
+                </span>
+              </div>
             </div>
           </a>
 
-          <nav
-            className="hidden md:flex items-center gap-0.5 rounded-full px-2 py-1.5 flex-shrink-0"
-            style={{
-              background: "rgba(255,255,255,0.65)",
-              backdropFilter: "blur(16px)",
-              WebkitBackdropFilter: "blur(16px)",
-              border: "1px solid rgba(255,255,255,0.75)",
-              boxShadow: "0 2px 12px rgba(0,0,0,0.06)",
-            }}
-          >
+          <nav className="hidden shrink-0 items-center gap-0.5 rounded-full border border-white/75 bg-white/65 px-2 py-1.5 shadow-[0_2px_12px_rgba(0,0,0,0.06)] backdrop-blur-2xl md:flex">
             {NAV_LINKS.map((link) => (
               <Link
                 key={link.path}
                 to={link.path}
-                className={
-                  "px-5 py-2 rounded-full text-sm font-medium transition-all duration-200 " +
-                  (isActive(link.path)
+                className={[
+                  "rounded-full px-5 py-2 text-sm font-medium transition-all duration-200",
+                  isActive(link.path)
                     ? "bg-stone-800 text-white shadow-sm"
-                    : "text-stone-600 hover:text-stone-900 hover:bg-stone-100/80")
-                }
+                    : "text-stone-600 hover:bg-stone-100/80 hover:text-stone-900",
+                ].join(" ")}
               >
                 {link.label}
               </Link>
             ))}
           </nav>
 
-          <Link
-            to="/contact"
-            className="hidden md:inline-flex items-center gap-2 flex-shrink-0 text-sm font-medium text-white transition-all duration-200 hover:scale-105 active:scale-95"
-            style={{
-              padding: "10px 22px",
-              borderRadius: "99px",
-              background: "linear-gradient(135deg, #1c1917 0%, #44403c 100%)",
-              boxShadow:
-                "0 4px 16px rgba(28,25,23,0.25), 0 1px 0 rgba(255,255,255,0.12) inset",
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.boxShadow =
-                "0 6px 24px rgba(28,25,23,0.35), 0 1px 0 rgba(255,255,255,0.12) inset";
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.boxShadow =
-                "0 4px 16px rgba(28,25,23,0.25), 0 1px 0 rgba(255,255,255,0.12) inset";
-            }}
-          >
-            <svg
-              width="13"
-              height="13"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2.2"
-            >
-              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
-            </svg>
-            Get a Quote
-          </Link>
+          <QuoteButton className="hidden shrink-0 gap-2 bg-black px-[22px] py-2.5 text-sm shadow-[0_4px_16px_rgba(0,0,0,0.25),0_1px_0_rgba(255,255,255,0.12)_inset] hover:bg-stone-900 hover:scale-105 hover:shadow-[0_6px_24px_rgba(0,0,0,0.35),0_1px_0_rgba(255,255,255,0.12)_inset] active:scale-95 md:inline-flex" />
 
           <button
+            type="button"
             onClick={() => setMobileOpen(true)}
-            className="md:hidden w-10 h-10 rounded-full flex items-center justify-center text-stone-600 hover:bg-white/60 transition-all"
-            style={{
-              background: "rgba(255,255,255,0.55)",
-              backdropFilter: "blur(12px)",
-              WebkitBackdropFilter: "blur(12px)",
-              border: "1px solid rgba(255,255,255,0.7)",
-            }}
+            className="flex h-10 w-10 items-center justify-center rounded-full border border-white/70 bg-white/55 text-stone-600 backdrop-blur-xl transition-all hover:bg-white/60 md:hidden"
           >
             <Menu size={18} />
           </button>

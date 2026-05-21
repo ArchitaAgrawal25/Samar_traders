@@ -720,7 +720,7 @@ function CopyBlock({
             <path d="M2 17l10 5 10-5" />
             <path d="M2 12l10 5 10-5" />
           </svg>
-          Trusted Expertise · Est. 2017
+          Trusted Expertise · Est. 2024
         </span>
         <p
           style={{
