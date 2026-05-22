@@ -52,7 +52,7 @@ export default function About() {
   return (
     <section
       ref={sectionRef}
-      className="relative min-h-screen flex items-center overflow-hidden bg-[#f5f3ee] py-20 md:py-0"
+      className=" relative min-h-screen flex items-center overflow-hidden bg-[#f5f3ee] py-10 md:py-0 "
     >
       {/* bg blobs */}
       <div aria-hidden="true" className="absolute pointer-events-none rounded-full -top-[10%] -left-[8%] w-[42vw] h-[42vw]"
@@ -60,8 +60,7 @@ export default function About() {
       <div aria-hidden="true" className="absolute pointer-events-none rounded-full -bottom-[8%] -right-[6%] w-[36vw] h-[36vw]"
         style={{ background: "radial-gradient(circle,rgba(168,213,200,0.14) 0%,transparent 70%)" }} />
 
-      <div className="w-full max-w-[1200px] mx-auto px-[1vw] flex flex-col md:grid md:grid-cols-2 md:items-center gap-5 md:gap-x-[clamp(32px,5vw,80px)] md:gap-y-4">
-        {/* ── EYEBROW — visible above image on mobile, first in copy col on desktop ── */}
+<div className="w-full max-w-7xl mx-8 md:mx-32 px-0 sm:px-0 lg:px-0 flex flex-col md:grid md:grid-cols-2 md:items-center gap-5 md:gap-x-16 md:gap-y-4">        {/* ── EYEBROW — visible above image on mobile, first in copy col on desktop ── */}
         <div
           ref={eyebrowRef}
           className="opacity-0 text-center order-1 md:order-none md:col-start-2 md:row-start-1"

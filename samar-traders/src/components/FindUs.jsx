@@ -146,7 +146,7 @@ export default function FindUs() {
           </div>
 
           {/* ───────── RIGHT CONTACT CARD ───────── */}
-          <div className="relative overflow-hidden rounded-[28px] border border-white/40 bg-gradient-to-br from-[#f8f4ee] via-[#f2ebe2] to-[#ece2d6] p-5 shadow-[0_22px_60px_rgba(0,0,0,0.28)] backdrop-blur-2xl sm:p-6">
+          <div className="relative overflow-hidden rounded-[28px] border border-white/40 bg-gradient-to-br from-[#f8f4ee] via-[#f2ebe2] to-[#ece2d6] p-2 shadow-[0_22px_60px_rgba(0,0,0,0.28)] backdrop-blur-2xl sm:p-6">
             
             {/* Background Blurs */}
             <div className="absolute -right-16 -top-16 h-44 w-44 rounded-full bg-[#d6b58a]/30 blur-3xl" />

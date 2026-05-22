@@ -107,99 +107,43 @@ export default function WhatWeMake() {
   }, []);
 
   return (
-    <section
-      ref={sectionRef}
-      className="relative w-full overflow-hidden py-14 md:py-20"
-      style={{ background: "#f5f3ee" }}
-    >
+    <section ref={sectionRef} className="relative w-full overflow-hidden bg-[#f5f3ee] py-14 md:py-20">
       <div
         aria-hidden="true"
-        className="absolute pointer-events-none"
-        style={{
-          top: "5%",
-          right: "-8%",
-          width: "40vw",
-          height: "40vw",
-          borderRadius: "50%",
-          background:
-            "radial-gradient(circle,rgba(168,213,200,0.12) 0%,transparent 70%)",
-        }}
+        className="pointer-events-none absolute right-[-8%] top-[5%] h-[40vw] w-[40vw] rounded-full bg-[radial-gradient(circle,rgba(168,213,200,0.12)_0%,transparent_70%)]"
       />
       <div
         aria-hidden="true"
-        className="absolute pointer-events-none"
-        style={{
-          bottom: "5%",
-          left: "-6%",
-          width: "35vw",
-          height: "35vw",
-          borderRadius: "50%",
-          background:
-            "radial-gradient(circle,rgba(252,220,170,0.14) 0%,transparent 70%)",
-        }}
+        className="pointer-events-none absolute bottom-[5%] left-[-6%] h-[35vw] w-[35vw] rounded-full bg-[radial-gradient(circle,rgba(252,220,170,0.14)_0%,transparent_70%)]"
       />
 
-      <div className="relative z-10 w-full max-w-[1200px] mx-auto px-5 md:px-8">
-        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-8 md:mb-10">
+      <div className="relative z-10  max-w-7xl mx-1 md:mx-32 px-3 sm:px-4 md:px-3 lg:px-1">
+        <div className="mb-8 flex flex-col gap-4 md:mb-10 md:flex-row md:items-end md:justify-between">
           <div>
-            <div
-              ref={eyebrowRef}
-              className="opacity-0 flex items-center gap-3 mb-2"
-            >
-              <span
-                className="font-sans tracking-[0.18em] uppercase text-[#9a9188]"
-                style={{ fontSize: "0.9rem",
-                fontWeight: 800,
-                color: "#6b6560",}}
-              >
+            <div ref={eyebrowRef} className="mb-2 flex items-center gap-3 opacity-0">
+              <span className="font-sans text-[0.9rem] font-extrabold uppercase tracking-[0.18em] text-[#6b6560]">
                 Services
               </span>
             </div>
 
             <h2
               ref={headingRef}
-              className="opacity-0 font-serif font-normal text-stone-900 m-0"
-              style={{
-                fontSize: "clamp(2rem,4.2vw,3.2rem)",
-                lineHeight: 1.05,
-                letterSpacing: "-0.025em",
-              }}
+              className="m-0 font-serif text-[clamp(2rem,4.2vw,3.2rem)] font-normal leading-[1.05] tracking-[-0.025em] text-stone-900 opacity-0"
             >
-              What we{" "}
-              <em
-                style={{
-                  fontStyle: "italic",
-                  color: "#2a7a6a",
-                }}
-              >
-                make.
-              </em>
+              What we <em className="italic text-[#2a7a6a]">make.</em>
             </h2>
           </div>
 
           <Link
             ref={linkRef}
             to="/products"
-            className="opacity-0 inline-flex items-center gap-2 font-sans text-md text-stone-700 no-underline border-b border-[rgba(180,170,155,0.5)] pb-px transition-all duration-200 hover:text-stone-900 hover:border-stone-900 self-start md:self-auto mb-1"
+            className="mb-1 inline-flex items-center gap-2 self-start border-b border-[rgba(180,170,155,0.5)] pb-px font-sans text-base text-stone-700 no-underline opacity-0 transition-all duration-200 hover:border-stone-900 hover:text-stone-900 md:self-auto"
           >
-            See all{" "}
-            <span
-              style={{
-                display: "inline-block",
-                transition: "transform 0.2s",
-              }}
-            >
-              →
-            </span>
+            See all <span className="inline-block transition-transform duration-200">→</span>
           </Link>
         </div>
 
-        <div
-          className="grid gap-4 md:gap-5"
-          style={{
-            gridTemplateColumns: "repeat(auto-fill, minmax(min(100%, 340px), 1fr))",
-          }}
-        >
+        <div className="grid grid-cols-[repeat(auto-fill,minmax(min(100%,340px),1fr))] gap-4 md:gap-5">
           {SERVICES.map((service, i) => (
             <ServiceCard
               key={service.id}
@@ -265,72 +209,31 @@ function ServiceCard({ service, cardRef }) {
   return (
     <div
       ref={cardRef}
-      className="relative rounded-[20px] overflow-hidden cursor-pointer group"
-      style={{
-        aspectRatio: "4/3.2",
-        boxShadow: "0 4px 24px rgba(0,0,0,0.08), 0 1px 0 rgba(255,255,255,0.8) inset",
-        border: "1px solid rgba(255,255,255,0.7)",
-        opacity: 0,
-      }}
+      className="group relative aspect-[4/3.2] cursor-pointer overflow-hidden rounded-[20px] border border-white/70 opacity-0 shadow-[0_4px_24px_rgba(0,0,0,0.08),0_1px_0_rgba(255,255,255,0.8)_inset]"
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
       <div
-        className="absolute inset-0 transition-transform duration-700 ease-out group-hover:scale-105"
-        style={{
-          backgroundImage: `url(${service.bg})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          zIndex: 0,
-        }}
+        className="absolute inset-0 z-0 bg-cover bg-center transition-transform duration-700 ease-out group-hover:scale-105"
+        style={{ backgroundImage: `url(${service.bg})` }}
       />
 
       <div
         ref={overlayRef}
-        className="absolute inset-0"
-        style={{
-          background: service.color,
-          opacity: 0.78,
-          backdropFilter: "blur(1px)",
-          zIndex: 1,
-        }}
+        className="absolute inset-0 z-[1] opacity-[0.78] backdrop-blur-[1px]"
+        style={{ background: service.color }}
       />
 
-      <div
-        className="absolute inset-0 pointer-events-none"
-        style={{
-          background:
-            "radial-gradient(ellipse at 30% 20%, rgba(255,255,255,0.35) 0%, transparent 60%)",
-          zIndex: 2,
-        }}
-      />
+      <div className="pointer-events-none absolute inset-0 z-[2] bg-[radial-gradient(ellipse_at_30%_20%,rgba(255,255,255,0.35)_0%,transparent_60%)]" />
 
-      <div
-        ref={contentRef}
-        className="absolute inset-0 flex flex-col justify-end p-5 md:p-6"
-        style={{ zIndex: 3 }}
-      >
+      <div ref={contentRef} className="absolute inset-0 z-[3] flex flex-col justify-end p-5 md:p-6">
         <div className="flex flex-col gap-4">
           <div>
-            <h3
-              className="font-serif text-stone-950 m-0 mb-2"
-              style={{
-                fontSize: "clamp(1.3rem,2.4vw,1.6rem)",
-                lineHeight: 1.08,
-                fontWeight: 2000,
-                letterSpacing: "-0.02em",
-              }}
-            >
+            <h3 className="m-0 mb-2 font-serif text-[clamp(1.3rem,2.4vw,1.6rem)] font-black leading-[1.08] tracking-[-0.02em] text-stone-950">
               {service.name}
             </h3>
 
-            <p
-              className="font-sans text-stone-800 m-0 leading-snug"
-              style={{
-                fontSize: "clamp(0.82rem,1.1vw,0.95rem)",
-                fontWeight: 1000,
-              }}
-            >
+            <p className="m-0 font-sans text-[clamp(0.82rem,1.1vw,0.95rem)] font-extrabold leading-snug text-stone-800">
               {service.desc}
             </p>
           </div>
@@ -338,36 +241,10 @@ function ServiceCard({ service, cardRef }) {
           <Link
             ref={btnRef}
             to={service.path}
-            className="inline-flex items-center gap-2 font-sans text-stone-900 no-underline self-start"
-            style={{
-              fontSize: "0.78rem",
-              fontWeight: 600,
-              padding: "8px 18px",
-              borderRadius: "99px",
-              background: "rgba(255,255,255,0.75)",
-              backdropFilter: "blur(12px)",
-              border: "1px solid rgba(255,255,255,0.9)",
-              boxShadow: "0 2px 12px rgba(0,0,0,0.08)",
-              opacity: 0,
-              transform: "translateY(6px)",
-              transition: "box-shadow 0.2s",
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.boxShadow = "0 4px 18px rgba(0,0,0,0.14)";
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.boxShadow = "0 2px 12px rgba(0,0,0,0.08)";
-            }}
+            className="inline-flex translate-y-1.5 items-center gap-2 self-start rounded-full border border-white/90 bg-white/75 px-[18px] py-2 font-sans text-[0.78rem] font-semibold text-stone-900 no-underline opacity-0 shadow-[0_2px_12px_rgba(0,0,0,0.08)] backdrop-blur-xl transition-shadow duration-200 hover:shadow-[0_4px_18px_rgba(0,0,0,0.14)]"
           >
             Explore
-            <svg
-              width="11"
-              height="11"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2.5"
-            >
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
               <path d="M5 12h14M12 5l7 7-7 7" />
             </svg>
           </Link>

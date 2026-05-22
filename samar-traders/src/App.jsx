@@ -10,6 +10,7 @@ import { QuoteModalProvider } from "./components/QuoteModal";
 import Reviews from "./components/Reviews";
 import Showroom from "./components/Showroom";
 import FindUs from "./components/FindUs";
+import WhyChooseUs from "./components/Whychooseus";
 function HomePage() {
   return (
     <>
@@ -17,6 +18,7 @@ function HomePage() {
       <MarqueeStrip />
       <About />
       <WhatWeMake />
+      <WhyChooseUs />
       <OurProducts />
       <FAQ />
       <Reviews />

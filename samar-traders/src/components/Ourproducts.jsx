@@ -110,10 +110,8 @@ function ProductModal({ product, onClose }) {
     gsap.to(panelRef.current, { opacity: 0, y: 20, scale: 0.97, duration: 0.22, ease: "power2.in", onComplete: onClose });
   };
 
-  // Close on overlay click
   const handleOverlayClick = (e) => { if (e.target === overlayRef.current) handleClose(); };
 
-  // Keyboard close
   useEffect(() => {
     const handler = (e) => { if (e.key === "Escape") handleClose(); };
     window.addEventListener("keydown", handler);
@@ -153,22 +151,24 @@ function ProductModal({ product, onClose }) {
 
         <div className="grid md:grid-cols-[1.1fr_1fr]">
           {/* ── Left: image gallery ── */}
-          <div className="relative" style={{ minHeight: "320px" }}>
+          <div className="relative" style={{ minHeight: "260px" }}>
             <div
               className="w-full h-full"
               style={{
                 backgroundImage: `url(${product.images[imgIdx]})`,
                 backgroundSize: "cover",
                 backgroundPosition: "center",
-                borderRadius: "24px 0 0 24px",
-                minHeight: "320px",
+                borderRadius: "24px 24px 0 0",
+                minHeight: "260px",
                 transition: "background-image 0.4s",
               }}
             >
-              {/* gradient overlay */}
               <div
-                className="absolute inset-0 rounded-[24px_0_0_24px]"
-                style={{ background: "linear-gradient(to top, rgba(0,0,0,0.52) 0%, transparent 50%)" }}
+                className="absolute inset-0"
+                style={{
+                  borderRadius: "24px 24px 0 0",
+                  background: "linear-gradient(to top, rgba(0,0,0,0.52) 0%, transparent 50%)",
+                }}
               />
             </div>
 
@@ -391,7 +391,8 @@ export default function OurProducts() {
         <div aria-hidden="true" className="absolute pointer-events-none" style={{ top: "0%", left: "-5%", width: "38vw", height: "38vw", borderRadius: "50%", background: "radial-gradient(circle,rgba(200,185,155,0.16) 0%,transparent 70%)" }} />
         <div aria-hidden="true" className="absolute pointer-events-none" style={{ bottom: "5%", right: "-4%", width: "32vw", height: "32vw", borderRadius: "50%", background: "radial-gradient(circle,rgba(168,213,200,0.13) 0%,transparent 70%)" }} />
 
-        <div className="relative z-10 w-full max-w-[1200px] mx-auto px-5 md:px-8">
+        {/* ── ONLY CHANGE: px-5 on mobile, original mx/px on md+ ── */}
+        <div className="relative mx-2 z-10 w-full max-w-7xl px-1 md:mx-32 md:px-0">
 
           {/* ── Header ── */}
           <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-3 mb-10 md:mb-14">
@@ -459,7 +460,7 @@ export default function OurProducts() {
               <div
                 ref={previewRef}
                 className="relative rounded-[22px] overflow-hidden opacity-0"
-                style={{ aspectRatio: "5/6", background: "#d4c9b5", boxShadow: "0 20px 60px rgba(0,0,0,0.13)" }}
+                style={{ aspectRatio: "9/10", background: "#d4c9b5", boxShadow: "0 20px 60px rgba(0,0,0,0.13)" }}
               >
                 {/* Stacked images, cross-fade */}
                 {PRODUCTS.map((p, i) => (
@@ -549,7 +550,7 @@ function ProductRow({ product, index, isHovered, isActive, rowRef, onMouseEnter,
   return (
     <div
       ref={rowRef}
-      className="flex items-center gap-4 cursor-pointer transition-all duration-200 opacity-0"
+      className="flex items-center gap-0.5 md:gap-4 cursor-pointer transition-all duration-200 opacity-0"
       style={{
         padding: "14px 16px",
         borderRadius: "14px",
@@ -562,7 +563,7 @@ function ProductRow({ product, index, isHovered, isActive, rowRef, onMouseEnter,
     >
       {/* Number */}
       <span
-        className="font-sans text-stone-400 shrink-0 tabular-nums"
+        className="hidden md:inline-block font-sans text-stone-400 shrink-0 tabular-nums"
         style={{ fontSize: "0.6rem", letterSpacing: "0.1em", width: "18px" }}
       >
         {product.id}

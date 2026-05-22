@@ -14,12 +14,12 @@ const FAQS = [
     tag: "Tilt · Casement · Bay",
   },
   {
-  category: "Maintenance",
-  question: "What is the maintenance cost of uPVC windows and doors?",
-  answer:
-    "uPVC windows and doors generally have very low maintenance costs compared to traditional wooden systems. They do not require regular polishing, painting, or termite treatment, which helps homeowners save on long-term upkeep expenses. In most cases, simple cleaning and occasional servicing of hardware is enough to keep them functioning smoothly for years.",
-  tag: "Low Upkeep",
-},
+    category: "Maintenance",
+    question: "What is the maintenance cost of uPVC windows and doors?",
+    answer:
+      "uPVC windows and doors generally have very low maintenance costs compared to traditional wooden systems. They do not require regular polishing, painting, or termite treatment, which helps homeowners save on long-term upkeep expenses. In most cases, simple cleaning and occasional servicing of hardware is enough to keep them functioning smoothly for years.",
+    tag: "Low Upkeep",
+  },
   {
     category: "Pricing",
     question: "Is uPVC expensive?",
@@ -64,7 +64,7 @@ const FAQS = [
   },
 ];
 
-function FAQRow({ faq, index, isOpen, onToggle, rowRef, isLast }) {
+function FAQRow({ faq, isOpen, onToggle, rowRef, isLast }) {
   const answerRef = useRef(null);
   const contentRef = useRef(null);
 
@@ -76,7 +76,7 @@ function FAQRow({ faq, index, isOpen, onToggle, rowRef, isLast }) {
       gsap.fromTo(
         answerRef.current,
         { height: 0, opacity: 0 },
-        { height: height, opacity: 1, duration: 0.42, ease: "power3.out" }
+        { height, opacity: 1, duration: 0.42, ease: "power3.out" }
       );
     } else {
       gsap.to(answerRef.current, {
@@ -91,156 +91,87 @@ function FAQRow({ faq, index, isOpen, onToggle, rowRef, isLast }) {
   return (
     <div
       ref={rowRef}
-      className="group cursor-pointer"
-      style={{
-        borderBottom: isLast ? "none" : "1px solid rgba(150,138,120,0.3)",
-        opacity: 0,
-        borderRadius: isOpen ? "12px" : "0",
-        margin: isOpen ? "4px 0" : "0",
-       background: isOpen
-  ? `
-    linear-gradient(
-      135deg,
-      rgba(255,255,255,0.92) 0%,
-      rgba(248,244,236,0.88) 45%,
-      rgba(241,234,223,0.82) 100%
-    )
-  `
-  : `
-    linear-gradient(
-      135deg,
-      rgba(255,240,245,0.22) 0%,
-      rgba(238,244,255,0.16) 45%,
-      rgba(235,255,245,0.12) 100%
-    )
-  `,
-        backdropFilter: isOpen ? "blur(10px)" : "none",
-        boxShadow: isOpen
-          ? `
-            0 10px 35px rgba(120,110,90,0.08),
-            0 2px 10px rgba(0,0,0,0.04),
-            inset 0 1px 0 rgba(255,255,255,0.95)
-          `
-          : "none",
-        transition:
-          "background 0.3s ease, border-radius 0.3s ease, margin 0.3s ease, box-shadow 0.3s ease",
-      }}
       onClick={onToggle}
+      className={[
+        "group cursor-pointer opacity-0 transition-[background,border-radius,margin,box-shadow] duration-300 ease-out",
+        isLast ? "border-b-0" : "border-b border-[rgba(150,138,120,0.3)]",
+        isOpen
+          ? "my-1 rounded-xl bg-[linear-gradient(135deg,rgba(255,255,255,0.92)_0%,rgba(248,244,236,0.88)_45%,rgba(241,234,223,0.82)_100%)] shadow-[0_10px_35px_rgba(120,110,90,0.08),0_2px_10px_rgba(0,0,0,0.04),inset_0_1px_0_rgba(255,255,255,0.95)] backdrop-blur-[10px]"
+          : "my-0 rounded-none bg-[linear-gradient(135deg,rgba(255,240,245,0.22)_0%,rgba(238,244,255,0.16)_45%,rgba(235,255,245,0.12)_100%)]",
+      ].join(" ")}
     >
       <div
-        className="flex items-center gap-4 md:gap-8"
-        style={{
-          padding: isOpen ? "16px 16px" : "16px 0",
-          transition: "padding 0.3s ease",
-        }}
+        className={[
+          "flex items-center gap-4 transition-[padding] duration-300 md:gap-8",
+          isOpen ? "px-4 py-4" : "px-0 py-4",
+        ].join(" ")}
       >
         <span
-          className="font-sans uppercase tracking-[0.14em] shrink-0 hidden md:block"
-          style={{
-            fontSize: "0.6rem",
-            color: isOpen ? "#78716c" : "#6b6560",
-            width: "100px",
-            letterSpacing: "0.15em",
-            transition: "color 0.2s",
-          }}
+          className={[
+            "hidden w-[100px] shrink-0 font-sans text-[0.6rem] uppercase tracking-[0.15em] transition-colors md:block",
+            isOpen ? "text-stone-500" : "text-[#6b6560]",
+          ].join(" ")}
         >
           {faq.category}
         </span>
 
         <p
-          className="font-serif flex-1 m-0"
-          style={{
-            fontSize: "clamp(1rem,1.6vw,1.35rem)",
-            fontWeight: 400,
-            color: isOpen ? "#0f0d0b" : "#1c1917",
-            letterSpacing: "-0.01em",
-            lineHeight: 1.25,
-            transition: "color 0.2s",
-          }}
+          className={[
+            "m-0 flex-1 font-serif text-[clamp(1rem,1.6vw,1.35rem)] font-normal leading-tight tracking-[-0.01em] transition-colors",
+            isOpen ? "text-[#0f0d0b]" : "text-stone-900",
+          ].join(" ")}
         >
           {faq.question}
         </p>
 
         <span
-          className="font-sans shrink-0 hidden lg:block"
-          style={{
-            fontSize: "0.58rem",
-            color: isOpen ? "#6b6560" : "#78716c",
-            letterSpacing: "0.12em",
-            textTransform: "uppercase",
-            width: "130px",
-            textAlign: "right",
-            transition: "color 0.2s",
-          }}
+          className={[
+            "hidden w-[130px] shrink-0 text-right font-sans text-[0.58rem] uppercase tracking-[0.12em] transition-colors lg:block",
+            isOpen ? "text-[#6b6560]" : "text-stone-500",
+          ].join(" ")}
         >
           {faq.tag}
         </span>
 
         <div
-          className="shrink-0 w-8 h-8 rounded-full flex items-center justify-center transition-all duration-300"
-          style={{
-            background: isOpen ? "#1c1917" : "rgba(255,255,255,0.75)",
-            border: isOpen ? "none" : "1px solid rgba(180,168,148,0.6)",
-            backdropFilter: "blur(8px)",
-            boxShadow: isOpen ? "0 4px 14px rgba(0,0,0,0.18)" : "none",
-          }}
+          className={[
+            "flex h-8 w-8 shrink-0 items-center justify-center rounded-full backdrop-blur-lg transition-all duration-300",
+            isOpen
+              ? "border-0 bg-stone-900 text-white shadow-[0_4px_14px_rgba(0,0,0,0.18)]"
+              : "border border-[rgba(180,168,148,0.6)] bg-white/75 text-stone-700",
+          ].join(" ")}
         >
           <svg
             width="11"
             height="11"
             viewBox="0 0 24 24"
             fill="none"
-            stroke={isOpen ? "#fff" : "#44403c"}
+            stroke="currentColor"
             strokeWidth="2.5"
-            style={{
-              transition: "transform 0.3s ease",
-              transform: isOpen ? "rotate(45deg)" : "rotate(0deg)",
-            }}
+            className={["transition-transform duration-300", isOpen ? "rotate-45" : "rotate-0"].join(" ")}
           >
             <path d="M12 5v14M5 12h14" />
           </svg>
         </div>
       </div>
 
-      <div
-        ref={answerRef}
-        style={{ height: 0, overflow: "hidden", opacity: 0 }}
-      >
-        <div ref={contentRef} style={{ paddingBottom: "20px" }}>
-          <div className="flex gap-4 md:gap-8" style={{ paddingLeft: 0 }}>
-            <span className="hidden md:block shrink-0" style={{ width: "100px" }} />
+      <div ref={answerRef} className="h-0 overflow-hidden opacity-0">
+        <div ref={contentRef} className="pb-5">
+          <div className="flex gap-4 md:gap-8">
+            <span className="hidden w-[100px] shrink-0 md:block" />
 
             <div className="flex-1">
-              <p
-                className="font-sans m-0 leading-relaxed"
-                style={{
-                  fontSize: "clamp(0.82rem,1vw,0.92rem)",
-                  maxWidth: "580px",
-                  color: "#44403c",
-                }}
-              >
+              <p className="m-0 max-w-[580px] font-sans text-[clamp(0.82rem,1vw,0.92rem)] leading-relaxed text-stone-700">
                 {faq.answer}
               </p>
 
-              <div className="flex items-center gap-3 mt-4">
+              <div className="mt-4 flex items-center gap-3">
                 <Link
                   to="/contact"
                   onClick={(e) => e.stopPropagation()}
-                  className="inline-flex items-center gap-1.5 font-sans no-underline transition-all duration-200 hover:text-stone-900"
-                  style={{
-                    fontSize: "0.72rem",
-                    letterSpacing: "0.04em",
-                    color: "#44403c",
-                  }}
+                  className="inline-flex items-center gap-1.5 font-sans text-[0.72rem] tracking-[0.04em] text-stone-700 no-underline transition-all duration-200 hover:text-stone-900"
                 >
-                  <svg
-                    width="9"
-                    height="9"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2.2"
-                  >
+                  <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2">
                     <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
                   </svg>
                   Ask us more →
@@ -248,11 +179,8 @@ function FAQRow({ faq, index, isOpen, onToggle, rowRef, isLast }) {
               </div>
             </div>
 
-            <span
-              className="hidden lg:block shrink-0"
-              style={{ width: "130px" }}
-            />
-            <span className="shrink-0" style={{ width: "32px" }} />
+            <span className="hidden w-[130px] shrink-0 lg:block" />
+            <span className="w-8 shrink-0" />
           </div>
         </div>
       </div>
@@ -319,173 +247,62 @@ export default function FAQ() {
   const toggle = (i) => setOpenIndex(openIndex === i ? null : i);
 
   return (
-    <section
-      ref={sectionRef}
-      className="relative w-full overflow-hidden py-16 md:py-24"
-      style={{
-        background: `
-          radial-gradient(circle at top left, rgba(168,213,200,0.18), transparent 28%),
-          radial-gradient(circle at top right, rgba(200,185,155,0.22), transparent 32%),
-          radial-gradient(circle at bottom left, rgba(220,210,255,0.12), transparent 28%),
-          linear-gradient(
-            180deg,
-            #f8f6f1 0%,
-            #f5f1ea 45%,
-            #f2ede5 100%
-          )
-        `,
-      }}
-    >
-      {/* Ambient gradient blobs */}
-      <div
-        aria-hidden="true"
-        className="absolute inset-0 overflow-hidden pointer-events-none"
-      >
-        <div
-          className="absolute rounded-full blur-3xl"
-          style={{
-            top: "-8%",
-            right: "-10%",
-            width: "38vw",
-            height: "38vw",
-            background:
-              "radial-gradient(circle, rgba(200,185,155,0.28) 0%, rgba(200,185,155,0.08) 45%, transparent 72%)",
-          }}
-        />
-
-        <div
-          className="absolute rounded-full blur-3xl"
-          style={{
-            bottom: "-10%",
-            left: "-8%",
-            width: "34vw",
-            height: "34vw",
-            background:
-              "radial-gradient(circle, rgba(168,213,200,0.22) 0%, rgba(168,213,200,0.05) 45%, transparent 72%)",
-          }}
-        />
-
-        <div
-          className="absolute rounded-full blur-3xl"
-          style={{
-            top: "32%",
-            left: "50%",
-            transform: "translateX(-50%)",
-            width: "28vw",
-            height: "28vw",
-            background:
-              "radial-gradient(circle, rgba(220,210,255,0.12) 0%, transparent 72%)",
-          }}
-        />
-
-        <div
-          className="absolute inset-0 opacity-[0.035]"
-          style={{
-            backgroundImage:
-              "radial-gradient(rgba(0,0,0,0.7) 0.5px, transparent 0.5px)",
-            backgroundSize: "6px 6px",
-          }}
-        />
+    <section className="relative w-full overflow-hidden bg-[radial-gradient(circle_at_top_left,rgba(168,213,200,0.18),transparent_28%),radial-gradient(circle_at_top_right,rgba(200,185,155,0.22),transparent_32%),radial-gradient(circle_at_bottom_left,rgba(220,210,255,0.12),transparent_28%),linear-gradient(180deg,#f8f6f1_0%,#f5f1ea_45%,#f2ede5_100%)] py-16 md:py-24" ref={sectionRef}>
+      <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden">
+        <div className="absolute -right-[10%] -top-[8%] h-[38vw] w-[38vw] rounded-full bg-[radial-gradient(circle,rgba(200,185,155,0.28)_0%,rgba(200,185,155,0.08)_45%,transparent_72%)] blur-3xl" />
+        <div className="absolute -bottom-[10%] -left-[8%] h-[34vw] w-[34vw] rounded-full bg-[radial-gradient(circle,rgba(168,213,200,0.22)_0%,rgba(168,213,200,0.05)_45%,transparent_72%)] blur-3xl" />
+        <div className="absolute left-1/2 top-[32%] h-[28vw] w-[28vw] -translate-x-1/2 rounded-full bg-[radial-gradient(circle,rgba(220,210,255,0.12)_0%,transparent_72%)] blur-3xl" />
+        <div className="absolute inset-0 bg-[radial-gradient(rgba(0,0,0,0.7)_0.5px,transparent_0.5px)] bg-[length:6px_6px] opacity-[0.035]" />
       </div>
 
-      <div className="relative z-10 w-full max-w-[1200px] mx-auto px-5 md:px-8">
+      <div className="relative z-10 w-full max-w-[1240px] mx-auto px-4 sm:px-5 md:px-3 lg:px-2">
         <div className="mb-10 md:mb-14">
-          <div
-            ref={eyebrowRef}
-            className="opacity-0 flex items-center gap-3 mb-4"
-          >
-            <span
-              className="font-sans tracking-[0.18em] uppercase"
-              style={{
-                fontSize: "0.9rem",
-                fontWeight: 800,
-                color: "#6b6560",
-              }}
-            >
+          <div ref={eyebrowRef} className="mb-4 flex items-center gap-3 opacity-0">
+            <span className="font-sans text-[0.9rem] font-extrabold uppercase tracking-[0.18em] text-[#6b6560]">
               Frequently Asked Questions
             </span>
           </div>
 
-          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
+          <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
             <h2
               ref={headingRef}
-              className="opacity-0 font-serif font-normal text-stone-900 m-0"
-              style={{
-                fontSize: "clamp(2rem,4vw,2.8rem)",
-                lineHeight: 1.04,
-                letterSpacing: "-0.025em",
-              }}
+              className="m-0 font-serif text-[clamp(2rem,4vw,2.8rem)] font-normal leading-[1.04] tracking-[-0.025em] text-stone-900 opacity-0"
             >
               Answered,{" "}
-              <em
-                style={{
-                  fontStyle: "italic",
-                  background:
-                    "linear-gradient(135deg, #2a7a6a 0%, #7a8f6a 45%, #b8956a 100%)",
-                  WebkitBackgroundClip: "text",
-                  WebkitTextFillColor: "transparent",
-                }}
-              >
+              <em className="bg-[linear-gradient(135deg,#2a7a6a_0%,#7a8f6a_45%,#b8956a_100%)] bg-clip-text italic text-transparent">
                 honestly.
               </em>
             </h2>
 
-            <p
-              className="font-sans m-0 self-start md:self-end mb-1"
-              style={{
-                fontSize: "0.92rem",
-                letterSpacing: "0.08em",
-                color: "#6b6560",
-              }}
-            >
+            <p className="m-0 mb-1 self-start font-sans text-[0.92rem] tracking-[0.08em] text-[#6b6560] md:self-end">
               {FAQS.length} questions answered
             </p>
           </div>
         </div>
 
-        <div
-          className="hidden md:flex items-center gap-4 md:gap-8 border-b pb-3 mb-0"
-          style={{ borderColor: "rgba(180,170,155,0.3)" }}
-        >
-          <span
-            className="font-sans uppercase tracking-[0.14em] shrink-0"
-            style={{ fontSize: "0.65rem", fontWeight: 500, width: "100px", color: "#78716c" }}
-          >
+        <div className="mb-0 hidden items-center gap-4 border-b border-[rgba(180,170,155,0.3)] pb-3 md:flex md:gap-8">
+          <span className="w-[100px] shrink-0 font-sans text-[0.65rem] font-medium uppercase tracking-[0.14em] text-stone-500">
             Category
           </span>
-
-          <span
-            className="font-sans uppercase tracking-[0.14em] flex-1"
-            style={{ fontSize: "0.65rem",fontWeight: 500, color: "#78716c" }}
-          >
+          <span className="flex-1 font-sans text-[0.65rem] font-medium uppercase tracking-[0.14em] text-stone-500">
             Question
           </span>
-
-          <span
-            className="font-sans uppercase tracking-[0.14em] shrink-0 hidden lg:block"
-            style={{
-              fontSize: "0.65rem",
-              fontWeight:500,
-              width: "130px",
-              textAlign: "right",
-              color: "#78716c",
-            }}
-          >
+          <span className="hidden w-[130px] shrink-0 text-right font-sans text-[0.65rem] font-medium uppercase tracking-[0.14em] text-stone-500 lg:block">
             Topic
           </span>
-
-          <span className="shrink-0" style={{ width: "32px" }} />
+          <span className="w-8 shrink-0" />
         </div>
 
         <div>
           {FAQS.map((faq, i) => (
             <FAQRow
-              key={i}
+              key={faq.question}
               faq={faq}
-              index={i}
               isOpen={openIndex === i}
               onToggle={() => toggle(i)}
-              rowRef={(el) => (rowRefs.current[i] = el)}
+              rowRef={(el) => {
+                rowRefs.current[i] = el;
+              }}
               isLast={i === FAQS.length - 1}
             />
           ))}
@@ -493,44 +310,18 @@ export default function FAQ() {
 
         <div
           ref={footerRef}
-          className="opacity-0 flex flex-col md:flex-row md:items-center md:justify-between gap-4 mt-4 pt-5"
-          style={{ borderTop: "1px solid rgba(180,170,155,0.25)" }}
+          className="mt-4 flex flex-col gap-4 border-t border-[rgba(180,170,155,0.25)] pt-5 opacity-0 md:flex-row md:items-center md:justify-between"
         >
-          <p
-            className="font-sans m-0"
-            style={{
-              fontSize: "0.8rem",
-              fontWeight:800,
-              letterSpacing: "0.06em",
-              textTransform: "uppercase",
-              color: "#6b6560",
-            }}
-          >
+          <p className="m-0 font-sans text-[0.8rem] font-extrabold uppercase tracking-[0.06em] text-[#6b6560]">
             Still curious? We reply within 24 hours.
           </p>
 
           <Link
             to="/contact"
-            className="inline-flex items-center gap-3 self-start md:self-auto rounded-full 
-            px-6 py-3 text-base font-semibold tracking-wide text-white no-underline
-            bg-gradient-to-br from-[#b8956a] to-[#8b6b45]
-            shadow-[0_10px_30px_rgba(139,107,69,0.35)]
-            border border-white/20
-            transition-all duration-300 ease-out
-            hover:scale-105 hover:-translate-y-1
-            hover:from-[#c8a57a] hover:to-[#9b774d]
-            hover:shadow-[0_16px_40px_rgba(139,107,69,0.5)]"
+            className="inline-flex items-center gap-3 self-start rounded-full border border-white/20 bg-gradient-to-br from-[#b8956a] to-[#8b6b45] px-6 py-3 text-base font-semibold tracking-wide text-white no-underline shadow-[0_10px_30px_rgba(139,107,69,0.35)] transition-all duration-300 ease-out hover:-translate-y-1 hover:scale-105 hover:from-[#c8a57a] hover:to-[#9b774d] hover:shadow-[0_16px_40px_rgba(139,107,69,0.5)] md:self-auto"
           >
             Ask Us
-
-            <svg
-              width="14"
-              height="14"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2.7"
-            >
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.7">
               <path d="M5 12h14M12 5l7 7-7 7" />
             </svg>
           </Link>
