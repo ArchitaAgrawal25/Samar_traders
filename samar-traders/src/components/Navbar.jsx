@@ -2,7 +2,7 @@ import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { gsap } from "gsap";
 import { Menu, X } from "lucide-react";
-import QuoteButton from "./Quotebutton";
+import QuoteButton from "./QuoteButton";
 
 const NAV_LINKS = [
   { label: "Home", path: "/" },
