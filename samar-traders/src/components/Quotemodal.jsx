@@ -189,7 +189,8 @@ export function QuoteModal({ onClose }) {
     return e;
   };
 
-  const handleSubmit = async () => {
+
+ const handleSubmit = async () => {
     const e = validate();
 
     if (Object.keys(e).length) {
@@ -199,8 +200,34 @@ export function QuoteModal({ onClose }) {
     }
 
     setStep("sending");
-    await new Promise((res) => setTimeout(res, 2000));
-    setStep("done");
+
+    const sheetUrl = import.meta.env.VITE_GOOGLE_SHEET_URL;
+
+    if (!sheetUrl) {
+      console.error("Sheet URL not configured.");
+      setStep("done");
+      return;
+    }
+
+    try {
+      await fetch(sheetUrl, {
+        method: "POST",
+        mode: "no-cors",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: fields.name,
+          email: fields.email,
+          countryCode: fields.countryCode,
+          phone: fields.phone,
+          interest: fields.interest,
+          message: fields.message,
+        }),
+      });
+      setStep("done");
+    } catch (err) {
+      console.error("Submission error:", err);
+      setStep("done");
+    }
   };
 
   const set = (key) => (e) => {
