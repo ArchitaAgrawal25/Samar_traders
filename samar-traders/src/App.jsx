@@ -9,6 +9,7 @@ import FAQ from "./components/Faq";
 import { QuoteModalProvider } from "./components/QuoteModal";
 import Reviews from "./components/Reviews";
 import Showroom from "./components/Showroom";
+import FindUs from "./components/FindUs";
 function HomePage() {
   return (
     <>
@@ -20,6 +21,7 @@ function HomePage() {
       <FAQ />
       <Reviews />
       <Showroom />
+      <FindUs />
     </>
   );
 }
