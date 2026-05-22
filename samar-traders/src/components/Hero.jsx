@@ -1,6 +1,7 @@
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { gsap } from "gsap";
+import { useQuoteModal } from "./QuoteModal";
 
 // ── Count-up hook — smooth ease-in-out cubic ─────────────────
 function useCountUp(target, duration = 2.0, start = false) {
@@ -691,7 +692,10 @@ function CopyBlock({
   startCount,
   statsData,
 }) {
+  
+  const { open } = useQuoteModal();
   return (
+    
     <>
       <div ref={eyebrowRef}>
         <span
@@ -805,44 +809,38 @@ function CopyBlock({
           View Projects
         </Link>
 
-        <Link
-          to="/contact"
-          style={{
-            padding: mobile ? "10px 18px" : "12px 26px",
-            borderRadius: "99px",
-            background: "linear-gradient(135deg,#c8a96e 0%,#a07840 100%)",
-            color: "#fff",
-            fontSize: mobile ? "0.8rem" : "0.875rem",
-            fontWeight: 500,
-            textDecoration: "none",
-            transition: "all 0.2s",
-            display: "inline-flex",
-            alignItems: "center",
-            gap: "5px",
-            whiteSpace: "nowrap",
-            boxShadow: "0 4px 16px rgba(160,120,64,0.28)",
-          }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.transform = "scale(1.04)";
-            e.currentTarget.style.boxShadow = "0 6px 22px rgba(160,120,64,0.42)";
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.transform = "scale(1)";
-            e.currentTarget.style.boxShadow = "0 4px 16px rgba(160,120,64,0.28)";
-          }}
-        >
-          <svg
-            width="12"
-            height="12"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2.2"
-          >
-            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
-          </svg>
-          Get a Quote
-        </Link>
+        <button
+  onClick={open}
+  style={{
+    padding: mobile ? "10px 18px" : "12px 26px",
+    borderRadius: "99px",
+    background: "linear-gradient(135deg,#c8a96e 0%,#a07840 100%)",
+    color: "#fff",
+    fontSize: mobile ? "0.8rem" : "0.875rem",
+    fontWeight: 500,
+    border: "none",
+    cursor: "pointer",
+    transition: "all 0.2s",
+    display: "inline-flex",
+    alignItems: "center",
+    gap: "5px",
+    whiteSpace: "nowrap",
+    boxShadow: "0 4px 16px rgba(160,120,64,0.28)",
+  }}
+  onMouseEnter={(e) => {
+    e.currentTarget.style.transform = "scale(1.04)";
+    e.currentTarget.style.boxShadow = "0 6px 22px rgba(160,120,64,0.42)";
+  }}
+  onMouseLeave={(e) => {
+    e.currentTarget.style.transform = "scale(1)";
+    e.currentTarget.style.boxShadow = "0 4px 16px rgba(160,120,64,0.28)";
+  }}
+>
+  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2">
+    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+  </svg>
+  Get a Quote
+</button>
       </div>
 
       <div

@@ -2,7 +2,7 @@ import { useEffect, useRef, useState, useCallback } from "react";
 import { Link } from "react-router-dom";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-
+import { useQuoteModal } from "./QuoteModal";
 gsap.registerPlugin(ScrollTrigger);
 
 const PRODUCTS = [
@@ -89,6 +89,7 @@ function Tag({ children }) {
 
 // ─── Modal ────────────────────────────────────────────────────
 function ProductModal({ product, onClose }) {
+    const { open } = useQuoteModal();
   const [imgIdx, setImgIdx] = useState(0);
   const overlayRef = useRef(null);
   const panelRef = useRef(null);
@@ -277,23 +278,24 @@ function ProductModal({ product, onClose }) {
                 Share a few details and we'll come measure, sketch, and quote — tailored to your home or studio. No obligation.
               </p>
               <div className="flex gap-2 flex-wrap">
-                <Link
-                  to="/contact"
-                  onClick={handleClose}
-                  className="inline-flex items-center gap-1.5 font-sans font-medium text-white no-underline transition-all duration-200 hover:scale-105"
-                  style={{
-                    fontSize: "0.78rem",
-                    padding: "9px 18px",
-                    borderRadius: "99px",
-                    background: "#1c1917",
-                    boxShadow: "0 4px 14px rgba(0,0,0,0.18)",
-                  }}
-                >
-                  Get a quote
-                  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-                    <path d="M5 12h14M12 5l7 7-7 7" />
-                  </svg>
-                </Link>
+                <button
+  onClick={() => { handleClose(); setTimeout(open, 250); }}
+  className="inline-flex items-center gap-1.5 font-sans font-medium text-white transition-all duration-200 hover:scale-105"
+  style={{
+    fontSize: "0.78rem",
+    padding: "9px 18px",
+    borderRadius: "99px",
+    background: "#1c1917",
+    border: "none",
+    cursor: "pointer",
+    boxShadow: "0 4px 14px rgba(0,0,0,0.18)",
+  }}
+>
+  Get a quote
+  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+    <path d="M5 12h14M12 5l7 7-7 7" />
+  </svg>
+</button>
                 <Link
                   to="/contact"
                   onClick={handleClose}
