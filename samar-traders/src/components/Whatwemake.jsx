@@ -136,7 +136,7 @@ export default function WhatWeMake() {
 
           <Link
             ref={linkRef}
-            to="/products"
+            to="/services"
             className="mb-1 inline-flex items-center gap-2 self-start border-b border-[rgba(180,170,155,0.5)] pb-px font-sans text-base text-stone-700 no-underline opacity-0 transition-all duration-200 hover:border-stone-900 hover:text-stone-900 md:self-auto"
           >
             See all <span className="inline-block transition-transform duration-200">→</span>

@@ -7,11 +7,10 @@ import QuoteButton from "./QuoteButton";
 const NAV_LINKS = [
   { label: "Home", path: "/" },
   { label: "About", path: "/about" },
-  { label: "Products", path: "/products" },
+  { label: "Services", path: "/services" },
   { label: "Projects", path: "/projects" },
   { label: "Contact", path: "/contact" },
 ];
-
 function MobileMenu({ isOpen, onClose }) {
   const menuRef = useRef(null);
   const overlayRef = useRef(null);
