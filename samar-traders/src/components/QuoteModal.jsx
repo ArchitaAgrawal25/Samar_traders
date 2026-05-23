@@ -177,18 +177,44 @@ export function QuoteModal({ onClose }) {
     };
   }, []);
 
-  const validate = () => {
+ const validate = () => {
     const e = {};
 
-    if (!fields.name.trim()) e.name = "Please enter your name";
-    if (!fields.countryCode.trim()) e.countryCode = "Please select a country code";
-    if (!fields.phone.trim()) e.phone = "Please enter a phone number";
-    if (!fields.interest.trim()) e.interest = "Please choose what you are interested in";
-    if (!fields.message.trim()) e.message = "Please tell us a bit more";
+    // Name check
+    if (!fields.name.trim()) {
+      e.name = "Please enter your name";
+    }
+
+    // Email check — valid format if provided
+    if (fields.email.trim() && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(fields.email.trim())) {
+      e.email = "Please enter a valid email address";
+    }
+
+    // Country code check
+    if (!fields.countryCode.trim()) {
+      e.countryCode = "Please select a country code";
+    }
+
+    // Phone check — must be exactly 10 digits
+    const phoneDigits = fields.phone.replace(/\D/g, "");
+    if (!fields.phone.trim()) {
+      e.phone = "Please enter a phone number";
+    } else if (phoneDigits.length !== 10) {
+      e.phone = "Phone number must be exactly 10 digits";
+    }
+
+    // Interest check
+    if (!fields.interest.trim()) {
+      e.interest = "Please choose what you are interested in";
+    }
+
+    // Message check
+    if (!fields.message.trim()) {
+      e.message = "Please tell us a bit more";
+    }
 
     return e;
   };
-
 
  const handleSubmit = async () => {
     const e = validate();
@@ -292,7 +318,7 @@ export function QuoteModal({ onClose }) {
                   type="text"
                   value={fields.name}
                   onChange={set("name")}
-                  placeholder="Samar Tiwari"
+                  placeholder="John Doe"
                   disabled={step === "sending"}
                   className={`${inputClass} ${errors.name ? inputErrorClass : ""}`}
                 />
