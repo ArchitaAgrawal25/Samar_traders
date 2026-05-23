@@ -12,23 +12,21 @@ const SERVICES = [
     desc: "Premium sliding, casement, and French-style uPVC solutions for modern spaces.",
     bg: "/images/hero1.jpg",
     color: "rgba(168,213,200,0.85)",
-    path: "/products/upvc",
-  },
+ path: "/services#chapter-upvc"  },
   {
     id: "02",
     name: "Modular Kitchen Solutions",
     desc: "Customized modular kitchens with smart layouts, cabinets, and accessories.",
     bg: "/images/hero2.jpg",
     color: "rgba(200,185,155,0.85)",
-    path: "/products/kitchen",
-  },
+path: "/services#chapter-kitchen"   },
   {
     id: "03",
     name: "Custom Wardrobes",
     desc: "Stylish sliding, hinged, and walk-in wardrobes designed for maximum storage.",
     bg: "/images/hero3.jpeg",
     color: "rgba(220,210,255,0.82)",
-    path: "/products/wardrobe",
+    path: "/services#chapter-wardrobe"
   },
   {
     id: "04",
@@ -36,7 +34,7 @@ const SERVICES = [
     desc: "Complete home interior solutions for elegant and functional living spaces.",
     bg: "/images/hero1.jpg",
     color: "rgba(252,220,170,0.85)",
-    path: "/products/residential-interior",
+   path: "/services#chapter-residential-interior" 
   },
   {
     id: "05",
@@ -44,7 +42,7 @@ const SERVICES = [
     desc: "Professional interior designs for offices, showrooms, and commercial spaces.",
     bg: "/images/hero2.jpg",
     color: "rgba(205,232,245,0.85)",
-    path: "/products/commercial-interior",
+    path: "/services#chapter-commercial-interior" 
   },
   {
     id: "06",
@@ -52,7 +50,7 @@ const SERVICES = [
     desc: "Smart furniture layouts and space optimization for modern interiors.",
     bg: "/images/hero3.jpeg",
     color: "rgba(200,240,200,0.82)",
-    path: "/products/space-planning",
+    path: "/services#chapter-space-planning"
   },
 ];
 

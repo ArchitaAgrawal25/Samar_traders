@@ -220,8 +220,8 @@ function ImagesBlock({ service, flipSmall }) {
       <div
         className="absolute z-10 overflow-hidden rounded-[16px]"
         style={{
-          bottom: "1.25rem",
-          ...(flipSmall ? { left: "1.25rem" } : { right: "1.25rem" }),
+          bottom: "0.5rem",
+          ...(flipSmall ? { left: "0.5rem" } : { right: "0.5rem" }),
           width: "54%",
           aspectRatio: "4/3",
           boxShadow: "0 14px 40px rgba(0,0,0,0.24)",
@@ -370,8 +370,17 @@ export default function Services() {
   const heroRef = useRef(null);
   const { open } = useQuoteModal();
 
-  useEffect(() => { window.scrollTo(0, 0); }, []);
-
+useEffect(() => {
+  if (window.location.hash) {
+    const id = window.location.hash.slice(1);
+    setTimeout(() => {
+      const el = document.getElementById(id);
+      if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+    }, 400);
+  } else {
+    window.scrollTo(0, 0);
+  }
+}, []);
   useEffect(() => {
     const ctx = gsap.context(() => {
       gsap.fromTo(".hero-fade",
@@ -386,20 +395,19 @@ export default function Services() {
     <div className="min-h-screen bg-[#f5f3ee]">
 
       {/* ── HERO / INDEX ── */}
-      <div ref={heroRef} className="px-6 pb-12 pt-32 md:px-16 md:pt-36">
-        <div className="mx-auto max-w-7xl">
+      <div ref={heroRef} className="px-6 pb-12 pt-32 md:px-12 md:pt-20">
+        <div className="mx-[2px]">
 
-          <div className="hero-fade mb-0 flex flex-col gap-6 md:flex-row md:items-start md:justify-between opacity-0">
+          <div className="hero-fade mb-0 flex flex-col gap-8 md:flex-row md:items-start md:justify-evenly opacity-0">
             <div>
-              <p className="mb-2 font-sans text-[0.6rem] font-bold uppercase tracking-[0.22em] text-stone-400">
+              <p className="mb-2 font-sans text-[0.6rem] font-bold uppercase tracking-[0.22em] text-stone-800">
                 Samar Trading · Est. 2024
               </p>
               <h1
                 className="m-0 font-serif font-normal text-stone-900"
-                style={{ fontSize: "clamp(2.8rem,6vw,6rem)", lineHeight: 0.98, letterSpacing: "-0.04em", maxWidth: "720px" }}
+                style={{ fontSize: "clamp(2.4rem,5vw,4.5rem)", lineHeight: 0.98, letterSpacing: "-0.04em" }}
               >
-                Products
-                <br />
+                Products 
                 <em
                   className="italic"
                   style={{
@@ -414,8 +422,8 @@ export default function Services() {
               </h1>
             </div>
 
-            <div className="self-start md:pt-6">
-              <p className="m-0 max-w-[280px] font-sans leading-relaxed text-stone-500" style={{ fontSize: "0.88rem" }}>
+            <div className="self-start md:pt-10">
+              <p className="m-0  font-sans leading-relaxed text-stone-800" style={{ fontSize: "0.88rem" }}>
                 Explore the full range of products offered by us.
               </p>
               <div className="mt-4 flex items-center gap-2">
@@ -431,7 +439,7 @@ export default function Services() {
           <div className="hero-fade flex flex-col gap-0 md:flex-row md:gap-16 opacity-0">
             <div className="mb-6 shrink-0 md:mb-0 md:w-52">
               <p className="font-sans text-[0.58rem] font-bold uppercase tracking-[0.2em] text-stone-400">Index</p>
-              <p className="mt-1.5 font-sans text-[0.82rem] leading-relaxed text-stone-500">
+              <p className="mt-1.5 font-sans text-[0.82rem] leading-relaxed text-stone-800">
                 Scroll the catalogue, or jump to a chapter.
               </p>
             </div>
