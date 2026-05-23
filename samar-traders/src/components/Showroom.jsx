@@ -30,7 +30,7 @@ const SHOWROOM_ZONES = [
     title: "Door Gallery",
     meta: "Teak, oak, uPVC",
     type: "video",
-    video: "/videos/showroom.mp4",
+    video: import.meta.env.VITE_SHOWROOM_VIDEO_URL 
   },
   {
     label: "Bay 02",
