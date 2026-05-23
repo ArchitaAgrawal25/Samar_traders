@@ -112,7 +112,7 @@ export default function MarqueeStrip() {
             color: "#9a9188",
           }}
         >
-          Capabilities&nbsp;·&nbsp;Crafted Since 2017
+          Capabilities&nbsp;·&nbsp;Crafted Since 2024
         </span>
       </div>
 

@@ -37,14 +37,14 @@ const SHOWROOM_ZONES = [
     title: "Window Studio",
     meta: "Glass, frames, sliders",
     type: "image",
-    image: "/images/hero2.jpg",
+    image: "/images/show5.JPG",
   },
   {
     label: "Studio 03",
     title: "Glass & Sliding Gallery",
     meta: "Premium finishes",
     type: "image",
-    image: "/images/hero3.jpeg",
+    image: "/images/show7.JPG",
   },
 ];
 
@@ -133,9 +133,7 @@ function InfoRow({
 
       <div className="relative">
         <div className="flex items-center gap-2">
-          <p className="m-0 font-sans text-[0.76rem] font-semibold text-stone-800 transition duration-200 group-hover:text-[#2f6f6a]">
-            {title}
-          </p>
+          
 
           {copyable && (
             <button
@@ -211,18 +209,12 @@ function ZoneCard({ zone, large, className = "" }) {
 
       <div className="absolute bottom-5 left-5 right-5 flex items-end justify-between gap-5">
         <div>
-          <p className="m-0 font-sans text-[0.58rem] font-bold uppercase tracking-[0.22em] text-white/75">
-            {zone.label}
-          </p>
+          
 
-          <h3 className="m-0 mt-1 font-serif text-[clamp(1.2rem,2.5vw,1.8rem)] italic leading-none text-white">
-            {zone.title}
-          </h3>
+         
         </div>
 
-        <p className="m-0 max-w-24 text-right font-sans text-[0.62rem] font-semibold leading-tight text-white/80">
-          {zone.meta}
-        </p>
+       
       </div>
     </article>
   );
@@ -398,7 +390,7 @@ export default function Showroom() {
       title: "Glass & Sliding Gallery",
       meta: "Frameless · Premium glass",
       type: "image",
-      image: "/images/hero3.jpeg",
+      image: "/images/show1.JPG",
     }}
     className="min-h-[260px] md:min-h-[340px]"
   />
@@ -409,7 +401,7 @@ export default function Showroom() {
       title: "Luxury Window Systems",
       meta: "Minimal · Modern frames",
       type: "image",
-      image: "/images/hero2.jpg",
+      image: "/images/show4.JPG",
     }}
     className="min-h-[260px] md:min-h-[340px]"
   />

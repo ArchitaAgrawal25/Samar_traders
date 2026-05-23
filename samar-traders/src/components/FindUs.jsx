@@ -131,7 +131,7 @@ export default function FindUs() {
             <div className="group relative min-h-[250px] overflow-hidden rounded-[26px] border border-white/10 shadow-[0_18px_50px_rgba(0,0,0,0.35)]">
               
               <img
-                src="/images/hero3.jpeg"
+                src="/images/show.JPG"
                 alt="Samar Traders showroom"
                 className="absolute inset-0 h-full w-full object-cover transition duration-700 group-hover:scale-105"
               />

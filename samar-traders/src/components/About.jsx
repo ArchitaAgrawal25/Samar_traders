@@ -105,7 +105,7 @@ export default function About() {
             style={{ aspectRatio: "4/5", maxHeight: "calc(100vh - 140px)", background: "#d4c9b5", boxShadow: "0 20px 60px rgba(0,0,0,0.12)" }}
           >
             <img
-              src="/images/hero3.jpeg"
+              src="/images/owner.JPG"
               alt="Samar Trading workshop"
               className="w-full h-full object-cover block"
               onError={(e) => { e.currentTarget.style.display = "none"; }}

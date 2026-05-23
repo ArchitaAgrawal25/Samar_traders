@@ -418,15 +418,15 @@ export default function Hero() {
   }, []);
 
   const gridImages = [
-    "/images/hero1.jpg",
-    "/images/hero3.jpeg",
-    "/images/hero2.jpg",
-    "/images/hero1.jpg",
-    "/images/hero3.jpeg",
-    "/images/hero2.jpg",
+    "/images/show5.JPG",
+    "/images/show3.JPG",
+    "/images/show6.JPG",
+    "/images/door1.jpg",
+    "/images/door2.jpg",
+    "/images/door4.jpg",
   ];
-  const wideImage = "/images/hero3.jpeg";
-  const stackImages = ["/images/hero2.jpg", "/images/hero3.jpeg"];
+  const wideImage = "/images/show1.JPG";
+  const stackImages = ["/images/wardrobe.jpg", "/images/interior.jpg"];
 
   return (
     <section
