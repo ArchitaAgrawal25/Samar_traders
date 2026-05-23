@@ -8,41 +8,43 @@ gsap.registerPlugin(ScrollTrigger);
 const SERVICES = [
   {
     id: "01",
-    name: "uPVC Doors & Windows",
-    desc: "Premium sliding, casement, and French-style uPVC solutions for modern spaces.",
+    name: "uPVC Windows",
+    desc: "Premium sliding, casement, tilt-turn and French-style uPVC windows engineered for Indian climates.",
     bg: "/images/door2.jpg",
     color: "rgba(168,213,200,0.85)",
- path: "/services#chapter-upvc"  },
+    path: "/services#chapter-upvc-windows",
+  },
   {
     id: "02",
+    name: "uPVC Doors",
+    desc: "Durable uPVC entry, sliding and casement doors — weather-sealed, termite-proof and low maintenance.",
+    bg: "/images/door4.jpg",
+    color: "rgba(205,232,245,0.85)",
+    path: "/services#chapter-upvc-doors",
+  },
+  {
+    id: "03",
     name: "Modular Kitchen Solutions",
     desc: "Customized modular kitchens with smart layouts, cabinets, and accessories.",
     bg: "/images/show1.JPG",
     color: "rgba(200,185,155,0.85)",
-path: "/services#chapter-kitchen"   },
+    path: "/services#chapter-kitchen",
+  },
   {
-    id: "03",
+    id: "04",
     name: "Custom Wardrobes",
     desc: "Stylish sliding, hinged, and walk-in wardrobes designed for maximum storage.",
     bg: "/images/wardrobe.jpg",
     color: "rgba(220,210,255,0.82)",
-    path: "/services#chapter-wardrobe"
-  },
-  {
-    id: "04",
-    name: "Residential Interior Design",
-    desc: "Complete home interior solutions for elegant and functional living spaces.",
-    bg: "/images/interior.jpg",
-    color: "rgba(252,220,170,0.85)",
-   path: "/services#chapter-residential-interior" 
+    path: "/services#chapter-wardrobe",
   },
   {
     id: "05",
-    name: "Commercial Interior Design",
-    desc: "Professional interior designs for offices, showrooms, and commercial spaces.",
-    bg: "/images/interior2.png",
-    color: "rgba(205,232,245,0.85)",
-    path: "/services#chapter-commercial-interior" 
+    name: "Interior Design",
+    desc: "Complete home and commercial interior solutions — concept to completion, residential and office spaces.",
+    bg: "/images/interior.jpg",
+    color: "rgba(252,220,170,0.85)",
+    path: "/services#chapter-interior-design",
   },
   {
     id: "06",
@@ -50,7 +52,7 @@ path: "/services#chapter-kitchen"   },
     desc: "Smart furniture layouts and space optimization for modern interiors.",
     bg: "/images/furniture.jpg",
     color: "rgba(200,240,200,0.82)",
-    path: "/services#chapter-space-planning"
+    path: "/services#chapter-space-planning",
   },
 ];
 

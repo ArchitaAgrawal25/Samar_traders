@@ -418,12 +418,13 @@ export default function Hero() {
   }, []);
 
   const gridImages = [
-    "/images/show5.JPG",
+     "/images/door4.jpg",
     "/images/show3.JPG",
-    "/images/show6.JPG",
-    "/images/door1.jpg",
     "/images/door2.jpg",
-    "/images/door4.jpg",
+    "/images/door1.jpg",
+      "/images/show6.JPG",
+      "/images/show5.JPG",
+   
   ];
   const wideImage = "/images/show1.JPG";
   const stackImages = ["/images/wardrobe.jpg", "/images/interior.jpg"];

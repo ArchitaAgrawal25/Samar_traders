@@ -9,12 +9,12 @@ gsap.registerPlugin(ScrollTrigger);
 const SERVICES = [
   {
     id: "01",
-    slug: "upvc",
-    category: "Windows & Doors",
-    name: "uPVC Doors & Windows",
+    slug: "upvc-windows",
+    category: "Windows",
+    name: "uPVC Windows",
     tagline: "Built for every season.",
     chapter: "Termite-treated · Weather-sealed",
-    desc: "Premium sliding, casement, tilt-turn and French-style uPVC solutions engineered for Indian climates. Multi-chamber profiles reduce heat, block noise and resist rust, termites and weathering — all with zero maintenance.",
+    desc: "Premium sliding, casement, tilt-turn and French-style uPVC windows engineered for Indian climates. Multi-chamber profiles reduce heat, block noise and resist rust, termites and weathering — all with zero maintenance.",
     whyItLasts: [
       "Multi-chamber thermal insulation profiles",
       "German ROTO hardware fittings",
@@ -27,11 +27,34 @@ const SERVICES = [
       { label: "Lead time", value: "2 – 4 weeks" },
     ],
     accent: "#2a7a6a",
-    image: "/images/hero1.jpg",
-    image2: "/images/hero2.jpg",
+    image: "/images/door1.jpg",
+    image2: "/images/door3.png",
   },
   {
     id: "02",
+    slug: "upvc-doors",
+    category: "Doors",
+    name: "uPVC Doors",
+    tagline: "Strong, silent, sealed.",
+    chapter: "Weather-proof · Zero maintenance",
+    desc: "Durable uPVC entry, sliding and casement doors built to withstand India's harsh climate. Termite-proof, rust-resistant frames with multi-point locking systems — delivering security, insulation and style with no upkeep.",
+    whyItLasts: [
+      "Multi-point locking for enhanced security",
+      "German ROTO hardware fittings",
+      "UV-stabilised, termite & rust proof",
+      "Noise-dampening weather seals",
+    ],
+    specs: [
+      { label: "Styles", value: "Sliding · Casement · Entry · French" },
+      { label: "Hardware", value: "ROTO Germany" },
+      { label: "Lead time", value: "2 – 4 weeks" },
+    ],
+    accent: "#3a6a8a",
+    image: "/images/door2.jpg",
+    image2: "/images/door4.jpg",
+  },
+  {
+    id: "03",
     slug: "kitchen",
     category: "Modular Kitchen",
     name: "Modular Kitchen Solutions",
@@ -50,11 +73,11 @@ const SERVICES = [
       { label: "Lead time", value: "3 – 5 weeks" },
     ],
     accent: "#c8822a",
-    image: "/images/hero2.jpg",
-    image2: "/images/hero3.jpeg",
+    image: "/images/kitchen.webp",
+    image2: "/images/show1.JPG",
   },
   {
-    id: "03",
+    id: "04",
     slug: "wardrobe",
     category: "Wardrobes",
     name: "Custom Wardrobes",
@@ -73,17 +96,17 @@ const SERVICES = [
       { label: "Lead time", value: "2 – 3 weeks" },
     ],
     accent: "#6a5acd",
-    image: "/images/hero3.jpeg",
-    image2: "/images/hero1.jpg",
+    image: "/images/wardrobe.jpg",
+    image2: "/images/furniture.jpg",
   },
   {
-    id: "04",
-    slug: "residential-interior",
+    id: "05",
+    slug: "interior-design",
     category: "Interior Design",
-    name: "Residential Interior Design",
-    tagline: "Spaces that feel like home.",
+    name: "Interior Design",
+    tagline: "Spaces that feel right.",
     chapter: "Concept to completion",
-    desc: "Complete home interior solutions — from concept to completion. We design living rooms, bedrooms, dining areas and more with a focus on functionality, natural light and your personal style.",
+    desc: "Complete interior solutions for homes and commercial spaces — from concept to completion. We design living rooms, bedrooms, offices, showrooms and more with a focus on functionality, natural light and your personal style.",
     whyItLasts: [
       "False ceiling and lighting planning",
       "Flooring, wall finishes & wallpapers",
@@ -91,36 +114,13 @@ const SERVICES = [
       "3D visualization before execution",
     ],
     specs: [
-      { label: "Scope", value: "Living · Bedroom · Dining · Kitchen" },
+      { label: "Scope", value: "Home · Office · Showroom · Retail" },
       { label: "Delivery", value: "End-to-end" },
       { label: "Consultation", value: "In-home, free" },
     ],
     accent: "#2a7a6a",
-    image: "/images/hero1.jpg",
-    image2: "/images/hero2.jpg",
-  },
-  {
-    id: "05",
-    slug: "commercial-interior",
-    category: "Interior Design",
-    name: "Commercial Interior Design",
-    tagline: "Workspaces that work harder.",
-    chapter: "Brand-aligned · Turnkey",
-    desc: "Professional interior design for offices, showrooms, clinics and retail spaces. We create environments that reflect your brand, impress your clients and improve how your team works every day.",
-    whyItLasts: [
-      "Brand-aligned colour and material palettes",
-      "Glass partitions and acoustic panels",
-      "Reception, workstation & cabin planning",
-      "Signage and wayfinding integration",
-    ],
-    specs: [
-      { label: "Sectors", value: "Office · Showroom · Retail · Clinic" },
-      { label: "Delivery", value: "Turnkey" },
-      { label: "Disruption", value: "Minimal" },
-    ],
-    accent: "#c8822a",
-    image: "/images/hero2.jpg",
-    image2: "/images/hero3.jpeg",
+    image: "/images/interior.jpg",
+    image2: "/images/interior2.png",
   },
   {
     id: "06",
@@ -142,8 +142,8 @@ const SERVICES = [
       { label: "Consultation", value: "In-person" },
     ],
     accent: "#2f6f6a",
-    image: "/images/hero3.jpeg",
-    image2: "/images/hero1.jpg",
+    image: "/images/furniture2.jpeg",
+    image2: "/images/furniture3.webp",
   },
 ];
 
@@ -313,12 +313,7 @@ function ContentBlock({ service }) {
         >
           Enquire about {service.name.split(" ")[0]} ↗
         </button>
-        <Link
-          to="/contact"
-          className="inline-flex items-center gap-2 rounded-full border border-stone-300/80 bg-white/60 px-7 py-3.5 font-sans text-[0.82rem] font-semibold text-stone-700 no-underline backdrop-blur-sm transition-all duration-200 hover:border-stone-400 hover:bg-white"
-        >
-          See in projects
-        </Link>
+        
       </div>
     </div>
   );
