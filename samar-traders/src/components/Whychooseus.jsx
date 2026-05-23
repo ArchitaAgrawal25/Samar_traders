@@ -332,7 +332,7 @@ export default function WhyChooseUs() {
 
 <div className="relative z-10 max-w-8xl mx-8 lg:mx-28 px-0 md:pr-0">
         {/* Header */}
-        <div className="mb-10 md:mb-14 max-w-[800px]">
+        <div className="mb-10 md:mb-14 max-w-7xl">
           <div ref={eyebrowRef} className="opacity-0 flex items-center gap-3 mb-4">
             <span className="font-sans text-[0.75rem] font-extrabold uppercase tracking-[0.2em] text-stone-500" style={{ fontSize: "0.9rem",
                 fontWeight: 800,
@@ -366,7 +366,7 @@ export default function WhyChooseUs() {
           <p
             ref={subRef}
             className=" pt-4 opacity-0 font-sans text-stone-500 m-0 leading-relaxed"
-            style={{ fontSize: "clamp(0.85rem, 1.1vw, 0.95rem)", maxWidth: "620px" }}
+            style={{ fontSize: "clamp(0.85rem, 1.1vw, 0.95rem)", maxWidth: "" }}
           >
             Upgrade your space with premium uPVC windows and doors engineered for modern homes. We combine durability, insulation, elegant aesthetics, and low maintenance to deliver solutions built for long-term comfort and performance.
           </p>

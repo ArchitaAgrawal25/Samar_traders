@@ -142,7 +142,7 @@ export default function About() {
         {/* ── PARA ── */}
         <p
           ref={paraRef}
-          className="opacity-0 font-sans leading-relaxed text-stone-500 m-0 max-w-[440px] order-4 md:order-none md:col-start-2"
+          className="opacity-0 font-sans leading-relaxed text-stone-500 m-0 order-4 md:order-none md:col-start-2"
           style={{ fontSize: "clamp(0.8rem,1vw,0.92rem)" }}
         >
           Samar Trading is a leading provider of high-quality uPVC doors and windows, modular

@@ -299,14 +299,14 @@ filter: "blur(0px)",
               </span>
             </div>
 
-            <h2 className="m-0 max-w-[720px] font-serif text-[clamp(1.8rem,4vw,2.5rem)] font-normal leading-[1.03] tracking-[-0.03em] text-stone-900">
+            <h2 className="m-0 font-serif text-[clamp(1.8rem,4vw,2.5rem)] font-normal leading-[1.03] tracking-[-0.03em] text-stone-900">
               The quiet proof is in the{" "}
               <em className="bg-gradient-to-br from-[#3c7d76] to-[#79b3aa] bg-clip-text italic text-transparent">
                 people.
               </em>
             </h2>
 
-            <p className="mt-4 max-w-[560px] font-sans text-[0.95rem] leading-relaxed text-stone-500">
+            <p className="mt-4 font-sans text-[0.95rem] leading-relaxed text-stone-500">
               Real notes from homes and workspaces where Samar Trading measured,
               crafted, and installed with care.
             </p>

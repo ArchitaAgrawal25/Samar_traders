@@ -416,7 +416,7 @@ export default function OurProducts() {
 
               <p
                 ref={descRef}
-                className="opacity-0 font-sans text-stone-500 m-0 max-w-[420px] leading-relaxed"
+                className="opacity-0 font-sans text-stone-500 m-0  leading-relaxed"
                 style={{ fontSize: "clamp(0.78rem,1.1vw,0.88rem)" }}
               >
                 Hover an item to preview. Click any product to step inside — photos, materials and a quick way to ask for something similar.

@@ -92,7 +92,7 @@ export default function FindUs() {
             </h2>
           </div>
 
-          <p className="m-0 max-w-[360px] font-sans text-[0.82rem] leading-relaxed text-[#b8aea5]">
+          <p className="m-0 font-sans text-[0.82rem] leading-relaxed text-[#b8aea5]">
             Visit the showroom, compare finishes in person,
             and discuss your project directly with us.
           </p>

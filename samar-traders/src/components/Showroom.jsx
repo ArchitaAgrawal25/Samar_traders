@@ -300,14 +300,14 @@ export default function Showroom() {
         {/* ─── Heading Section ─── */}
         <div className="mb-8 grid gap-5 md:mb-10 md:grid-cols-[1fr_auto] md:items-end">
           <div className="showroom-fade">
-            <h2 className="m-0 max-w-[680px] font-serif text-[clamp(2rem,5vw,4rem)] font-normal leading-[0.95] tracking-[-0.04em] text-stone-950">
+            <h2 className="m-0  font-serif text-[clamp(2rem,5vw,4rem)] font-normal leading-[0.95] tracking-[-0.04em] text-stone-950">
               Step into our{" "}
               <em className="bg-gradient-to-br from-[#2a7a6a] via-[#478d8a] to-[#c8822a] bg-clip-text italic text-transparent">
                 showroom.
               </em>
             </h2>
 
-            <p className="mt-4 max-w-[520px] font-sans text-[0.9rem] leading-relaxed text-stone-500">
+            <p className="mt-4  font-sans text-[0.9rem] leading-relaxed text-stone-500">
               Touch the timber, slide the sashes,
               compare hardware finishes, and see how
               glass, aluminium, and wood behave in
