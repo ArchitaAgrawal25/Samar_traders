@@ -756,7 +756,7 @@ function CopyBlock({
 
       <div ref={ctaRef} style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>
         <Link
-          to="/products"
+          to="/services"
           style={{
             padding: mobile ? "10px 18px" : "12px 26px",
             borderRadius: "99px",

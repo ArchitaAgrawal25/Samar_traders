@@ -213,6 +213,11 @@ function ImagesBlock({ service, flipSmall }) {
           src={service.image}
           alt={service.name}
           className="h-full w-full object-cover"
+          style={{
+    transition: "transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94)",
+  }}
+  onMouseEnter={e => { e.currentTarget.style.transform = "scale(1.08)"; }}
+  onMouseLeave={e => { e.currentTarget.style.transform = "scale(1)"; }}
         />
       </div>
 
@@ -225,7 +230,10 @@ function ImagesBlock({ service, flipSmall }) {
           width: "54%",
           aspectRatio: "4/3",
           boxShadow: "0 14px 40px rgba(0,0,0,0.24)",
-        }}
+           transition: "transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94)",
+  }}
+  onMouseEnter={e => { e.currentTarget.style.transform = "scale(1.1)"; }}
+  onMouseLeave={e => { e.currentTarget.style.transform = "scale(1)"; }}
       >
         <img
           src={service.image2}

@@ -12,6 +12,7 @@ import Showroom from "./components/Showroom";
 import FindUs from "./components/FindUs";
 import WhyChooseUs from "./components/Whychooseus";
 import Services from "./components/Services";
+import Contact from "./components/Contact";
 function HomePage() {
   return (
     <>
@@ -38,8 +39,7 @@ export default function App() {
         <Route path="/"         element={<HomePage />} />
 <Route path="/services" element={<Services />} />        <Route path="/projects" element={<div className="pt-32 text-center text-2xl font-serif text-stone-800">Projects</div>} />
         <Route path="/about"    element={<div className="pt-32 text-center text-2xl font-serif text-stone-800">About</div>} />
-        <Route path="/contact"  element={<div className="pt-32 text-center text-2xl font-serif text-stone-800">Contact</div>} />
-      </Routes>
+<Route path="/contact" element={<Contact />} />      </Routes>
       </QuoteModalProvider>
     </BrowserRouter>
   );
