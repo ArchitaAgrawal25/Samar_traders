@@ -278,7 +278,7 @@ filter: "blur(0px)",
   }, []);
 
   return (
-    <section className="relative max-w-7xl mx-4 md:mx-28 overflow-hidden bg-[#f5f3ee] px-2 py-16 md:px-4 md:py-24">
+    <section className="relative max-w-10xl mx-4 md:mx-28 overflow-hidden bg-[#f5f3ee] px-2 py-16 md:px-4 md:py-24">
       <div className="absolute left-1/2 top-10 h-[520px] w-[520px] -translate-x-1/2 rounded-full border border-[#c8b99a]/25" />
 
       <div className="absolute left-1/2 top-24 h-[360px] w-[360px] -translate-x-1/2 rounded-full border border-[#9ecfbf]/25" />

@@ -394,7 +394,7 @@ export default function OurProducts() {
         <div aria-hidden="true" className="absolute pointer-events-none" style={{ bottom: "5%", right: "-4%", width: "32vw", height: "32vw", borderRadius: "50%", background: "radial-gradient(circle,rgba(168,213,200,0.13) 0%,transparent 70%)" }} />
 
         {/* ── ONLY CHANGE: px-5 on mobile, original mx/px on md+ ── */}
-        <div className="relative mx-2 z-10 w-full max-w-7xl px-1 md:mx-32 md:px-0">
+        <div className="relative mx-2 z-10  max-w-10xl px-1 md:mx-32 md:px-10">
 
           {/* ── Header ── */}
           <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-3 mb-10 md:mb-14">

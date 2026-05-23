@@ -115,7 +115,7 @@ export default function WhatWeMake() {
         className="pointer-events-none absolute bottom-[5%] left-[-6%] h-[35vw] w-[35vw] rounded-full bg-[radial-gradient(circle,rgba(252,220,170,0.14)_0%,transparent_70%)]"
       />
 
-      <div className="relative z-10  max-w-7xl mx-1 md:mx-32 px-3 sm:px-4 md:px-3 lg:px-1">
+      <div className="relative z-10  max-w-8xl md:mx-32 px-3 sm:px-4 md:px-3 lg:px-4">
         <div className="mb-8 flex flex-col gap-4 md:mb-10 md:flex-row md:items-end md:justify-between">
           <div>
             <div ref={eyebrowRef} className="mb-2 flex items-center gap-3 opacity-0">

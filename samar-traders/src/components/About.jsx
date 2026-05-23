@@ -60,7 +60,7 @@ export default function About() {
       <div aria-hidden="true" className="absolute pointer-events-none rounded-full -bottom-[8%] -right-[6%] w-[36vw] h-[36vw]"
         style={{ background: "radial-gradient(circle,rgba(168,213,200,0.14) 0%,transparent 70%)" }} />
 
-<div className="w-full max-w-7xl mx-8 md:mx-32 px-0 sm:px-0 lg:px-0 flex flex-col md:grid md:grid-cols-2 md:items-center gap-5 md:gap-x-16 md:gap-y-4">        {/* ── EYEBROW — visible above image on mobile, first in copy col on desktop ── */}
+<div className="max-w-8xl mx-8 md:mx-28 px-0 sm:px-0 lg:px-4 flex flex-col md:grid md:grid-cols-2 md:items-center gap-5 md:gap-x-16 md:gap-y-4">        {/* ── EYEBROW — visible above image on mobile, first in copy col on desktop ── */}
         <div
           ref={eyebrowRef}
           className="opacity-0 text-center order-1 md:order-none md:col-start-2 md:row-start-1"
@@ -91,7 +91,7 @@ export default function About() {
           {/* award badge */}
           <div
             ref={badgeAwardRef}
-            className="absolute -top-3 right-5 z-[4] opacity-0 rounded-2xl px-3 py-1.5 border border-[rgba(200,185,155,0.5)]"
+            className="absolute -top-3 right-12 z-[4] opacity-0 rounded-2xl px-3 py-1.5 border border-[rgba(200,185,155,0.5)]"
             style={{ background: "rgba(252,237,210,0.92)", backdropFilter: "blur(10px)", boxShadow: "0 4px 18px rgba(0,0,0,0.08)" }}
           >
             <p className="font-sans text-[0.5rem] tracking-[0.14em] uppercase text-[#9a7a4a] mb-0.5">Premium Quality</p>

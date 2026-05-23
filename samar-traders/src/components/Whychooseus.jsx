@@ -330,7 +330,7 @@ export default function WhyChooseUs() {
         }}
       />
 
-<div className="relative z-10 w-full max-w-7xl mx-8 lg:mx-28 pr-16 md:pr-0">
+<div className="relative z-10 max-w-8xl mx-8 lg:mx-28 px-0 md:pr-0">
         {/* Header */}
         <div className="mb-10 md:mb-14 max-w-[800px]">
           <div ref={eyebrowRef} className="opacity-0 flex items-center gap-3 mb-4">
