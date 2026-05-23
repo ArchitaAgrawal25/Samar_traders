@@ -29,6 +29,9 @@ const SERVICES = [
     accent: "#2a7a6a",
     image: "/images/door1.jpg",
     image2: "/images/door3.png",
+    // "See All" link for this category
+    seeAllLink: "/windows",
+    seeAllLabel: "See all window types",
   },
   {
     id: "02",
@@ -52,6 +55,9 @@ const SERVICES = [
     accent: "#3a6a8a",
     image: "/images/door2.jpg",
     image2: "/images/door4.jpg",
+    // "See All" link for this category
+    seeAllLink: "/doors",
+    seeAllLabel: "See all door types",
   },
   {
     id: "03",
@@ -75,6 +81,8 @@ const SERVICES = [
     accent: "#c8822a",
     image: "/images/kitchen.webp",
     image2: "/images/show1.JPG",
+    seeAllLink: null,
+    seeAllLabel: null,
   },
   {
     id: "04",
@@ -98,6 +106,8 @@ const SERVICES = [
     accent: "#6a5acd",
     image: "/images/wardrobe.jpg",
     image2: "/images/furniture.jpg",
+    seeAllLink: null,
+    seeAllLabel: null,
   },
   {
     id: "05",
@@ -121,6 +131,8 @@ const SERVICES = [
     accent: "#2a7a6a",
     image: "/images/interior.jpg",
     image2: "/images/interior2.png",
+    seeAllLink: null,
+    seeAllLabel: null,
   },
   {
     id: "06",
@@ -144,6 +156,8 @@ const SERVICES = [
     accent: "#2f6f6a",
     image: "/images/furniture2.jpeg",
     image2: "/images/furniture3.webp",
+    seeAllLink: null,
+    seeAllLabel: null,
   },
 ];
 
@@ -198,13 +212,10 @@ function IndexRow({ service, index, last }) {
   );
 }
 
-/* ── Images block — small image mirrors to opposite side based on which column ── */
+/* ── Images block ── */
 function ImagesBlock({ service, flipSmall }) {
-  // flipSmall=true → small image bottom-LEFT (when images panel is on the RIGHT)
-  // flipSmall=false → small image bottom-RIGHT (when images panel is on the LEFT)
   return (
     <div className="relative w-full p-5 md:p-7" style={{ minHeight: "540px" }}>
-      {/* Big image — fully rounded with padding */}
       <div
         className="absolute inset-5 overflow-hidden rounded-[22px] md:inset-7"
         style={{ boxShadow: "0 20px 56px rgba(0,0,0,0.13)" }}
@@ -213,15 +224,12 @@ function ImagesBlock({ service, flipSmall }) {
           src={service.image}
           alt={service.name}
           className="h-full w-full object-cover"
-          style={{
-    transition: "transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94)",
-  }}
-  onMouseEnter={e => { e.currentTarget.style.transform = "scale(1.08)"; }}
-  onMouseLeave={e => { e.currentTarget.style.transform = "scale(1)"; }}
+          style={{ transition: "transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94)" }}
+          onMouseEnter={e => { e.currentTarget.style.transform = "scale(1.08)"; }}
+          onMouseLeave={e => { e.currentTarget.style.transform = "scale(1)"; }}
         />
       </div>
 
-      {/* Small overlapping image — flips side based on column */}
       <div
         className="absolute z-10 overflow-hidden rounded-[16px]"
         style={{
@@ -230,10 +238,10 @@ function ImagesBlock({ service, flipSmall }) {
           width: "54%",
           aspectRatio: "4/3",
           boxShadow: "0 14px 40px rgba(0,0,0,0.24)",
-           transition: "transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94)",
-  }}
-  onMouseEnter={e => { e.currentTarget.style.transform = "scale(1.1)"; }}
-  onMouseLeave={e => { e.currentTarget.style.transform = "scale(1)"; }}
+          transition: "transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94)",
+        }}
+        onMouseEnter={e => { e.currentTarget.style.transform = "scale(1.1)"; }}
+        onMouseLeave={e => { e.currentTarget.style.transform = "scale(1)"; }}
       >
         <img
           src={service.image2}
@@ -251,13 +259,37 @@ function ContentBlock({ service }) {
 
   return (
     <div className="flex flex-col justify-center px-8 py-16 md:px-14 md:py-20" style={{ background: "#f5f3ee" }}>
-      {/* Name */}
-      <h2
-        className="chapter-animate m-0 mb-2 font-serif font-normal leading-[1.0] text-stone-900"
-        style={{ fontSize: "clamp(2rem,3.8vw,3.5rem)", letterSpacing: "-0.03em" }}
-      >
-        {service.name}.
-      </h2>
+      {/* ── Heading row with "See All" button ── */}
+      <div className="chapter-animate mb-2 flex items-start justify-between gap-4">
+        <h2
+          className="m-0 font-serif font-normal leading-[1.0] text-stone-900"
+          style={{ fontSize: "clamp(2rem,3.8vw,3.5rem)", letterSpacing: "-0.03em" }}
+        >
+          {service.name}.
+        </h2>
+
+        {/* "See All" button — only for Doors and Windows */}
+        {service.seeAllLink && (
+          <Link
+            to={service.seeAllLink}
+            className="group mt-2 shrink-0 inline-flex items-center gap-2 rounded-full border border-stone-300 bg-white/80 px-5 py-2.5 font-sans text-[0.72rem] font-bold uppercase tracking-[0.14em] text-stone-700 no-underline shadow-[0_4px_16px_rgba(0,0,0,0.06)] backdrop-blur-xl transition-all duration-200 hover:-translate-y-0.5 hover:border-stone-900 hover:bg-white hover:text-stone-900 hover:shadow-[0_8px_24px_rgba(0,0,0,0.12)]"
+            title={service.seeAllLabel}
+          >
+            See All
+            <svg
+              width="13"
+              height="13"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2.5"
+              className="transition-transform duration-200 group-hover:translate-x-0.5"
+            >
+              <path d="M7 17L17 7M7 7h10v10" />
+            </svg>
+          </Link>
+        )}
+      </div>
 
       {/* Desc */}
       <p className="chapter-animate mb-7 max-w-[500px] font-sans leading-relaxed text-stone-600" style={{ fontSize: "0.88rem" }}>
@@ -286,7 +318,7 @@ function ContentBlock({ service }) {
         </div>
       </div>
 
-      {/* Specs — full-width rows with dividers like the screenshot */}
+      {/* Specs */}
       <div className="chapter-animate mb-8 border-t border-stone-200">
         {service.specs.map((spec) => (
           <div
@@ -313,16 +345,28 @@ function ContentBlock({ service }) {
         >
           Enquire about {service.name.split(" ")[0]} ↗
         </button>
-        
+
+        {/* Secondary "See all types" link — for doors/windows only */}
+        {service.seeAllLink && (
+          <Link
+            to={service.seeAllLink}
+            className="inline-flex items-center gap-2 rounded-full border border-stone-200 bg-white/70 px-7 py-3.5 font-sans text-[0.82rem] font-semibold text-stone-700 no-underline transition-all duration-200 hover:border-stone-900 hover:text-stone-900 hover:bg-white"
+          >
+            View all {service.category}
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+              <path d="M5 12h14M12 5l7 7-7 7" />
+            </svg>
+          </Link>
+        )}
       </div>
     </div>
   );
 }
 
-/* ── Chapter: alternating layout ── */
+/* ── Chapter ── */
 function Chapter({ service, index }) {
   const sectionRef = useRef(null);
-  const isEven = index % 2 === 1; // 0-based, so index 1,3,5 = even chapters (02,04,06) flip
+  const isEven = index % 2 === 1;
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -353,13 +397,11 @@ function Chapter({ service, index }) {
       style={{ scrollMarginTop: "80px" }}
     >
       {isEven ? (
-        // Even: content LEFT, images RIGHT → small image goes bottom-LEFT
         <>
           <ContentBlock service={service} />
           <ImagesBlock service={service} flipSmall={true} />
         </>
       ) : (
-        // Odd: images LEFT, content RIGHT → small image goes bottom-RIGHT
         <>
           <ImagesBlock service={service} flipSmall={false} />
           <ContentBlock service={service} />
@@ -373,17 +415,18 @@ export default function Services() {
   const heroRef = useRef(null);
   const { open } = useQuoteModal();
 
-useEffect(() => {
-  if (window.location.hash) {
-    const id = window.location.hash.slice(1);
-    setTimeout(() => {
-      const el = document.getElementById(id);
-      if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
-    }, 400);
-  } else {
-    window.scrollTo(0, 0);
-  }
-}, []);
+  useEffect(() => {
+    if (window.location.hash) {
+      const id = window.location.hash.slice(1);
+      setTimeout(() => {
+        const el = document.getElementById(id);
+        if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+      }, 400);
+    } else {
+      window.scrollTo(0, 0);
+    }
+  }, []);
+
   useEffect(() => {
     const ctx = gsap.context(() => {
       gsap.fromTo(".hero-fade",
@@ -410,7 +453,7 @@ useEffect(() => {
                 className="m-0 font-serif font-normal text-stone-900"
                 style={{ fontSize: "clamp(2.4rem,5vw,4.5rem)", lineHeight: 0.98, letterSpacing: "-0.04em" }}
               >
-                Products 
+                Products
                 <em
                   className="italic"
                   style={{
@@ -426,12 +469,9 @@ useEffect(() => {
             </div>
 
             <div className="self-start md:pt-10">
-              <p className="m-0  font-sans leading-relaxed text-stone-800" style={{ fontSize: "0.88rem" }}>
+              <p className="m-0 font-sans leading-relaxed text-stone-800" style={{ fontSize: "0.88rem" }}>
                 Explore the full range of products offered by us.
               </p>
-              <div className="mt-4 flex items-center gap-2">
-                
-              </div>
             </div>
           </div>
 
