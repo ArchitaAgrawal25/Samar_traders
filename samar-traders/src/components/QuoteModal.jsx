@@ -25,6 +25,7 @@ export function QuoteModalProvider({ children }) {
 
   useEffect(() => {
     const already = sessionStorage.getItem("samar_quote_shown");
+
     if (!already) {
       const t = setTimeout(() => {
         setIsOpen(true);
@@ -44,22 +45,26 @@ export function QuoteModalProvider({ children }) {
 }
 
 const inputClass =
-  "w-full rounded-full border-[1.5px] border-transparent bg-[#faf6ec] px-4 py-[11px] font-sans text-[0.85rem] text-stone-900 outline-none transition-[border-color,box-shadow] duration-200 placeholder:text-stone-400 focus:border-[rgba(200,185,155,0.8)] focus:shadow-[0_0_0_3px_rgba(200,185,155,0.15)] disabled:cursor-not-allowed disabled:opacity-70";
+  "w-full rounded-full border-[1.5px] border-transparent bg-[#faf6ec] px-3 py-2 font-sans text-[0.8rem] text-stone-900 outline-none transition-[border-color,box-shadow] duration-200 placeholder:text-stone-400 focus:border-[rgba(200,185,155,0.8)] focus:shadow-[0_0_0_3px_rgba(200,185,155,0.15)] disabled:cursor-not-allowed disabled:opacity-70 sm:px-4 sm:py-[11px] sm:text-[0.85rem]";
 
 const inputErrorClass =
   "border-amber-300 shadow-[0_0_0_3px_rgba(251,191,36,0.12)] focus:border-amber-300 focus:shadow-[0_0_0_3px_rgba(251,191,36,0.12)]";
 
 function Field({ label, required, error, children }) {
   return (
-    <div className="flex flex-col gap-1.5">
-      <label className="font-sans text-[0.6rem] font-semibold uppercase tracking-[0.14em] text-[#9a9188]">
+    <div className="flex flex-col gap-1 sm:gap-1.5">
+      <label className="font-sans text-[0.56rem] font-semibold uppercase tracking-[0.12em] text-[#9a9188] sm:text-[0.6rem] sm:tracking-[0.14em]">
         {label}
         {required && <span className="ml-0.5 text-[#c8822a]">*</span>}
       </label>
 
       {children}
 
-      {error && <span className="font-sans text-[0.65rem] text-amber-600">{error}</span>}
+      {error && (
+        <span className="font-sans text-[0.6rem] leading-tight text-amber-600 sm:text-[0.65rem]">
+          {error}
+        </span>
+      )}
     </div>
   );
 }
@@ -78,29 +83,46 @@ function ThankYou({ onClose }) {
   return (
     <div
       ref={innerRef}
-      className="flex min-h-[320px] flex-col items-center justify-center gap-[18px] px-5 py-10 text-center sm:min-h-[340px] sm:px-9 sm:pb-11 sm:pt-[52px]"
+      className="flex min-h-[280px] flex-col items-center justify-center gap-4 px-5 py-8 text-center sm:min-h-[340px] sm:gap-[18px] sm:px-9 sm:pb-11 sm:pt-[52px]"
     >
-      <div className="flex h-16 w-16 items-center justify-center rounded-full border-2 border-emerald-400/50 bg-emerald-200/45">
-        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#1c1917" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <div className="flex h-14 w-14 items-center justify-center rounded-full border-2 border-emerald-400/50 bg-emerald-200/45 sm:h-16 sm:w-16">
+        <svg
+          width="28"
+          height="28"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="#1c1917"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        >
           <circle cx="12" cy="12" r="10" />
           <path d="M8 12l3 3 5-5" />
         </svg>
       </div>
 
-      <h2 className="m-0 font-serif text-[clamp(1.8rem,4vw,2.4rem)] font-normal tracking-[-0.02em] text-stone-900">
+      <h2 className="m-0 font-serif text-[clamp(1.6rem,4vw,2.4rem)] font-normal tracking-[-0.02em] text-stone-900">
         Thank you.
       </h2>
 
-      <p className="m-0 max-w-[300px] font-sans text-[0.9rem] leading-relaxed text-stone-500">
+      <p className="m-0 max-w-[300px] font-sans text-[0.82rem] leading-relaxed text-stone-500 sm:text-[0.9rem]">
         Your enquiry has reached us. We'll write back within a working day, often sooner.
       </p>
 
       <button
+        type="button"
         onClick={onClose}
-        className="mt-2.5 inline-flex items-center gap-2 rounded-full border-0 bg-stone-900 px-8 py-[13px] font-sans text-[0.875rem] font-medium text-white shadow-[0_4px_18px_rgba(28,25,23,0.22)] transition duration-200 hover:scale-[1.04] hover:shadow-[0_6px_24px_rgba(28,25,23,0.32)]"
+        className="mt-1 inline-flex items-center gap-2 rounded-full border-0 bg-stone-900 px-7 py-3 font-sans text-[0.82rem] font-medium text-white shadow-[0_4px_18px_rgba(28,25,23,0.22)] transition duration-200 hover:scale-[1.04] hover:shadow-[0_6px_24px_rgba(28,25,23,0.32)] sm:mt-2.5 sm:px-8 sm:py-[13px] sm:text-[0.875rem]"
       >
         Close
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2">
+        <svg
+          width="14"
+          height="14"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2.2"
+        >
           <path d="M5 12h14M12 5l7 7-7 7" />
         </svg>
       </button>
@@ -141,7 +163,12 @@ export function QuoteModal({ onClose }) {
   const [errors, setErrors] = useState({});
 
   useLayoutEffect(() => {
-    gsap.fromTo(overlayRef.current, { opacity: 0 }, { opacity: 1, duration: 0.3, ease: "power2.out" });
+    gsap.fromTo(
+      overlayRef.current,
+      { opacity: 0 },
+      { opacity: 1, duration: 0.3, ease: "power2.out" }
+    );
+
     gsap.fromTo(
       panelRef.current,
       { opacity: 0, y: 36, scale: 0.97 },
@@ -151,6 +178,7 @@ export function QuoteModal({ onClose }) {
 
   const handleClose = useCallback(() => {
     gsap.to(overlayRef.current, { opacity: 0, duration: 0.22 });
+
     gsap.to(panelRef.current, {
       opacity: 0,
       y: 24,
@@ -172,43 +200,42 @@ export function QuoteModal({ onClose }) {
 
   useEffect(() => {
     document.body.style.overflow = "hidden";
+
     return () => {
       document.body.style.overflow = "";
     };
   }, []);
 
- const validate = () => {
+  const validate = () => {
     const e = {};
 
-    // Name check
     if (!fields.name.trim()) {
       e.name = "Please enter your name";
     }
 
-    // Email check — valid format if provided
-    if (fields.email.trim() && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(fields.email.trim())) {
+    if (
+      fields.email.trim() &&
+      !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(fields.email.trim())
+    ) {
       e.email = "Please enter a valid email address";
     }
 
-    // Country code check
     if (!fields.countryCode.trim()) {
       e.countryCode = "Please select a country code";
     }
 
-    // Phone check — must be exactly 10 digits
     const phoneDigits = fields.phone.replace(/\D/g, "");
+
     if (!fields.phone.trim()) {
       e.phone = "Please enter a phone number";
     } else if (phoneDigits.length !== 10) {
       e.phone = "Phone number must be exactly 10 digits";
     }
 
-    // Interest check
     if (!fields.interest.trim()) {
       e.interest = "Please choose what you are interested in";
     }
 
-    // Message check
     if (!fields.message.trim()) {
       e.message = "Please tell us a bit more";
     }
@@ -216,12 +243,16 @@ export function QuoteModal({ onClose }) {
     return e;
   };
 
- const handleSubmit = async () => {
+  const handleSubmit = async () => {
     const e = validate();
 
     if (Object.keys(e).length) {
       setErrors(e);
-      gsap.fromTo(formRef.current, { x: -6 }, { x: 0, duration: 0.4, ease: "elastic.out(1,0.4)" });
+      gsap.fromTo(
+        formRef.current,
+        { x: -6 },
+        { x: 0, duration: 0.4, ease: "elastic.out(1,0.4)" }
+      );
       return;
     }
 
@@ -249,6 +280,7 @@ export function QuoteModal({ onClose }) {
           message: fields.message,
         }),
       });
+
       setStep("done");
     } catch (err) {
       console.error("Submission error:", err);
@@ -258,7 +290,10 @@ export function QuoteModal({ onClose }) {
 
   const set = (key) => (e) => {
     setFields((f) => ({ ...f, [key]: e.target.value }));
-    if (errors[key]) setErrors((er) => ({ ...er, [key]: undefined }));
+
+    if (errors[key]) {
+      setErrors((er) => ({ ...er, [key]: undefined }));
+    }
   };
 
   const overlayClick = (e) => {
@@ -269,23 +304,27 @@ export function QuoteModal({ onClose }) {
     <div
       ref={overlayRef}
       onClick={overlayClick}
-      className="fixed inset-0 z-[9999] flex items-center justify-center bg-[rgba(20,18,14,0.45)] p-3 backdrop-blur-[10px] sm:p-4"
+      className="fixed inset-0 z-[9999] flex items-center justify-center bg-[rgba(20,18,14,0.45)] p-2 backdrop-blur-[10px] sm:p-4"
     >
       <div
         ref={panelRef}
-        className="relative max-h-[92vh] w-full max-w-[520px] overflow-y-auto rounded-[22px] bg-white shadow-[0_32px_80px_rgba(0,0,0,0.22),0_2px_0_rgba(255,255,255,0.8)_inset] sm:rounded-[28px]"
-        style={{
-          backgroundImage:
-            "radial-gradient(ellipse at 80% 10%, rgba(252,195,148,0.25) 0%, transparent 55%), radial-gradient(ellipse at 10% 90%, rgba(167,243,208,0.2) 0%, transparent 55%)",
-        }}
+        className="relative max-h-[96vh] w-full max-w-[520px] overflow-y-auto rounded-[18px] bg-white bg-[radial-gradient(ellipse_at_80%_10%,rgba(252,195,148,0.25)_0%,transparent_55%),radial-gradient(ellipse_at_10%_90%,rgba(167,243,208,0.2)_0%,transparent_55%)] shadow-[0_32px_80px_rgba(0,0,0,0.22),0_2px_0_rgba(255,255,255,0.8)_inset] sm:max-h-[92vh] sm:rounded-[28px]"
       >
         {step !== "sending" && (
           <button
+            type="button"
             onClick={handleClose}
             aria-label="Close"
-            className="absolute right-3 top-3 z-10 flex h-[34px] w-[34px] items-center justify-center rounded-full border border-[rgba(200,190,170,0.5)] bg-[#f5f3ee]/90 transition duration-200 hover:scale-110 hover:bg-[#e7e3dc] sm:right-4 sm:top-4"
+            className="absolute right-2.5 top-2.5 z-10 flex h-8 w-8 items-center justify-center rounded-full border border-[rgba(200,190,170,0.5)] bg-[#f5f3ee]/90 transition duration-200 hover:scale-110 hover:bg-[#e7e3dc] sm:right-4 sm:top-4 sm:h-[34px] sm:w-[34px]"
           >
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#44403c" strokeWidth="2.5">
+            <svg
+              width="13"
+              height="13"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="#44403c"
+              strokeWidth="2.5"
+            >
               <path d="M18 6L6 18M6 6l12 12" />
             </svg>
           </button>
@@ -294,25 +333,25 @@ export function QuoteModal({ onClose }) {
         {step === "done" ? (
           <ThankYou onClose={handleClose} />
         ) : (
-          <div ref={formRef} className="px-5 pb-6 pt-8 sm:px-8 sm:pb-8 sm:pt-9">
-            <div className="mb-6 sm:mb-7">
-              <div className="mb-3 flex items-center gap-2.5">
-                <span className="inline-block h-px w-7 shrink-0 bg-[#c8b99a]" />
-                <span className="font-sans text-[0.65rem] font-extrabold uppercase tracking-[0.2em] text-stone-700">
+          <div ref={formRef} className="px-4 pb-4 pt-6 sm:px-8 sm:pb-8 sm:pt-9">
+            <div className="mb-4 sm:mb-7">
+              <div className="mb-2.5 flex items-center gap-2.5 sm:mb-3">
+                <span className="inline-block h-px w-6 shrink-0 bg-[#c8b99a] sm:w-7" />
+                <span className="font-sans text-[0.6rem] font-extrabold uppercase tracking-[0.18em] text-stone-700 sm:text-[0.65rem] sm:tracking-[0.2em]">
                   Get a Quote
                 </span>
               </div>
 
-              <h2 className="m-0 mb-1.5 pr-8 font-serif text-[clamp(1.45rem,7vw,2.2rem)] font-normal leading-[1.12] tracking-[-0.02em] text-stone-900 sm:pr-0">
+              <h2 className="m-0 mb-1 pr-8 font-serif text-[clamp(1.25rem,6vw,2.2rem)] font-normal leading-[1.05] tracking-[-0.02em] text-stone-900 sm:mb-1.5 sm:pr-0 sm:leading-[1.12]">
                 Tell us your doubts.
               </h2>
 
-              <p className="m-0 font-sans text-[0.82rem] leading-[1.55] text-stone-500">
+              <p className="m-0 font-sans text-[0.76rem] leading-[1.35] text-stone-500 sm:text-[0.82rem] sm:leading-[1.55]">
                 We'll come back with a rough estimate and a calm plan.
               </p>
             </div>
 
-            <div className="mb-3.5 grid grid-cols-1 gap-x-4 gap-y-3.5 sm:grid-cols-2">
+            <div className="mb-3 grid grid-cols-1 gap-x-4 gap-y-2.5 sm:mb-3.5 sm:grid-cols-2 sm:gap-y-3.5">
               <Field label="Your Name" required error={errors.name}>
                 <input
                   type="text"
@@ -331,12 +370,12 @@ export function QuoteModal({ onClose }) {
                   onChange={set("email")}
                   placeholder="you@home.com"
                   disabled={step === "sending"}
-                  className={inputClass}
+                  className={`${inputClass} ${errors.email ? inputErrorClass : ""}`}
                 />
               </Field>
 
               <Field label="Phone" required error={errors.phone || errors.countryCode}>
-                <div className="grid grid-cols-[72px_1fr] gap-2">
+                <div className="grid grid-cols-[68px_1fr] gap-1.5 sm:grid-cols-[72px_1fr] sm:gap-2">
                   <select
                     value={fields.countryCode}
                     onChange={set("countryCode")}
@@ -370,13 +409,14 @@ export function QuoteModal({ onClose }) {
                     value={fields.interest}
                     onChange={set("interest")}
                     disabled={step === "sending"}
-                    className={`${inputClass} appearance-none pr-9 ${
+                    className={`${inputClass} appearance-none pr-8 sm:pr-9 ${
                       fields.interest ? "text-stone-900" : "text-stone-400"
                     } ${errors.interest ? inputErrorClass : ""}`}
                   >
                     <option value="" disabled>
                       Choose one
                     </option>
+
                     {INTERESTS.map((item) => (
                       <option key={item} value={item}>
                         {item}
@@ -391,7 +431,7 @@ export function QuoteModal({ onClose }) {
                     fill="none"
                     stroke="#9a9188"
                     strokeWidth="2.2"
-                    className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2"
+                    className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 sm:right-4"
                   >
                     <path d="M6 9l6 6 6-6" />
                   </svg>
@@ -399,15 +439,15 @@ export function QuoteModal({ onClose }) {
               </Field>
             </div>
 
-            <div className="mb-[22px]">
+            <div className="mb-4 sm:mb-[22px]">
               <Field label="Tell Us More" required error={errors.message}>
                 <textarea
                   value={fields.message}
                   onChange={set("message")}
                   placeholder="The room, the vibe, the deadline - whatever helps."
-                  rows={4}
+                  rows={3}
                   disabled={step === "sending"}
-                  className={`${inputClass} min-h-[108px] resize-y rounded-xl leading-relaxed ${
+                  className={`${inputClass} min-h-[82px] resize-none rounded-lg leading-snug sm:min-h-[108px] sm:resize-y sm:rounded-xl sm:leading-relaxed ${
                     errors.message ? inputErrorClass : ""
                   }`}
                 />
@@ -415,13 +455,22 @@ export function QuoteModal({ onClose }) {
             </div>
 
             <button
+              type="button"
               onClick={handleSubmit}
               disabled={step === "sending"}
-              className="flex w-full items-center justify-center gap-2.5 rounded-full border-0 bg-gradient-to-br from-stone-900 to-[#3a3632] p-[15px] font-sans text-[0.9rem] font-medium tracking-[0.01em] text-white shadow-[0_4px_20px_rgba(28,25,23,0.2)] transition duration-200 hover:scale-[1.02] hover:shadow-[0_6px_28px_rgba(28,25,23,0.3)] disabled:cursor-not-allowed disabled:bg-none disabled:bg-stone-700 disabled:hover:scale-100"
+              className="flex w-full items-center justify-center gap-2.5 rounded-full border-0 bg-gradient-to-br from-stone-900 to-[#3a3632] p-3 font-sans text-[0.85rem] font-medium tracking-[0.01em] text-white shadow-[0_4px_20px_rgba(28,25,23,0.2)] transition duration-200 hover:scale-[1.02] hover:shadow-[0_6px_28px_rgba(28,25,23,0.3)] disabled:cursor-not-allowed disabled:bg-none disabled:bg-stone-700 disabled:hover:scale-100 sm:p-[15px] sm:text-[0.9rem]"
             >
               {step === "sending" ? (
                 <>
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" className="animate-spin">
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2.2"
+                    className="animate-spin"
+                  >
                     <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83" />
                   </svg>
                   Sending...
@@ -431,7 +480,7 @@ export function QuoteModal({ onClose }) {
               )}
             </button>
 
-            <p className="m-0 mt-3 text-center font-sans text-[0.68rem] leading-normal text-stone-400">
+            <p className="m-0 mt-2 text-center font-sans text-[0.62rem] leading-tight text-stone-400 sm:mt-3 sm:text-[0.68rem] sm:leading-normal">
               Your details stay private. We only use them to reply to your enquiry.
             </p>
           </div>
