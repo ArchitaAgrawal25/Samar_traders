@@ -173,7 +173,7 @@ function IndexRow({ service, index, last }) {
       onClick={scrollTo}
       className={`group flex cursor-pointer items-center gap-5 px-5 py-5 opacity-0 transition-all duration-200 hover:bg-white/50 ${!last ? "border-b border-stone-200/70" : ""}`}
     >
-      <span className="w-8 shrink-0 font-sans text-[0.58rem] tracking-[0.1em] text-stone-400">
+      <span className="hidden sm:inline w-8 shrink-0 font-sans text-[0.58rem] tracking-[0.1em] text-stone-400">
         {service.id}
       </span>
       <span className="flex-1 font-serif text-[clamp(1rem,1.8vw,1.45rem)] font-normal leading-none text-stone-900 transition-colors group-hover:text-stone-500" style={{ letterSpacing: "-0.01em" }}>

@@ -45,10 +45,10 @@ export function QuoteModalProvider({ children }) {
 }
 
 const inputClass =
-  "w-full rounded-full border-[1.5px] border-transparent bg-[#faf6ec] px-3 py-2 font-sans text-[0.8rem] text-stone-900 outline-none transition-[border-color,box-shadow] duration-200 placeholder:text-stone-400 focus:border-[rgba(200,185,155,0.8)] focus:shadow-[0_0_0_3px_rgba(200,185,155,0.15)] disabled:cursor-not-allowed disabled:opacity-70 sm:px-4 sm:py-[11px] sm:text-[0.85rem]";
+  "w-full rounded-md border-[1.5px] border-stone-300 bg-white px-3 py-2 font-sans text-[0.8rem] text-stone-900 outline-none transition-[border-color,box-shadow] duration-200 placeholder:text-stone-400 focus:border-stone-400 focus:shadow-[0_0_0_3px_rgba(180,170,155,0.15)] disabled:cursor-not-allowed disabled:opacity-70 sm:px-4 sm:py-[11px] sm:text-[0.85rem]";
 
 const inputErrorClass =
-  "border-amber-300 shadow-[0_0_0_3px_rgba(251,191,36,0.12)] focus:border-amber-300 focus:shadow-[0_0_0_3px_rgba(251,191,36,0.12)]";
+  "border-amber-400 shadow-[0_0_0_3px_rgba(251,191,36,0.12)] focus:border-amber-400 focus:shadow-[0_0_0_3px_rgba(251,191,36,0.12)]";
 
 function Field({ label, required, error, children }) {
   return (
@@ -213,13 +213,6 @@ export function QuoteModal({ onClose }) {
       e.name = "Please enter your name";
     }
 
-    if (
-      fields.email.trim() &&
-      !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(fields.email.trim())
-    ) {
-      e.email = "Please enter a valid email address";
-    }
-
     if (!fields.countryCode.trim()) {
       e.countryCode = "Please select a country code";
     }
@@ -234,10 +227,6 @@ export function QuoteModal({ onClose }) {
 
     if (!fields.interest.trim()) {
       e.interest = "Please choose what you are interested in";
-    }
-
-    if (!fields.message.trim()) {
-      e.message = "Please tell us a bit more";
     }
 
     return e;
@@ -363,14 +352,14 @@ export function QuoteModal({ onClose }) {
                 />
               </Field>
 
-              <Field label="Email" error={errors.email}>
+              <Field label="Email (optional)">
                 <input
                   type="email"
                   value={fields.email}
                   onChange={set("email")}
                   placeholder="you@home.com"
                   disabled={step === "sending"}
-                  className={`${inputClass} ${errors.email ? inputErrorClass : ""}`}
+                  className={inputClass}
                 />
               </Field>
 
@@ -440,16 +429,14 @@ export function QuoteModal({ onClose }) {
             </div>
 
             <div className="mb-4 sm:mb-[22px]">
-              <Field label="Tell Us More" required error={errors.message}>
+              <Field label="Tell Us More (optional)">
                 <textarea
                   value={fields.message}
                   onChange={set("message")}
                   placeholder="The room, the vibe, the deadline - whatever helps."
                   rows={3}
                   disabled={step === "sending"}
-                  className={`${inputClass} min-h-[82px] resize-none rounded-lg leading-snug sm:min-h-[108px] sm:resize-y sm:rounded-xl sm:leading-relaxed ${
-                    errors.message ? inputErrorClass : ""
-                  }`}
+                  className={`${inputClass} min-h-[82px] resize-none rounded-md leading-snug sm:min-h-[108px] sm:resize-y sm:leading-relaxed`}
                 />
               </Field>
             </div>

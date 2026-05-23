@@ -425,7 +425,7 @@ export default function OurProducts() {
 
             <Link
               ref={galleryLinkRef}
-              to="/products"
+              to="/projects"
               className="opacity-0 inline-flex items-center gap-1.5 font-sans text-sm text-stone-700 no-underline border-b border-[rgba(180,170,155,0.5)] pb-px transition-all duration-200 hover:text-stone-900 hover:border-stone-900 self-start md:self-auto mb-1 whitespace-nowrap"
             >
               Full gallery
