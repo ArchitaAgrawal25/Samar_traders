@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -13,20 +13,22 @@ const SERVICES = [
     category: "Windows & Doors",
     name: "uPVC Doors & Windows",
     tagline: "Built for every season.",
+    chapter: "Termite-treated · Weather-sealed",
     desc: "Premium sliding, casement, tilt-turn and French-style uPVC solutions engineered for Indian climates. Multi-chamber profiles reduce heat, block noise and resist rust, termites and weathering — all with zero maintenance.",
-    highlights: [
-      "Sliding, Casement, Tilt-Turn, French styles",
-      "Multi-chamber thermal insulation",
+    whyItLasts: [
+      "Multi-chamber thermal insulation profiles",
       "German ROTO hardware fittings",
       "UV-stabilised, termite & rust proof",
-      "Custom sizes for any opening",
-      "10+ year durability guarantee",
+      "Weather-sealed gaskets, zero seepage",
+    ],
+    specs: [
+      { label: "Styles", value: "Sliding · Casement · Tilt-Turn · French" },
+      { label: "Hardware", value: "ROTO Germany" },
+      { label: "Lead time", value: "2 – 4 weeks" },
     ],
     accent: "#2a7a6a",
-    accentBg: "rgba(168,213,200,0.15)",
-    accentBorder: "rgba(168,213,200,0.4)",
-    tag: "Most popular",
     image: "/images/hero1.jpg",
+    image2: "/images/hero2.jpg",
   },
   {
     id: "02",
@@ -34,20 +36,22 @@ const SERVICES = [
     category: "Modular Kitchen",
     name: "Modular Kitchen Solutions",
     tagline: "Your kitchen, your way.",
+    chapter: "Custom-designed · Fully fitted",
     desc: "Fully customised modular kitchens designed around your cooking style, space and taste. From layout planning to final installation — smart cabinets, premium accessories and a finish that lasts decades.",
-    highlights: [
-      "Parallel, L-shape, U-shape & island layouts",
+    whyItLasts: [
       "Soft-close hinges and drawer systems",
       "High-gloss, matte & wood-finish shutters",
       "Quartz, granite & laminate countertops",
       "Built-in appliance integration",
-      "In-home design consultation included",
+    ],
+    specs: [
+      { label: "Layouts", value: "Parallel · L-shape · U-shape · Island" },
+      { label: "Finish", value: "200+ options" },
+      { label: "Lead time", value: "3 – 5 weeks" },
     ],
     accent: "#c8822a",
-    accentBg: "rgba(252,220,170,0.15)",
-    accentBorder: "rgba(252,220,170,0.4)",
-    tag: "Custom design",
     image: "/images/hero2.jpg",
+    image2: "/images/hero3.jpeg",
   },
   {
     id: "03",
@@ -55,20 +59,22 @@ const SERVICES = [
     category: "Wardrobes",
     name: "Custom Wardrobes",
     tagline: "Maximum storage, minimal clutter.",
+    chapter: "Floor-to-ceiling · Soft-close",
     desc: "Sliding, hinged and walk-in wardrobes crafted to make every inch count. Designed to match your room's aesthetic — from minimal whites to rich wood finishes — with interiors tailored to exactly how you organise.",
-    highlights: [
-      "Sliding, hinged & walk-in configurations",
-      "Full-height, floor-to-ceiling designs",
+    whyItLasts: [
       "Soft-close track systems",
       "Internal fittings: drawers, shelves, rails",
       "Mirror, glass & frosted panel options",
       "Fits any room size or shape",
     ],
+    specs: [
+      { label: "Types", value: "Sliding · Hinged · Walk-in" },
+      { label: "Panels", value: "Mirror · Glass · Frosted" },
+      { label: "Lead time", value: "2 – 3 weeks" },
+    ],
     accent: "#6a5acd",
-    accentBg: "rgba(220,210,255,0.15)",
-    accentBorder: "rgba(220,210,255,0.4)",
-    tag: "Space optimised",
     image: "/images/hero3.jpeg",
+    image2: "/images/hero1.jpg",
   },
   {
     id: "04",
@@ -76,20 +82,22 @@ const SERVICES = [
     category: "Interior Design",
     name: "Residential Interior Design",
     tagline: "Spaces that feel like home.",
+    chapter: "Concept to completion",
     desc: "Complete home interior solutions — from concept to completion. We design living rooms, bedrooms, dining areas and more with a focus on functionality, natural light and your personal style.",
-    highlights: [
-      "Living room, bedroom & dining design",
+    whyItLasts: [
       "False ceiling and lighting planning",
       "Flooring, wall finishes & wallpapers",
       "Furniture selection & space planning",
       "3D visualization before execution",
-      "End-to-end project management",
+    ],
+    specs: [
+      { label: "Scope", value: "Living · Bedroom · Dining · Kitchen" },
+      { label: "Delivery", value: "End-to-end" },
+      { label: "Consultation", value: "In-home, free" },
     ],
     accent: "#2a7a6a",
-    accentBg: "rgba(168,213,200,0.15)",
-    accentBorder: "rgba(168,213,200,0.4)",
-    tag: "Full home",
     image: "/images/hero1.jpg",
+    image2: "/images/hero2.jpg",
   },
   {
     id: "05",
@@ -97,20 +105,22 @@ const SERVICES = [
     category: "Interior Design",
     name: "Commercial Interior Design",
     tagline: "Workspaces that work harder.",
+    chapter: "Brand-aligned · Turnkey",
     desc: "Professional interior design for offices, showrooms, clinics and retail spaces. We create environments that reflect your brand, impress your clients and improve how your team works every day.",
-    highlights: [
-      "Office, showroom & retail design",
+    whyItLasts: [
       "Brand-aligned colour and material palettes",
-      "Reception, workstation & cabin planning",
       "Glass partitions and acoustic panels",
+      "Reception, workstation & cabin planning",
       "Signage and wayfinding integration",
-      "Turnkey delivery with minimal disruption",
+    ],
+    specs: [
+      { label: "Sectors", value: "Office · Showroom · Retail · Clinic" },
+      { label: "Delivery", value: "Turnkey" },
+      { label: "Disruption", value: "Minimal" },
     ],
     accent: "#c8822a",
-    accentBg: "rgba(252,220,170,0.15)",
-    accentBorder: "rgba(252,220,170,0.4)",
-    tag: "Commercial",
     image: "/images/hero2.jpg",
+    image2: "/images/hero3.jpeg",
   },
   {
     id: "06",
@@ -118,329 +128,340 @@ const SERVICES = [
     category: "Furniture & Planning",
     name: "Furniture & Space Planning",
     tagline: "Every square foot, optimised.",
+    chapter: "Analysis-first · Multi-functional",
     desc: "Smart furniture layout and space optimisation for homes, apartments and offices. We analyse your space, understand how you live or work, and design a plan that eliminates wasted area.",
-    highlights: [
+    whyItLasts: [
       "Room-by-room space analysis",
       "Custom furniture sizing and placement",
       "Traffic flow and ergonomics planning",
       "Multi-functional and convertible furniture",
-      "Storage maximisation strategies",
-      "Works with existing furniture too",
+    ],
+    specs: [
+      { label: "Works with", value: "New & existing furniture" },
+      { label: "Spaces", value: "Home · Office · Studio" },
+      { label: "Consultation", value: "In-person" },
     ],
     accent: "#2f6f6a",
-    accentBg: "rgba(168,213,200,0.12)",
-    accentBorder: "rgba(168,213,200,0.35)",
-    tag: "Smart planning",
     image: "/images/hero3.jpeg",
+    image2: "/images/hero1.jpg",
   },
 ];
 
-function ServiceCard({ service, index }) {
-  const cardRef = useRef(null);
-  const { open } = useQuoteModal();
+/* ── Index row ── */
+function IndexRow({ service, index, last }) {
+  const rowRef = useRef(null);
 
   useEffect(() => {
-    if (!cardRef.current) return;
-    gsap.fromTo(
-      cardRef.current,
-      { opacity: 0, y: 40, scale: 0.97 },
+    gsap.fromTo(rowRef.current,
+      { opacity: 0, y: 14 },
       {
-        opacity: 1,
-        y: 0,
-        scale: 1,
-        duration: 0.75,
-        ease: "expo.out",
-        delay: (index % 2) * 0.1,
-        scrollTrigger: {
-          trigger: cardRef.current,
-          start: "top 88%",
-          toggleActions: "play none none reset",
-        },
+        opacity: 1, y: 0, duration: 0.5, ease: "power3.out",
+        delay: 0.06 + index * 0.07,
+        scrollTrigger: { trigger: rowRef.current, start: "top 92%" },
       }
     );
   }, [index]);
 
+  const scrollTo = () => {
+    const el = document.getElementById(`chapter-${service.slug}`);
+    if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
+
   return (
     <div
-      ref={cardRef}
-      className="group relative overflow-hidden rounded-[28px] border opacity-0"
-      style={{
-        background: service.accentBg,
-        borderColor: service.accentBorder,
-        boxShadow: "0 4px 32px rgba(0,0,0,0.06)",
-      }}
+      ref={rowRef}
+      onClick={scrollTo}
+      className={`group flex cursor-pointer items-center gap-5 px-5 py-5 opacity-0 transition-all duration-200 hover:bg-white/50 ${!last ? "border-b border-stone-200/70" : ""}`}
     >
-      {/* Image */}
-      <div className="relative h-[220px] overflow-hidden">
+      <span className="w-8 shrink-0 font-sans text-[0.58rem] tracking-[0.1em] text-stone-400">
+        {service.id}
+      </span>
+      <span className="flex-1 font-serif text-[clamp(1rem,1.8vw,1.45rem)] font-normal leading-none text-stone-900 transition-colors group-hover:text-stone-500" style={{ letterSpacing: "-0.01em" }}>
+        {service.name}
+      </span>
+      <span className="hidden w-32 shrink-0 font-sans text-[0.58rem] uppercase tracking-[0.12em] text-stone-400 md:block">
+        {service.category}
+      </span>
+      <span
+        className="flex items-center gap-1 rounded-full px-3 py-1.5 font-sans text-[0.55rem] font-bold uppercase tracking-[0.12em] text-stone-500 transition-all duration-200 group-hover:text-stone-900"
+        style={{
+          background: "rgba(255,255,255,0.6)",
+          border: "1px solid rgba(200,190,170,0.4)",
+        }}
+      >
+        Read
+        <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+          <path d="M7 17L17 7M7 7h10v10" />
+        </svg>
+      </span>
+    </div>
+  );
+}
+
+/* ── Images block — small image mirrors to opposite side based on which column ── */
+function ImagesBlock({ service, flipSmall }) {
+  // flipSmall=true → small image bottom-LEFT (when images panel is on the RIGHT)
+  // flipSmall=false → small image bottom-RIGHT (when images panel is on the LEFT)
+  return (
+    <div className="relative w-full p-5 md:p-7" style={{ minHeight: "540px" }}>
+      {/* Big image — fully rounded with padding */}
+      <div
+        className="absolute inset-5 overflow-hidden rounded-[22px] md:inset-7"
+        style={{ boxShadow: "0 20px 56px rgba(0,0,0,0.13)" }}
+      >
         <img
           src={service.image}
           alt={service.name}
-          className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+          className="h-full w-full object-cover"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent" />
-
-        {/* Tag */}
-        <div
-          className="absolute left-4 top-4 rounded-full px-3 py-1 font-sans text-[0.58rem] font-bold uppercase tracking-[0.16em]"
-          style={{
-            background: "rgba(255,255,255,0.92)",
-            color: service.accent,
-            backdropFilter: "blur(8px)",
-          }}
-        >
-          {service.tag}
-        </div>
-
-        {/* ID */}
-        <span
-          className="absolute bottom-4 right-5 font-serif italic text-white/50"
-          style={{ fontSize: "3rem", lineHeight: 1 }}
-        >
-          {service.id}
-        </span>
       </div>
 
-      {/* Content */}
-      <div className="p-6">
-        <p
-          className="mb-1 font-sans text-[0.6rem] font-bold uppercase tracking-[0.18em]"
-          style={{ color: service.accent }}
-        >
-          {service.category}
-        </p>
-
-        <h3
-          className="mb-1 font-serif font-normal text-stone-900"
-          style={{ fontSize: "clamp(1.3rem,2vw,1.6rem)", letterSpacing: "-0.02em", lineHeight: 1.1 }}
-        >
-          {service.name}
-        </h3>
-
-        <p className="mb-4 font-serif italic text-stone-500" style={{ fontSize: "0.9rem" }}>
-          {service.tagline}
-        </p>
-
-        <p className="mb-5 font-sans leading-relaxed text-stone-600" style={{ fontSize: "0.82rem" }}>
-          {service.desc}
-        </p>
-
-        {/* Highlights */}
-        <ul className="mb-6 space-y-2">
-          {service.highlights.map((h) => (
-            <li key={h} className="flex items-start gap-2">
-              <span
-                className="mt-[3px] h-[6px] w-[6px] shrink-0 rounded-full"
-                style={{ background: service.accent }}
-              />
-              <span className="font-sans text-stone-700" style={{ fontSize: "0.78rem" }}>
-                {h}
-              </span>
-            </li>
-          ))}
-        </ul>
-
-        {/* CTA */}
-        <div className="flex gap-2">
-          <button
-            onClick={open}
-            className="inline-flex flex-1 items-center justify-center gap-2 rounded-full py-3 font-sans text-[0.8rem] font-semibold text-white transition-all duration-200 hover:scale-[1.03] hover:opacity-90"
-            style={{ background: service.accent }}
-          >
-            Get a Quote
-            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-              <path d="M5 12h14M12 5l7 7-7 7" />
-            </svg>
-          </button>
-
-          <Link
-            to="/contact"
-            className="inline-flex items-center justify-center rounded-full border px-4 py-3 font-sans text-[0.8rem] font-semibold text-stone-700 no-underline transition-all duration-200 hover:bg-white/60"
-            style={{ borderColor: "rgba(200,190,170,0.5)" }}
-          >
-            Ask us
-          </Link>
-        </div>
+      {/* Small overlapping image — flips side based on column */}
+      <div
+        className="absolute z-10 overflow-hidden rounded-[16px]"
+        style={{
+          bottom: "1.25rem",
+          ...(flipSmall ? { left: "1.25rem" } : { right: "1.25rem" }),
+          width: "54%",
+          aspectRatio: "4/3",
+          boxShadow: "0 14px 40px rgba(0,0,0,0.24)",
+        }}
+      >
+        <img
+          src={service.image2}
+          alt={service.name}
+          className="h-full w-full object-cover"
+        />
       </div>
     </div>
   );
 }
 
-export default function Services() {
-  const sectionRef = useRef(null);
-  const heroRef = useRef(null);
-  const [activeCategory, setActiveCategory] = useState("All");
+/* ── Content block ── */
+function ContentBlock({ service }) {
   const { open } = useQuoteModal();
 
-  const categories = ["All", "Windows & Doors", "Modular Kitchen", "Wardrobes", "Interior Design", "Furniture & Planning"];
+  return (
+    <div className="flex flex-col justify-center px-8 py-16 md:px-14 md:py-20" style={{ background: "#f5f3ee" }}>
+      {/* Name */}
+      <h2
+        className="chapter-animate m-0 mb-2 font-serif font-normal leading-[1.0] text-stone-900"
+        style={{ fontSize: "clamp(2rem,3.8vw,3.5rem)", letterSpacing: "-0.03em" }}
+      >
+        {service.name}.
+      </h2>
 
-  const filtered = activeCategory === "All"
-    ? SERVICES
-    : SERVICES.filter((s) => s.category === activeCategory);
+      {/* Desc */}
+      <p className="chapter-animate mb-7 max-w-[500px] font-sans leading-relaxed text-stone-600" style={{ fontSize: "0.88rem" }}>
+        {service.desc}
+      </p>
 
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
+      {/* Why it lasts */}
+      <div className="chapter-animate mb-6">
+        <div className="mb-3 flex items-center gap-2">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke={service.accent} strokeWidth="2.2">
+            <circle cx="12" cy="12" r="10" /><path d="M8 12l3 3 5-5" />
+          </svg>
+          <span className="font-sans text-[0.58rem] font-bold uppercase tracking-[0.16em]" style={{ color: service.accent }}>
+            Why it lasts
+          </span>
+        </div>
+        <div className="space-y-2.5">
+          {service.whyItLasts.map((item) => (
+            <div key={item} className="flex items-start gap-3">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke={service.accent} strokeWidth="2.2" className="mt-[2px] shrink-0">
+                <polyline points="20 6 9 17 4 12" />
+              </svg>
+              <span className="font-sans text-[0.82rem] leading-snug text-stone-700">{item}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Specs — full-width rows with dividers like the screenshot */}
+      <div className="chapter-animate mb-8 border-t border-stone-200">
+        {service.specs.map((spec) => (
+          <div
+            key={spec.label}
+            className="flex items-baseline gap-6 border-b border-stone-200 py-3"
+          >
+            <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="#b8a898" strokeWidth="2" className="mt-1 shrink-0">
+              <polyline points="9 18 15 12 9 6" />
+            </svg>
+            <span className="w-24 shrink-0 font-sans text-[0.6rem] font-semibold uppercase tracking-[0.1em] text-stone-400">
+              {spec.label}
+            </span>
+            <span className="font-sans text-[0.82rem] text-stone-800">{spec.value}</span>
+          </div>
+        ))}
+      </div>
+
+      {/* CTAs */}
+      <div className="chapter-animate flex flex-wrap gap-3">
+        <button
+          onClick={open}
+          className="inline-flex items-center gap-2 rounded-full px-7 py-3.5 font-sans text-[0.82rem] font-semibold text-white transition-all duration-200 hover:scale-[1.03] hover:opacity-90"
+          style={{ background: "#1c1917", boxShadow: "0 8px 24px rgba(0,0,0,0.18)" }}
+        >
+          Enquire about {service.name.split(" ")[0]} ↗
+        </button>
+        <Link
+          to="/contact"
+          className="inline-flex items-center gap-2 rounded-full border border-stone-300/80 bg-white/60 px-7 py-3.5 font-sans text-[0.82rem] font-semibold text-stone-700 no-underline backdrop-blur-sm transition-all duration-200 hover:border-stone-400 hover:bg-white"
+        >
+          See in projects
+        </Link>
+      </div>
+    </div>
+  );
+}
+
+/* ── Chapter: alternating layout ── */
+function Chapter({ service, index }) {
+  const sectionRef = useRef(null);
+  const isEven = index % 2 === 1; // 0-based, so index 1,3,5 = even chapters (02,04,06) flip
 
   useEffect(() => {
     const ctx = gsap.context(() => {
       gsap.fromTo(
-        ".services-hero-word",
-        { opacity: 0, yPercent: 80, filter: "blur(6px)" },
+        sectionRef.current.querySelectorAll(".chapter-animate"),
+        { opacity: 0, y: 24 },
         {
-          opacity: 1,
-          yPercent: 0,
-          filter: "blur(0px)",
-          duration: 1,
-          stagger: 0.06,
-          ease: "power4.out",
-          delay: 0.1,
-        }
-      );
-
-      gsap.fromTo(
-        ".services-hero-sub",
-        { opacity: 0, y: 20 },
-        { opacity: 1, y: 0, duration: 0.8, ease: "power3.out", delay: 0.7 }
-      );
-
-      gsap.fromTo(
-        ".services-filter-btn",
-        { opacity: 0, y: 16 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 0.5,
-          stagger: 0.06,
+          opacity: 1, y: 0,
+          duration: 0.65,
+          stagger: 0.08,
           ease: "power3.out",
-          delay: 0.9,
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: "top 72%",
+            toggleActions: "play none none reset",
+          },
         }
       );
-    }, heroRef);
-
+    }, sectionRef);
     return () => ctx.revert();
   }, []);
 
   return (
-    <div ref={sectionRef} className="min-h-screen bg-[#f5f3ee]">
+    <div
+      id={`chapter-${service.slug}`}
+      ref={sectionRef}
+      className="grid min-h-[600px] md:grid-cols-2"
+      style={{ scrollMarginTop: "80px" }}
+    >
+      {isEven ? (
+        // Even: content LEFT, images RIGHT → small image goes bottom-LEFT
+        <>
+          <ContentBlock service={service} />
+          <ImagesBlock service={service} flipSmall={true} />
+        </>
+      ) : (
+        // Odd: images LEFT, content RIGHT → small image goes bottom-RIGHT
+        <>
+          <ImagesBlock service={service} flipSmall={false} />
+          <ContentBlock service={service} />
+        </>
+      )}
+    </div>
+  );
+}
 
-      {/* ── HERO ── */}
-      <div
-        ref={heroRef}
-        className="relative overflow-hidden px-5 pb-16 pt-36 md:px-16 md:pt-44"
-      >
-        {/* bg blobs */}
-        <div className="pointer-events-none absolute -right-[10%] -top-[10%] h-[50vw] w-[50vw] rounded-full"
-          style={{ background: "radial-gradient(circle,rgba(168,213,200,0.2) 0%,transparent 70%)" }} />
-        <div className="pointer-events-none absolute -bottom-[5%] -left-[8%] h-[40vw] w-[40vw] rounded-full"
-          style={{ background: "radial-gradient(circle,rgba(252,220,170,0.18) 0%,transparent 70%)" }} />
+export default function Services() {
+  const heroRef = useRef(null);
+  const { open } = useQuoteModal();
 
-        <div className="relative z-10 mx-auto max-w-7xl">
-          {/* Eyebrow */}
-          <div className="services-hero-sub mb-4 flex items-center gap-3 opacity-0">
-            <span className="h-px w-8 bg-[#c8b99a]" />
-            <span className="font-sans text-[0.75rem] font-extrabold uppercase tracking-[0.22em] text-[#6b6560]">
-              What we offer
-            </span>
-          </div>
+  useEffect(() => { window.scrollTo(0, 0); }, []);
 
-          {/* Heading */}
-          <h1
-            className="mb-6 font-serif font-normal text-stone-900"
-            style={{ fontSize: "clamp(2.8rem,7vw,6rem)", lineHeight: 1.0, letterSpacing: "-0.03em", maxWidth: "900px" }}
-          >
-            {"Our Services".split(" ").map((word, i) => (
-              <span key={i} style={{ display: "inline-block", overflow: "hidden", verticalAlign: "bottom", marginRight: "0.25em" }}>
-                <span className="services-hero-word" style={{ display: "inline-block" }}>
-                  {word}
-                </span>
-              </span>
-            ))}
-            {" "}
-            <span style={{ display: "inline-block", overflow: "hidden", verticalAlign: "bottom" }}>
-              <em className="services-hero-word italic text-[#2a7a6a]" style={{ display: "inline-block" }}>
-                &amp; Solutions.
-              </em>
-            </span>
-          </h1>
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      gsap.fromTo(".hero-fade",
+        { opacity: 0, y: 20 },
+        { opacity: 1, y: 0, duration: 0.7, stagger: 0.1, ease: "power3.out", delay: 0.1 }
+      );
+    }, heroRef);
+    return () => ctx.revert();
+  }, []);
 
-          {/* Sub */}
-          <p
-            className="services-hero-sub mb-10 max-w-[560px] font-sans leading-relaxed text-stone-500 opacity-0"
-            style={{ fontSize: "clamp(0.9rem,1.2vw,1.05rem)" }}
-          >
-            From uPVC windows to complete home interiors — every service is delivered
-            in-house, on time, and tailored exactly to your space and budget.
-          </p>
+  return (
+    <div className="min-h-screen bg-[#f5f3ee]">
 
-          {/* Stats row */}
-          <div className="services-hero-sub mb-12 flex flex-wrap gap-8 opacity-0">
-            {[
-              { val: "500+", label: "Projects done" },
-              { val: "10+", label: "Years experience" },
-              { val: "6", label: "Core services" },
-              { val: "100%", label: "In-house team" },
-            ].map((s) => (
-              <div key={s.label}>
-                <p className="font-serif text-[2rem] font-semibold leading-none text-stone-900" style={{ letterSpacing: "-0.03em" }}>
-                  {s.val}
-                </p>
-                <p className="mt-1 font-sans text-[0.62rem] uppercase tracking-[0.12em] text-stone-400">
-                  {s.label}
-                </p>
-              </div>
-            ))}
-          </div>
+      {/* ── HERO / INDEX ── */}
+      <div ref={heroRef} className="px-6 pb-12 pt-32 md:px-16 md:pt-36">
+        <div className="mx-auto max-w-7xl">
 
-          {/* Filter tabs */}
-          <div className="flex flex-wrap gap-2">
-            {categories.map((cat) => (
-              <button
-                key={cat}
-                onClick={() => setActiveCategory(cat)}
-                className="services-filter-btn rounded-full px-4 py-2 font-sans text-[0.75rem] font-semibold opacity-0 transition-all duration-200"
-                style={{
-                  background: activeCategory === cat ? "#1c1917" : "rgba(255,255,255,0.7)",
-                  color: activeCategory === cat ? "#fff" : "#57534e",
-                  border: activeCategory === cat ? "none" : "1px solid rgba(200,190,170,0.5)",
-                  backdropFilter: "blur(8px)",
-                }}
+          <div className="hero-fade mb-0 flex flex-col gap-6 md:flex-row md:items-start md:justify-between opacity-0">
+            <div>
+              <p className="mb-2 font-sans text-[0.6rem] font-bold uppercase tracking-[0.22em] text-stone-400">
+                Samar Trading · Est. 2024
+              </p>
+              <h1
+                className="m-0 font-serif font-normal text-stone-900"
+                style={{ fontSize: "clamp(2.8rem,6vw,6rem)", lineHeight: 0.98, letterSpacing: "-0.04em", maxWidth: "720px" }}
               >
-                {cat}
-              </button>
-            ))}
+                Products
+                <br />
+                <em
+                  className="italic"
+                  style={{
+                    background: "linear-gradient(135deg, #a07840 0%, #c8a96e 40%, #2a7a6a 100%)",
+                    WebkitBackgroundClip: "text",
+                    WebkitTextFillColor: "transparent",
+                    backgroundClip: "text",
+                  }}
+                >
+                  &amp; Services.
+                </em>
+              </h1>
+            </div>
+
+            <div className="self-start md:pt-6">
+              <p className="m-0 max-w-[280px] font-sans leading-relaxed text-stone-500" style={{ fontSize: "0.88rem" }}>
+                Explore the full range of products offered by us.
+              </p>
+              <div className="mt-4 flex items-center gap-2">
+                
+              </div>
+            </div>
+          </div>
+
+          {/* Divider */}
+          <div className="hero-fade my-10 border-t border-stone-300/50 opacity-0" />
+
+          {/* Index */}
+          <div className="hero-fade flex flex-col gap-0 md:flex-row md:gap-16 opacity-0">
+            <div className="mb-6 shrink-0 md:mb-0 md:w-52">
+              <p className="font-sans text-[0.58rem] font-bold uppercase tracking-[0.2em] text-stone-400">Index</p>
+              <p className="mt-1.5 font-sans text-[0.82rem] leading-relaxed text-stone-500">
+                Scroll the catalogue, or jump to a chapter.
+              </p>
+            </div>
+
+            <div className="flex-1 overflow-hidden rounded-2xl border border-stone-200/80" style={{
+              background: "linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(248,244,236,0.85) 50%, rgba(240,235,225,0.8) 100%)",
+              backdropFilter: "blur(12px)",
+              boxShadow: "0 4px 32px rgba(0,0,0,0.06), 0 1px 0 rgba(255,255,255,0.9) inset",
+            }}>
+              {SERVICES.map((s, i) => (
+                <IndexRow key={s.slug} service={s} index={i} last={i === SERVICES.length - 1} />
+              ))}
+            </div>
           </div>
         </div>
       </div>
 
-      {/* ── SERVICES GRID ── */}
-      <div className="px-5 pb-20 md:px-16">
-        <div className="mx-auto max-w-7xl">
-
-          {/* Count */}
-          <p className="mb-8 font-sans text-[0.7rem] uppercase tracking-[0.12em] text-stone-400">
-            Showing {filtered.length} service{filtered.length !== 1 ? "s" : ""}
-            {activeCategory !== "All" ? ` in ${activeCategory}` : ""}
-          </p>
-
-          {/* Grid */}
-          <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
-            {filtered.map((service, i) => (
-              <ServiceCard key={service.id} service={service} index={i} />
-            ))}
+      {/* ── CHAPTERS ── */}
+      <div>
+        {SERVICES.map((service, i) => (
+          <div key={service.slug} className="border-t border-stone-200/70">
+            <Chapter service={service} index={i} />
           </div>
-        </div>
+        ))}
       </div>
 
       {/* ── BOTTOM CTA ── */}
-      <div
-        className="mx-5 mb-16 overflow-hidden rounded-[32px] px-8 py-14 md:mx-16 md:px-16"
-        style={{
-          background: "linear-gradient(135deg,#1a1714 0%,#2a2420 50%,#1c1917 100%)",
-          boxShadow: "0 24px 60px rgba(0,0,0,0.18)",
-        }}
-      >
+      <div className="px-6 py-20 md:px-16" style={{ background: "#1a1714" }}>
         <div className="mx-auto max-w-3xl text-center">
-          <p className="mb-3 font-sans text-[0.65rem] font-bold uppercase tracking-[0.22em] text-[#c8b99a]">
+          <p className="mb-3 font-sans text-[0.62rem] font-bold uppercase tracking-[0.22em] text-[#c8b99a]">
             Not sure where to start?
           </p>
           <h2
@@ -450,9 +471,8 @@ export default function Services() {
             Tell us your space.{" "}
             <em className="italic text-[#d6b58a]">We'll handle the rest.</em>
           </h2>
-          <p className="mb-8 font-sans leading-relaxed text-white/60" style={{ fontSize: "0.9rem" }}>
-            Book a free consultation — we'll visit, measure, and give you a detailed
-            quote with no pressure and no obligation.
+          <p className="mb-8 font-sans leading-relaxed text-white/60" style={{ fontSize: "0.88rem" }}>
+            Book a free consultation — we'll visit, measure, and give you a detailed quote with no pressure and no obligation.
           </p>
           <div className="flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
             <button
