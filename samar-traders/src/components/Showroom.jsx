@@ -30,8 +30,8 @@ const SHOWROOM_ZONES = [
     title: "Door Gallery",
     meta: "Teak, oak, uPVC",
     type: "video",
-    video: import.meta.env.VITE_SHOWROOM_VIDEO_URL 
-  },
+video: import.meta.env.VITE_SHOWROOM_VIDEO_URL,
+videoWebm: import.meta.env.VITE_SHOWROOM_VIDEO_URL?.replace('.mp4', '.webm'),  },
   {
     label: "Bay 02",
     title: "Window Studio",
@@ -181,13 +181,15 @@ function ZoneCard({ zone, large, className = "" }) {
       {/* VIDEO */}
       {zone.type === "video" ? (
         <video
-          src={zone.video}
-          autoPlay
-          muted
-          loop
-          playsInline
-          className="absolute inset-0 h-full w-full object-cover transition duration-700 group-hover:scale-105"
-        />
+  autoPlay
+  muted
+  loop
+  playsInline
+  className="absolute inset-0 h-full w-full object-cover transition duration-700 group-hover:scale-105"
+>
+  <source src={zone.videoWebm} type="video/webm" />
+  <source src={zone.video} type="video/mp4" />
+</video>
       ) : (
         <img
           src={zone.image}
