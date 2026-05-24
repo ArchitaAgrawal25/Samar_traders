@@ -16,6 +16,7 @@ import Contact from "./components/Contact";
 import Doors from "./components/Doors";
 import Windows from "./components/Windows";
 import AboutPage from "./components/Aboutpage";
+import Projects from "./components/Projects";
 function HomePage() {
   return (
     <>
@@ -43,8 +44,9 @@ export default function App() {
           <Route path="/services" element={<Services />} />
           <Route path="/doors"    element={<Doors />} />
           <Route path="/windows"  element={<Windows />} />
-          <Route path="/projects" element={<div className="pt-32 text-center text-2xl font-serif text-stone-800">Projects</div>} />
-<Route path="/about" element={<AboutPage />} />          <Route path="/contact"  element={<Contact />} />
+<Route path="/projects" element={<Projects />} />         
+<Route path="/about" element={<AboutPage />} />         
+ <Route path="/contact"  element={<Contact />} />
         </Routes>
       </QuoteModalProvider>
     </BrowserRouter>

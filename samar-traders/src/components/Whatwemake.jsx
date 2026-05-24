@@ -117,7 +117,7 @@ export default function WhatWeMake() {
         className="pointer-events-none absolute bottom-[5%] left-[-6%] h-[35vw] w-[35vw] rounded-full bg-[radial-gradient(circle,rgba(252,220,170,0.14)_0%,transparent_70%)]"
       />
 
-      <div className="relative z-10  max-w-8xl md:mx-32 px-3 sm:px-4 md:px-3 lg:px-4">
+      <div className="relative z-10 max-w-8xl md:mx-32 px-3 sm:px-4 md:px-3 lg:px-4">
         <div className="mb-8 flex flex-col gap-4 md:mb-10 md:flex-row md:items-end md:justify-between">
           <div>
             <div ref={eyebrowRef} className="mb-2 flex items-center gap-3 opacity-0">
@@ -143,7 +143,8 @@ export default function WhatWeMake() {
           </Link>
         </div>
 
-        <div className="grid grid-cols-[repeat(auto-fill,minmax(min(100%,340px),1fr))] gap-4 md:gap-5">
+        {/* Flex-wrap with justify-center so the last row centres on large screens */}
+        <div className="flex flex-wrap justify-center gap-4 md:gap-5">
           {SERVICES.map((service, i) => (
             <ServiceCard
               key={service.id}
@@ -209,7 +210,8 @@ function ServiceCard({ service, cardRef }) {
   return (
     <div
       ref={cardRef}
-      className="group relative aspect-[4/3.2] cursor-pointer overflow-hidden rounded-[20px] border border-white/70 opacity-0 shadow-[0_4px_24px_rgba(0,0,0,0.08),0_1px_0_rgba(255,255,255,0.8)_inset]"
+      /* Fixed width so cards stay uniform; grows to fill on small screens */
+      className="group relative aspect-[4/3.2] w-full cursor-pointer overflow-hidden rounded-[20px] border border-white/70 opacity-0 shadow-[0_4px_24px_rgba(0,0,0,0.08),0_1px_0_rgba(255,255,255,0.8)_inset] sm:w-[calc(50%-10px)] lg:w-[calc(33.333%-14px)]"
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
