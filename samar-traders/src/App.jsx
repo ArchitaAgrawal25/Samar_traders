@@ -17,6 +17,7 @@ import Doors from "./components/Doors";
 import Windows from "./components/Windows";
 import AboutPage from "./components/Aboutpage";
 import Projects from "./components/Projects";
+import GoToTop from "./components/Gototop";
 function HomePage() {
   return (
     <>
@@ -39,6 +40,7 @@ export default function App() {
     <BrowserRouter>
       <QuoteModalProvider>
         <Navbar />
+        <GoToTop/>
         <Routes>
           <Route path="/"         element={<HomePage />} />
           <Route path="/services" element={<Services />} />
