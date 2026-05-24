@@ -31,7 +31,7 @@ const SHOWROOM_ZONES = [
     meta: "Teak, oak, uPVC",
     type: "video",
 video: import.meta.env.VITE_SHOWROOM_VIDEO_URL,
-videoWebm: import.meta.env.VITE_SHOWROOM_VIDEO_URL?.replace('.mp4', '.webm'),  },
+videoWebm: import.meta.env.VITE_SHOWROOM_VIDEO_URL  },
   {
     label: "Bay 02",
     title: "Window Studio",
@@ -48,6 +48,7 @@ videoWebm: import.meta.env.VITE_SHOWROOM_VIDEO_URL?.replace('.mp4', '.webm'),  }
   },
 ];
 
+console.log("Video URL:", import.meta.env.VITE_SHOWROOM_VIDEO_URL);
 /* ─────────────────────────────────────────────
    DYNAMIC OPEN STATUS
 ───────────────────────────────────────────── */
@@ -187,8 +188,7 @@ function ZoneCard({ zone, large, className = "" }) {
   playsInline
   className="absolute inset-0 h-full w-full object-cover transition duration-700 group-hover:scale-105"
 >
-  <source src={zone.videoWebm} type="video/webm" />
-  <source src={zone.video} type="video/mp4" />
+  <source src={zone.video} type="video/webm" />
 </video>
       ) : (
         <img
