@@ -119,9 +119,9 @@ const REASONS = [
   },
   {
     id: "08",
-    title: "Fire Resistant",
-    desc: "Engineered uPVC withstands high temperatures better than conventional materials while maintaining structural integrity — a safer, more reliable choice for modern construction.",
-    tag: "High-temp rated",
+  title: "Dustproof & Airtight Sealing",
+  desc: "Advanced gasket sealing helps block dust, wind, and outdoor pollutants while maintaining a cleaner and quieter indoor environment.",
+  tag: "Airtight fit",
     bg: "bg-red-50/70",
     border: "border-red-200/80",
     accent: "text-red-700",

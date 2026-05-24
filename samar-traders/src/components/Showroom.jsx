@@ -244,13 +244,14 @@ export default function Showroom() {
         {
           opacity: 1,
           y: 0,
-          duration: 0.55,
+          duration: 0.3,
           ease: "power2.out",
 
           scrollTrigger: {
             trigger: sectionRef.current,
-            start: "top 78%",
-            toggleActions: "play none none reset",
+            start: "top 92%",
+            toggleActions: "play none none none",
+once: true,
           },
         }
       );
@@ -266,13 +267,14 @@ export default function Showroom() {
           opacity: 1,
           y: 0,
           scale: 1,
-          duration: 0.55,
+          duration: 0.3,
           ease: "power2.out",
 
           scrollTrigger: {
             trigger: sectionRef.current,
-            start: "top 72%",
-            toggleActions: "play none none reset",
+            start: "top 92%",
+            toggleActions: "play none none none",
+once: true,
           },
         }
       );
