@@ -191,11 +191,16 @@ function ZoneCard({ zone, large, className = "" }) {
   <source src={zone.video} type="video/webm" />
 </video>
       ) : (
-        <img
-          src={zone.image}
-          alt={zone.title}
-          className="absolute inset-0 h-full w-full object-cover transition duration-700 group-hover:scale-105"
-        />
+<img
+  src={zone.image}
+  alt={zone.title}
+  className="absolute inset-0 h-full w-full object-cover transition duration-700 group-hover:scale-105"
+  style={{ 
+    objectPosition: ["show1", "show5", "show7"].some(name => zone.image?.includes(name)) 
+      ? "center bottom" 
+      : "center" 
+  }}
+/>
       )}
 
       <div className="absolute inset-0 bg-gradient-to-t from-stone-950/70 via-stone-950/10 to-white/10" />

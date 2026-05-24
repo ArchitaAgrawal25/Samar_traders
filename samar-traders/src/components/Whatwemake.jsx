@@ -216,9 +216,12 @@ function ServiceCard({ service, cardRef }) {
       onMouseLeave={handleMouseLeave}
     >
       <div
-        className="absolute inset-0 z-0 bg-cover bg-center transition-transform duration-700 ease-out group-hover:scale-105"
-        style={{ backgroundImage: `url(${service.bg})` }}
-      />
+  className="absolute inset-0 z-0 bg-cover transition-transform duration-700 ease-out group-hover:scale-105"
+  style={{ 
+    backgroundImage: `url(${service.bg})`,
+    backgroundPosition: service.bg === "/images/show1.JPG" ? "center bottom" : "center",
+  }}
+/>
 
       <div
         ref={overlayRef}

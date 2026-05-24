@@ -87,18 +87,20 @@ function ImagePane({ imageSrc, style }) {
       }}
     >
       {imageSrc && (
-        <img
-          src={imageSrc}
-          alt=""
-          style={{
-            position: "absolute",
-            inset: 0,
-            width: "100%",
-            height: "100%",
-            objectFit: "cover",
-            zIndex: 0,
-          }}
-        />
+        // The wideImage is passed as imageSrc to ImagePane
+// In ImagePane, change the img style:
+<img
+  src={imageSrc}
+  style={{
+    position: "absolute",
+    inset: 0,
+    width: "100%",
+    height: "100%",
+    objectFit: "cover",
+    objectPosition: imageSrc?.includes("show1.JPG") ? "center 70%" : "center",
+    zIndex: 0,
+  }}
+/>
       )}
       <div
         style={{

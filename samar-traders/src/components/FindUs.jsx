@@ -2,6 +2,7 @@ import {
   ExternalLink,
   Mail,
   MapPin,
+  Navigation,
   Phone,
   UserRound,
   FileText,
@@ -19,6 +20,10 @@ const CONTACT = {
 };
 
 const directionsUrl = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(
+  CONTACT.mapsQuery
+)}`;
+
+const locationUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
   CONTACT.mapsQuery
 )}`;
 
@@ -105,27 +110,43 @@ export default function FindUs() {
           <div className="grid gap-4">
             
             {/* MAP */}
-            <a
-              href={directionsUrl}
-              target="_blank"
-              rel="noreferrer"
-              className="group relative min-h-[270px] overflow-hidden rounded-[26px] border border-white/10 shadow-[0_18px_50px_rgba(0,0,0,0.35)]"
-            >
+            <div className="group relative min-h-[270px] overflow-hidden rounded-[26px] border border-white/10 shadow-[0_18px_50px_rgba(0,0,0,0.35)]">
               <iframe
                 title="Samar Traders map"
                 src={embedUrl}
                 loading="lazy"
-                className="absolute inset-0 h-full w-full border-0 grayscale-[0.08] transition duration-700 group-hover:scale-[1.03] group-hover:grayscale-0"
+                className="absolute inset-0 h-full w-full border-0 grayscale-[0.08]"
                 referrerPolicy="no-referrer-when-downgrade"
               />
 
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-white/5" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-white/5 pointer-events-none" />
 
-              {/* FIND US TAG */}
-              <div className="absolute right-4 top-4 rounded-full border border-white/20 bg-white px-3 py-1.5 font-sans text-[0.55rem] font-extrabold uppercase tracking-[0.18em] text-[#4e392b] shadow-[0_8px_18px_rgba(0,0,0,0.2)]">
-                Find Us
+              {/* ── Two map action buttons ── */}
+              <div className="absolute bottom-4 left-0 right-0 flex items-center justify-center gap-2 px-4">
+                
+                {/* View Location — pin only */}
+                <a
+                  href={locationUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex items-center gap-1.5 rounded-full border border-white/25 bg-white/90 px-4 py-2 font-sans text-[0.68rem] font-bold uppercase tracking-[0.12em] text-[#4e392b] shadow-[0_8px_18px_rgba(0,0,0,0.2)] backdrop-blur-md transition duration-200 hover:-translate-y-0.5 hover:bg-white"
+                >
+                  <MapPin size={12} strokeWidth={2.3} />
+                  View Location
+                </a>
+
+                {/* Open Directions */}
+                <a
+                  href={directionsUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex items-center gap-1.5 rounded-full border border-white/25 bg-[#1c1917]/80 px-4 py-2 font-sans text-[0.68rem] font-bold uppercase tracking-[0.12em] text-white shadow-[0_8px_18px_rgba(0,0,0,0.2)] backdrop-blur-md transition duration-200 hover:-translate-y-0.5 hover:bg-[#1c1917]"
+                >
+                  <Navigation size={12} strokeWidth={2.3} />
+                  Open Directions
+                </a>
               </div>
-            </a>
+            </div>
 
             {/* SHOWROOM IMAGE */}
             <div className="group relative min-h-[250px] overflow-hidden rounded-[26px] border border-white/10 shadow-[0_18px_50px_rgba(0,0,0,0.35)]">
@@ -134,6 +155,7 @@ export default function FindUs() {
                 src="/images/show.JPG"
                 alt="Samar Traders showroom"
                 className="absolute inset-0 h-full w-full object-cover transition duration-700 group-hover:scale-105"
+                style={{ objectPosition: "center " }}
               />
 
               <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-white/5" />
@@ -195,13 +217,24 @@ export default function FindUs() {
                   icon={MapPin}
                   label="Location"
                   value={CONTACT.location}
-                  href={directionsUrl}
+                  href={locationUrl}
                 />
               </div>
 
               {/* BUTTONS */}
               <div className="mt-auto flex flex-col gap-3 pt-6 sm:flex-row">
                 
+                {/* VIEW LOCATION */}
+                <a
+                  href={locationUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex w-full items-center justify-center gap-2 rounded-full border border-[#d8c5ae] bg-white px-5 py-3.5 font-sans text-[0.82rem] font-semibold text-[#241c16] shadow-[0_14px_34px_rgba(0,0,0,0.08)] transition duration-300 hover:-translate-y-0.5 hover:bg-[#f8f1e8] sm:w-auto"
+                >
+                  <MapPin size={15} />
+                  View Location
+                </a>
+
                 {/* OPEN DIRECTIONS */}
                 <a
                   href={directionsUrl}
@@ -209,8 +242,8 @@ export default function FindUs() {
                   rel="noreferrer"
                   className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-gradient-to-br from-[#d6b58a] to-[#9d6f42] px-5 py-3.5 font-sans text-[0.82rem] font-semibold text-white shadow-[0_14px_34px_rgba(214,181,138,0.2)] transition duration-300 hover:-translate-y-0.5 hover:opacity-95 sm:w-auto"
                 >
-                  Open directions
-                  <ExternalLink size={15} />
+                  Open Directions
+                  <Navigation size={15} />
                 </a>
 
                 {/* GET A QUOTE */}
