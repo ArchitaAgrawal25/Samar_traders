@@ -68,6 +68,7 @@ const FAQS = [
 const DESKTOP_DEFAULT = 3;
 const MOBILE_DEFAULT = 2;
 
+// ─── Individual FAQ accordion row ────────────────────────────
 function FAQRow({ faq, isOpen, onToggle, rowRef, isLast }) {
   const answerRef = useRef(null);
   const contentRef = useRef(null);
@@ -163,12 +164,10 @@ function FAQRow({ faq, isOpen, onToggle, rowRef, isLast }) {
         <div ref={contentRef} className="pb-5">
           <div className="flex gap-4 md:gap-8">
             <span className="hidden w-[100px] shrink-0 md:block" />
-
             <div className="flex-1">
               <p className="m-0 max-w-[580px] font-sans text-[clamp(0.82rem,1vw,0.92rem)] leading-relaxed text-stone-700">
                 {faq.answer}
               </p>
-
               <div className="mt-4 flex items-center gap-3">
                 <Link
                   to="/contact"
@@ -182,7 +181,6 @@ function FAQRow({ faq, isOpen, onToggle, rowRef, isLast }) {
                 </Link>
               </div>
             </div>
-
             <span className="hidden w-[130px] shrink-0 lg:block" />
             <span className="w-8 shrink-0" />
           </div>
@@ -192,52 +190,81 @@ function FAQRow({ faq, isOpen, onToggle, rowRef, isLast }) {
   );
 }
 
-// Animated wrapper for extra FAQ rows that slide in/out
-function ExtraRowsContainer({ visible, children }) {
+// ─── Animated expand / collapse container ────────────────────
+// Used for the "extra" rows that appear/disappear with Show All.
+// On COLLAPSE we:
+//   1. Freeze the container at its current pixel height
+//   2. Animate height → 0 smoothly
+//   3. After animation completes, scroll the section header back into view
+function ExtraRowsContainer({ visible, children, onCollapseDone }) {
   const containerRef = useRef(null);
   const isFirstRender = useRef(true);
 
   useEffect(() => {
-    // Skip animation on first render
+    // Skip animation on initial mount — nothing to animate yet
     if (isFirstRender.current) {
       isFirstRender.current = false;
       return;
     }
-
     if (!containerRef.current) return;
 
     if (visible) {
-      gsap.fromTo(
-        containerRef.current,
-        { height: 0, opacity: 0 },
-        {
-          height: "auto",
+      // ── EXPAND ──────────────────────────────────────────────
+      // Freeze at 0, then let React paint children, then tween to natural height
+      gsap.set(containerRef.current, { height: 0, opacity: 0, overflow: "hidden" });
+
+      const id = setTimeout(() => {
+        if (!containerRef.current) return;
+        const naturalHeight = containerRef.current.scrollHeight;
+        gsap.to(containerRef.current, {
+          height: naturalHeight,
           opacity: 1,
           duration: 0.55,
           ease: "power3.out",
+          onComplete: () => {
+            if (containerRef.current) {
+              // Remove fixed height so layout can reflow freely
+              gsap.set(containerRef.current, { height: "auto", overflow: "visible" });
+            }
+          },
+        });
+      }, 16);
+
+      return () => clearTimeout(id);
+    } else {
+      // ── COLLAPSE ─────────────────────────────────────────────
+      // Capture the live rendered height before any changes
+      const liveHeight = containerRef.current.scrollHeight;
+
+      gsap.fromTo(
+        containerRef.current,
+        { height: liveHeight, opacity: 1, overflow: "hidden" },
+        {
+          height: 0,
+          opacity: 0,
+          duration: 0.52,
+          ease: "power3.inOut",
+          onComplete: () => {
+            // Notify parent so it can scroll the header into view
+            onCollapseDone?.();
+          },
         }
       );
-    } else {
-      gsap.to(containerRef.current, {
-        height: 0,
-        opacity: 0,
-        duration: 0.38,
-        ease: "power2.in",
-      });
     }
-  }, [visible]);
+  }, [visible]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <div
       ref={containerRef}
+      // Initial CSS state — GSAP takes over after first toggle
       style={visible ? {} : { height: 0, overflow: "hidden", opacity: 0 }}
-      className="overflow-hidden"
     >
       {children}
     </div>
   );
 }
 
+// ─── Main FAQ component ───────────────────────────────────────
 export default function FAQ() {
   const [openIndex, setOpenIndex] = useState(null);
   const [showAll, setShowAll] = useState(false);
@@ -249,6 +276,7 @@ export default function FAQ() {
   const rowRefs = useRef([]);
   const buttonRef = useRef(null);
 
+  // ── Entrance animations ───────────────────────────────────
   useEffect(() => {
     const ctx = gsap.context(() => {
       gsap.fromTo(
@@ -266,7 +294,6 @@ export default function FAQ() {
 
       rowRefs.current.forEach((row, i) => {
         if (!row) return;
-
         gsap.fromTo(
           row,
           { opacity: 0, y: 14 },
@@ -297,20 +324,30 @@ export default function FAQ() {
     return () => ctx.revert();
   }, []);
 
+  // ── Accordion toggle ─────────────────────────────────────
   const toggle = (i) => setOpenIndex(openIndex === i ? null : i);
 
+  // ── Called by ExtraRowsContainer once its height → 0 ─────
+  // Smoothly scrolls the FAQ section heading back into view so
+  // the user is never left staring at empty space after collapse.
+  const handleCollapseDone = () => {
+    if (!sectionRef.current) return;
+    sectionRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
+
+  // ── Show All / Show Less toggle ──────────────────────────
   const handleToggleShowAll = () => {
-    // If collapsing, close any open item that's in the hidden range
-    if (showAll) {
-      const isMobile = window.innerWidth < 768;
-      const defaultCount = isMobile ? MOBILE_DEFAULT : DESKTOP_DEFAULT;
-      if (openIndex !== null && openIndex >= defaultCount) {
-        setOpenIndex(null);
-      }
+    const isMobile = window.innerWidth < 768;
+    const defaultCount = isMobile ? MOBILE_DEFAULT : DESKTOP_DEFAULT;
+
+    // When collapsing, close any open accordion that would be hidden
+    if (showAll && openIndex !== null && openIndex >= defaultCount) {
+      setOpenIndex(null);
     }
+
     setShowAll((prev) => !prev);
 
-    // Subtle button pulse animation
+    // Subtle button pulse
     if (buttonRef.current) {
       gsap.fromTo(
         buttonRef.current,
@@ -320,24 +357,19 @@ export default function FAQ() {
     }
   };
 
-  // Determine how many items to show by default
-  // We render all but hide extras via ExtraRowsContainer
-  // Mobile: 2, Desktop: 4
-  const defaultCountMobile = MOBILE_DEFAULT;
-  const defaultCountDesktop = DESKTOP_DEFAULT;
-
-  // Split FAQs into always-visible and conditionally-visible
-  // We use CSS classes on a wrapper to handle md breakpoint for default count
-  // Strategy: render two sets — first N for mobile, first M for desktop
-  // Simplest approach: always-visible = first 2, extra-mobile = items 2-3, extra-desktop = items 4-7
-  // Then hide/show extra-mobile on md+, hide/show extra-desktop always controlled by showAll
-
-  const alwaysVisible = FAQS.slice(0, defaultCountMobile); // items 0–1 (always visible)
-  const mobileExtra = FAQS.slice(defaultCountMobile, defaultCountDesktop); // items 2–3 (hidden on mobile default, visible on desktop default)
-  const remaining = FAQS.slice(defaultCountDesktop); // items 4–7 (hidden by default on all screens)
+  // ── Row visibility splits ────────────────────────────────
+  // mobile: always show 0-1, desktop: always show 0-2
+  // on "show all" all 8 are visible
+  const alwaysVisible      = FAQS.slice(0, MOBILE_DEFAULT);               // 0-1
+  const mobileExtra        = FAQS.slice(MOBILE_DEFAULT, DESKTOP_DEFAULT); // 2
+  const remaining          = FAQS.slice(DESKTOP_DEFAULT);                 // 3-7
 
   return (
-    <section className="relative w-full overflow-hidden bg-[radial-gradient(circle_at_top_left,rgba(168,213,200,0.18),transparent_28%),radial-gradient(circle_at_top_right,rgba(200,185,155,0.22),transparent_32%),radial-gradient(circle_at_bottom_left,rgba(220,210,255,0.12),transparent_28%),linear-gradient(180deg,#f8f6f1_0%,#f5f1ea_45%,#f2ede5_100%)] py-16 md:py-24" ref={sectionRef}>
+    <section
+      ref={sectionRef}
+      className="relative w-full overflow-hidden bg-[radial-gradient(circle_at_top_left,rgba(168,213,200,0.18),transparent_28%),radial-gradient(circle_at_top_right,rgba(200,185,155,0.22),transparent_32%),radial-gradient(circle_at_bottom_left,rgba(220,210,255,0.12),transparent_28%),linear-gradient(180deg,#f8f6f1_0%,#f5f1ea_45%,#f2ede5_100%)] py-16 md:py-24"
+    >
+      {/* Background blobs */}
       <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden">
         <div className="absolute -right-[10%] -top-[8%] h-[38vw] w-[38vw] rounded-full bg-[radial-gradient(circle,rgba(200,185,155,0.28)_0%,rgba(200,185,155,0.08)_45%,transparent_72%)] blur-3xl" />
         <div className="absolute -bottom-[10%] -left-[8%] h-[34vw] w-[34vw] rounded-full bg-[radial-gradient(circle,rgba(168,213,200,0.22)_0%,rgba(168,213,200,0.05)_45%,transparent_72%)] blur-3xl" />
@@ -346,6 +378,8 @@ export default function FAQ() {
       </div>
 
       <div className="relative z-10 w-full max-w-[1240px] mx-auto px-4 sm:px-5 md:px-3 lg:px-2">
+
+        {/* ── Section header ── */}
         <div className="mb-10 md:mb-14">
           <div ref={eyebrowRef} className="mb-4 flex items-center gap-3 opacity-0">
             <span className="font-sans text-[0.9rem] font-extrabold uppercase tracking-[0.18em] text-[#6b6560]">
@@ -370,6 +404,7 @@ export default function FAQ() {
           </div>
         </div>
 
+        {/* ── Column headers (desktop only) ── */}
         <div className="mb-0 hidden items-center gap-4 border-b border-[rgba(180,170,155,0.3)] pb-3 md:flex md:gap-8">
           <span className="w-[100px] shrink-0 font-sans text-[0.65rem] font-medium uppercase tracking-[0.14em] text-stone-500">
             Category
@@ -383,9 +418,9 @@ export default function FAQ() {
           <span className="w-8 shrink-0" />
         </div>
 
-        {/* FAQ rows */}
+        {/* ── FAQ rows ── */}
         <div>
-          {/* Always visible: first 2 items (mobile & desktop) */}
+          {/* Always visible: first 2 (mobile & desktop) */}
           {alwaysVisible.map((faq, i) => (
             <FAQRow
               key={faq.question}
@@ -397,18 +432,13 @@ export default function FAQ() {
             />
           ))}
 
-          {/* Items 2–3: hidden on mobile by default, visible on md+ by default */}
-          {/* On desktop default view these are always shown; on mobile they're in the "extra" group */}
+          {/* Item index 2: hidden on mobile by default, always visible md+ */}
           {mobileExtra.map((faq, i) => {
-            const globalIndex = defaultCountMobile + i;
+            const globalIndex = MOBILE_DEFAULT + i;
             return (
               <div
                 key={faq.question}
-                className={[
-                  // On mobile: hidden unless showAll is true
-                  // On md+: always visible (regardless of showAll for desktop default)
-                  !showAll ? "hidden md:block" : "block",
-                ].join(" ")}
+                className={!showAll ? "hidden md:block" : "block"}
               >
                 <FAQRow
                   faq={faq}
@@ -421,10 +451,13 @@ export default function FAQ() {
             );
           })}
 
-          {/* Remaining items 4–7: hidden by default on all screens, shown when showAll */}
-          <ExtraRowsContainer visible={showAll}>
+          {/* Remaining items (3–7): hidden by default, shown when showAll */}
+          <ExtraRowsContainer
+            visible={showAll}
+            onCollapseDone={handleCollapseDone}
+          >
             {remaining.map((faq, i) => {
-              const globalIndex = defaultCountDesktop + i;
+              const globalIndex = DESKTOP_DEFAULT + i;
               return (
                 <FAQRow
                   key={faq.question}
@@ -439,7 +472,7 @@ export default function FAQ() {
           </ExtraRowsContainer>
         </div>
 
-        {/* View All / Show Less button */}
+        {/* ── View All / Show Less button ── */}
         <div className="mt-6 flex justify-center">
           <button
             ref={buttonRef}
@@ -464,6 +497,7 @@ export default function FAQ() {
           </button>
         </div>
 
+        {/* ── Footer strip ── */}
         <div
           ref={footerRef}
           className="mt-6 flex flex-col gap-4 border-t border-[rgba(180,170,155,0.25)] pt-5 opacity-0 md:flex-row md:items-center md:justify-between"

@@ -89,38 +89,12 @@ function Stars({ rating, size = 16 }) {
   );
 }
 
+// ── Single review card ──────────────────────────────────────
+// Animation is intentionally removed from individual cards.
+// Cards are visible immediately; no ScrollTrigger per-card.
 function ReviewCard({ review, index }) {
   const [liked, setLiked] = useState(false);
   const [likes, setLikes] = useState(18 + index * 7);
-  const cardRef = useRef(null);
-
-  useEffect(() => {
-    if (!cardRef.current) return;
-
-    gsap.fromTo(
-      cardRef.current,
-      {
-        opacity: 0,
-        y: 24,
-        scale: 0.985,
-        filter: "blur(6px)",
-      },
-      {
-        opacity: 1,
-        y: 0,
-        scale: 1,
-        filter: "blur(0px)",
-        duration: 0.65,
-        ease: "expo.out",
-        scrollTrigger: {
-          trigger: cardRef.current,
-          start: "top 92%",
-          end: "bottom 15%",
-          toggleActions: "play none none reset",
-        },
-      }
-    );
-  }, [index]);
 
   const handleLike = () => {
     setLiked((current) => !current);
@@ -137,10 +111,7 @@ function ReviewCard({ review, index }) {
   };
 
   return (
-    <article
-      ref={cardRef}
-      className="group relative min-h-[320px] overflow-hidden rounded-[26px] border border-white/70 bg-white/60 p-5 opacity-0 shadow-[0_18px_60px_rgba(28,25,23,0.08)] backdrop-blur-xl transition duration-300 hover:-translate-y-1 hover:bg-white/75 hover:shadow-[0_24px_70px_rgba(28,25,23,0.13)] sm:p-6"
-    >
+    <article className="group relative min-h-[320px] overflow-hidden rounded-[26px] border border-white/70 bg-white/60 p-5 shadow-[0_18px_60px_rgba(28,25,23,0.08)] backdrop-blur-xl transition duration-300 hover:-translate-y-1 hover:bg-white/75 hover:shadow-[0_24px_70px_rgba(28,25,23,0.13)] sm:p-6">
       <div className="absolute -right-16 -top-16 h-36 w-36 rounded-full bg-[#89a8b8]/20 blur-2xl transition duration-300 group-hover:scale-125" />
       <div className="absolute -bottom-14 left-8 h-28 w-28 rounded-full bg-[#9ecfbf]/20 blur-2xl" />
 
@@ -208,8 +179,10 @@ function ReviewCard({ review, index }) {
   );
 }
 
-// Animated container for extra review cards
-function ExtraCardsContainer({ visible, children, onExpanded }) {
+// ── Smooth expand / collapse container ─────────────────────
+// On collapse: captures live height, tweens to 0 with power3.inOut,
+// then fires onCollapseDone so the parent can scroll back into view.
+function ExtraCardsContainer({ visible, children, onCollapseDone }) {
   const containerRef = useRef(null);
   const isFirstRender = useRef(true);
 
@@ -221,9 +194,9 @@ function ExtraCardsContainer({ visible, children, onExpanded }) {
     if (!containerRef.current) return;
 
     if (visible) {
-      // Animate open: measure natural height then tween to it
+      // ── EXPAND ──
       gsap.set(containerRef.current, { height: 0, opacity: 0, overflow: "hidden" });
-      // Use a short timeout to let React render children first
+
       const id = setTimeout(() => {
         if (!containerRef.current) return;
         const naturalHeight = containerRef.current.scrollHeight;
@@ -233,35 +206,34 @@ function ExtraCardsContainer({ visible, children, onExpanded }) {
           duration: 0.6,
           ease: "power3.out",
           onComplete: () => {
-            // Remove fixed height so layout can flex naturally
             if (containerRef.current) {
               gsap.set(containerRef.current, { height: "auto", overflow: "visible" });
             }
-            onExpanded?.();
           },
         });
       }, 16);
+
       return () => clearTimeout(id);
     } else {
-      // Animate close
-      const naturalHeight = containerRef.current.scrollHeight;
+      // ── COLLAPSE ──
+      // Read live rendered height — never stale
+      const liveHeight = containerRef.current.scrollHeight;
+
       gsap.fromTo(
         containerRef.current,
-        { height: naturalHeight, opacity: 1, overflow: "hidden" },
+        { height: liveHeight, opacity: 1, overflow: "hidden" },
         {
           height: 0,
           opacity: 0,
-          duration: 0.42,
-          ease: "power2.in",
+          duration: 0.52,
+          ease: "power3.inOut",
           onComplete: () => {
-            if (containerRef.current) {
-              gsap.set(containerRef.current, { overflow: "hidden" });
-            }
+            onCollapseDone?.();
           },
         }
       );
     }
-  }, [visible]);
+  }, [visible]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <div
@@ -273,26 +245,33 @@ function ExtraCardsContainer({ visible, children, onExpanded }) {
   );
 }
 
+// ── Main Reviews component ──────────────────────────────────
 export default function Reviews() {
   const [showAll, setShowAll] = useState(false);
+
   const headingRef = useRef(null);
   const ratingRef = useRef(null);
   const buttonRef = useRef(null);
+  // Ref on the button wrapper so we can scroll back to it after collapse
+  const buttonWrapRef = useRef(null);
 
+  // ── Section-level entrance animations (fire ONCE, never reset) ──
   useEffect(() => {
+    // "play none none none" = animate in when entering, never reverse or replay
     gsap.fromTo(
       headingRef.current,
       { opacity: 0, y: 22, filter: "blur(6px)" },
       {
         opacity: 1,
         y: 0,
+        filter: "blur(0px)",
         duration: 0.7,
         ease: "expo.out",
-        filter: "blur(0px)",
         scrollTrigger: {
           trigger: headingRef.current,
           start: "top 85%",
-          toggleActions: "play none none reset",
+          toggleActions: "play none none none",
+          once: true,
         },
       }
     );
@@ -310,7 +289,8 @@ export default function Reviews() {
         scrollTrigger: {
           trigger: ratingRef.current,
           start: "top 85%",
-          toggleActions: "play none none reset",
+          toggleActions: "play none none none",
+          once: true,
         },
       }
     );
@@ -320,6 +300,14 @@ export default function Reviews() {
     const total = REVIEWS.reduce((sum, review) => sum + review.rating, 0);
     return (total / REVIEWS.length).toFixed(1);
   }, []);
+
+  // ── Called after extra cards have fully collapsed ──────────
+  // Scrolls the "Show More / Show Less" button back into view so
+  // the user is never stranded below empty space.
+  const handleCollapseDone = () => {
+    if (!buttonWrapRef.current) return;
+    buttonWrapRef.current.scrollIntoView({ behavior: "smooth", block: "center" });
+  };
 
   const handleToggle = () => {
     setShowAll((prev) => !prev);
@@ -332,11 +320,10 @@ export default function Reviews() {
     }
   };
 
-  // Split reviews into always-visible and extra
-  // Mobile default: 2, Desktop default: 4
-  const alwaysVisibleMobile = REVIEWS.slice(0, MOBILE_DEFAULT);          // 0-1
-  const mobileToDesktopExtra = REVIEWS.slice(MOBILE_DEFAULT, DESKTOP_DEFAULT); // 2-3
-  const remaining = REVIEWS.slice(DESKTOP_DEFAULT);                       // 4-7
+  // ── Visibility splits ──────────────────────────────────────
+  const alwaysVisibleMobile      = REVIEWS.slice(0, MOBILE_DEFAULT);              // 0-1
+  const mobileToDesktopExtra     = REVIEWS.slice(MOBILE_DEFAULT, DESKTOP_DEFAULT); // 2-3
+  const remaining                = REVIEWS.slice(DESKTOP_DEFAULT);                 // 4-7
 
   return (
     <section className="relative max-w-10xl mx-4 md:mx-28 overflow-hidden bg-[#f5f3ee] px-2 py-16 md:px-4 md:py-24">
@@ -344,9 +331,10 @@ export default function Reviews() {
       <div className="absolute left-1/2 top-24 h-[360px] w-[360px] -translate-x-1/2 rounded-full border border-[#9ecfbf]/25" />
 
       <div className="relative z-10 mx-auto max-w-[1200px]">
-        {/* Header */}
+
+        {/* ── Section header ── */}
         <div className="mb-10 grid items-start gap-8 md:mb-12 md:grid-cols-[0.85fr_1.15fr]">
-          <div ref={headingRef} className="order-1 opacity-0 md:order-2">
+          <div ref={headingRef} className="order-1 md:order-2">
             <div className="mb-4 flex items-center gap-3">
               <span className="h-px w-10 bg-[#8aa2b0]" />
               <span className="font-sans text-[0.75rem] font-extrabold uppercase tracking-[0.24em] text-[#6f7f8d]">
@@ -365,32 +353,34 @@ export default function Reviews() {
               Real notes from homes and workspaces where Samar Trading measured,
               crafted, and installed with care.
             </p>
-            <a href="https://search.google.com/local/writereview?placeid=ChIJfTOeuXvjmzkRH-YtoVgiNZk"
-  target="_blank"
-  rel="noopener noreferrer"
-  aria-label="Leave a Google review for Samar Trading"
-  className="mt-5 inline-flex items-center gap-2 rounded-full border border-[#8aa2b0]/40 bg-gradient-to-br from-[#2f6f6a]/10 to-[#4f9088]/10 px-5 py-2.5 font-sans text-[0.78rem] font-semibold text-[#3c7d76] backdrop-blur-xl shadow-[0_4px_14px_rgba(63,124,120,0.08)] transition-all duration-200 hover:-translate-y-0.5 hover:border-[#8aa2b0]/70 hover:text-[#2f6f6a]"
->
-  <svg
-    width="14"
-    height="14"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2.2"
-    aria-hidden="true"
-  >
-    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
-    <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
-  </svg>
-  Leave a Review
-</a>
+
+            <a
+              href="https://search.google.com/local/writereview?placeid=ChIJfTOeuXvjmzkRH-YtoVgiNZk"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Leave a Google review for Samar Trading"
+              className="mt-5 inline-flex items-center gap-2 rounded-full border border-[#8aa2b0]/40 bg-gradient-to-br from-[#2f6f6a]/10 to-[#4f9088]/10 px-5 py-2.5 font-sans text-[0.78rem] font-semibold text-[#3c7d76] backdrop-blur-xl shadow-[0_4px_14px_rgba(63,124,120,0.08)] transition-all duration-200 hover:-translate-y-0.5 hover:border-[#8aa2b0]/70 hover:text-[#2f6f6a]"
+            >
+              <svg
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2.2"
+                aria-hidden="true"
+              >
+                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
+                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
+              </svg>
+              Leave a Review
+            </a>
           </div>
 
-          {/* Rating Card */}
+          {/* Rating card */}
           <div
             ref={ratingRef}
-            className="order-2 relative rounded-[32px] border border-white/70 bg-gradient-to-br from-[#2f6f6a] via-[#4f9088] to-[#7fb7ad] p-6 opacity-0 text-white shadow-[0_28px_80px_rgba(28,25,23,0.16)] sm:p-6 md:order-1"
+            className="order-2 relative rounded-[32px] border border-white/70 bg-gradient-to-br from-[#2f6f6a] via-[#4f9088] to-[#7fb7ad] p-6 text-white shadow-[0_28px_80px_rgba(28,25,23,0.16)] sm:p-6 md:order-1"
           >
             <div className="absolute right-2 top-10 rounded-full border border-white/10 bg-white/5 px-3 py-1 font-sans text-[0.62rem] font-semibold uppercase tracking-[0.18em] text-white/60 backdrop-blur-md">
               Rated by clients
@@ -418,14 +408,13 @@ export default function Reviews() {
           </div>
         </div>
 
-        {/* Review Cards */}
+        {/* ── Always-visible cards (first 2 on all screens) ── */}
         <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-4">
-          {/* Always visible on both mobile and desktop (first 2) */}
           {alwaysVisibleMobile.map((review, index) => (
             <ReviewCard key={review.name} review={review} index={index} />
           ))}
 
-          {/* Items 2-3: hidden on mobile by default, always visible on md+ */}
+          {/* Items 2-3: hidden on mobile by default, always visible md+ */}
           {mobileToDesktopExtra.map((review, i) => {
             const index = MOBILE_DEFAULT + i;
             return (
@@ -439,8 +428,11 @@ export default function Reviews() {
           })}
         </div>
 
-        {/* Remaining reviews (4-7): hidden by default on all screens */}
-        <ExtraCardsContainer visible={showAll}>
+        {/* ── Extra cards (4-7): hidden until Show All ── */}
+        <ExtraCardsContainer
+          visible={showAll}
+          onCollapseDone={handleCollapseDone}
+        >
           <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-4 mt-5">
             {remaining.map((review, i) => {
               const index = DESKTOP_DEFAULT + i;
@@ -451,8 +443,9 @@ export default function Reviews() {
           </div>
         </ExtraCardsContainer>
 
-        {/* View All / Show Less button */}
-        <div className="mt-10 flex justify-center">
+        {/* ── Toggle button ── */}
+        {/* buttonWrapRef sits on this wrapper so collapse can scroll back to it */}
+        <div ref={buttonWrapRef} className="mt-10 flex justify-center">
           <button
             ref={buttonRef}
             onClick={handleToggle}

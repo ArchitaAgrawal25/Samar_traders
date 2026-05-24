@@ -147,7 +147,7 @@ const GRID_LAYOUT = [
   { col: "md:col-span-2", row: 3 },
 ];
 
-const DESKTOP_DEFAULT = 6;
+const DESKTOP_DEFAULT = 4;
 const MOBILE_DEFAULT = 3;
 
 function Card({ reason, layout, index, isVisible }) {
