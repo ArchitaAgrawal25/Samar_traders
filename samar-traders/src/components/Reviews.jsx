@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { Heart, Share2, Star } from "lucide-react";
+import { Heart, Star } from "lucide-react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
@@ -101,14 +101,6 @@ function ReviewCard({ review, index }) {
     setLikes((current) => current + (liked ? -1 : 1));
   };
 
-  const handleShare = async () => {
-    const shareText = `${review.name} rated Samar Trading ${review.rating}/5: ${review.text}`;
-    if (navigator.share) {
-      await navigator.share({ title: "Samar Trading Review", text: shareText });
-      return;
-    }
-    await navigator.clipboard?.writeText(shareText);
-  };
 
   return (
     <article className="group relative min-h-[320px] overflow-hidden rounded-[26px] border border-white/70 bg-white/60 p-5 shadow-[0_18px_60px_rgba(28,25,23,0.08)] backdrop-blur-xl transition duration-300 hover:-translate-y-1 hover:bg-white/75 hover:shadow-[0_24px_70px_rgba(28,25,23,0.13)] sm:p-6">
@@ -150,7 +142,7 @@ function ReviewCard({ review, index }) {
           </p>
         </div>
 
-        <div className="flex items-center justify-between border-t border-stone-200/70 pt-1">
+        <div className="flex items-center border-t border-stone-200/70 pt-1">
           <button
             type="button"
             onClick={handleLike}
@@ -165,14 +157,7 @@ function ReviewCard({ review, index }) {
             {likes}
           </button>
 
-          <button
-            type="button"
-            onClick={handleShare}
-            className="inline-flex items-center gap-2 rounded-full bg-[#3f7c78] px-3.5 py-2 font-sans text-[0.78rem] font-semibold text-white shadow-[0_8px_20px_rgba(79,100,114,0.22)] transition duration-200 hover:-translate-y-0.5 hover:bg-[#56928d]"
-          >
-            <Share2 size={14} />
-            Share
-          </button>
+         
         </div>
       </div>
     </article>
