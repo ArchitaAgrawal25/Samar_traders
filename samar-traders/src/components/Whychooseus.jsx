@@ -147,7 +147,10 @@ const GRID_LAYOUT = [
   { col: "md:col-span-2", row: 3 },
 ];
 
-function Card({ reason, layout, index }) {
+const DESKTOP_DEFAULT = 6;
+const MOBILE_DEFAULT = 3;
+
+function Card({ reason, layout, index, isVisible }) {
   const cardRef = useRef(null);
   const iconWrapRef = useRef(null);
   const [hovered, setHovered] = useState(false);
@@ -271,12 +274,69 @@ function Card({ reason, layout, index }) {
   );
 }
 
+// Animated expand/collapse wrapper for extra cards
+function ExtraCardsContainer({ visible, children }) {
+  const containerRef = useRef(null);
+  const isFirstRender = useRef(true);
+
+  useEffect(() => {
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
+    }
+    if (!containerRef.current) return;
+
+    if (visible) {
+      gsap.set(containerRef.current, { height: 0, opacity: 0, overflow: "hidden" });
+      const id = setTimeout(() => {
+        if (!containerRef.current) return;
+        const naturalHeight = containerRef.current.scrollHeight;
+        gsap.to(containerRef.current, {
+          height: naturalHeight,
+          opacity: 1,
+          duration: 0.6,
+          ease: "power3.out",
+          onComplete: () => {
+            if (containerRef.current) {
+              gsap.set(containerRef.current, { height: "auto", overflow: "visible" });
+            }
+          },
+        });
+      }, 16);
+      return () => clearTimeout(id);
+    } else {
+      const naturalHeight = containerRef.current.scrollHeight;
+      gsap.fromTo(
+        containerRef.current,
+        { height: naturalHeight, opacity: 1, overflow: "hidden" },
+        {
+          height: 0,
+          opacity: 0,
+          duration: 0.42,
+          ease: "power2.in",
+        }
+      );
+    }
+  }, [visible]);
+
+  return (
+    <div
+      ref={containerRef}
+      style={visible ? {} : { height: 0, overflow: "hidden", opacity: 0 }}
+    >
+      {children}
+    </div>
+  );
+}
+
 export default function WhyChooseUs() {
+  const [showAll, setShowAll] = useState(false);
   const sectionRef = useRef(null);
   const eyebrowRef = useRef(null);
   const headingRef = useRef(null);
   const subRef = useRef(null);
   const dividerRef = useRef(null);
+  const buttonRef = useRef(null);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -308,6 +368,25 @@ export default function WhyChooseUs() {
     return () => ctx.revert();
   }, []);
 
+  const handleToggle = () => {
+    setShowAll((prev) => !prev);
+    if (buttonRef.current) {
+      gsap.fromTo(
+        buttonRef.current,
+        { scale: 0.95 },
+        { scale: 1, duration: 0.38, ease: "back.out(1.7)" }
+      );
+    }
+  };
+
+  // Split cards into three visibility groups:
+  // - mobileVisible (0–3): always rendered in grid on all screens
+  // - mobileToDesktopExtra (4–5): hidden on mobile by default, visible on md+ by default
+  // - remaining (6–7): hidden on all screens by default, shown when showAll
+  const mobileVisibleCards = REASONS.slice(0, MOBILE_DEFAULT);           // 0-3
+  const mobileToDesktopCards = REASONS.slice(MOBILE_DEFAULT, DESKTOP_DEFAULT); // 4-5
+  const remainingCards = REASONS.slice(DESKTOP_DEFAULT);                  // 6-7
+
   return (
     <section
       ref={sectionRef}
@@ -330,51 +409,36 @@ export default function WhyChooseUs() {
         }}
       />
 
-<div className="relative z-10 max-w-8xl mx-8 lg:mx-28 px-0 md:pr-0">
+      <div className="relative z-10 max-w-8xl mx-8 lg:mx-28 px-0 md:pr-0">
         {/* Header */}
         <div className="mb-10 md:mb-14 max-w-7xl">
           <div ref={eyebrowRef} className="opacity-0 flex items-center gap-3 mb-4">
-            <span className="font-sans text-[0.75rem] font-extrabold uppercase tracking-[0.2em] text-stone-500" style={{ fontSize: "0.9rem",
-                fontWeight: 800,
-                color: "#6b6560",}}>
+            <span className="font-sans text-[0.75rem] font-extrabold uppercase tracking-[0.2em] text-stone-500" style={{ fontSize: "0.9rem", fontWeight: 800, color: "#6b6560" }}>
               Why choose us
             </span>
           </div>
 
-         <h2
-              ref={headingRef}
-              className="opacity-0 font-serif font-normal text-stone-900 m-0"
-              style={{
-                fontSize: "clamp(2rem,4.2vw,3.2rem)",
-                lineHeight: 1.05,
-                letterSpacing: "-0.025em",
-              }}
-            >
-              Why{" "}
-              <em
-                style={{
-                  fontStyle: "italic",
-                  color: "#2a7a6a",
-                }}
-              >
-                Samar Trading
-              </em>
-
-               {" "}?
-            </h2>
+          <h2
+            ref={headingRef}
+            className="opacity-0 font-serif font-normal text-stone-900 m-0"
+            style={{ fontSize: "clamp(2rem,4.2vw,3.2rem)", lineHeight: 1.05, letterSpacing: "-0.025em" }}
+          >
+            Why{" "}
+            <em style={{ fontStyle: "italic", color: "#2a7a6a" }}>Samar Trading</em>{" "}?
+          </h2>
 
           <p
             ref={subRef}
-            className=" pt-4 opacity-0 font-sans text-stone-500 m-0 leading-relaxed"
-            style={{ fontSize: "clamp(0.85rem, 1.1vw, 0.95rem)", maxWidth: "" }}
+            className="pt-4 opacity-0 font-sans text-stone-500 m-0 leading-relaxed"
+            style={{ fontSize: "clamp(0.85rem, 1.1vw, 0.95rem)" }}
           >
             Upgrade your space with premium uPVC windows and doors engineered for modern homes. We combine durability, insulation, elegant aesthetics, and low maintenance to deliver solutions built for long-term comfort and performance.
           </p>
         </div>
 
-        {/* Bento grid */}
+        {/* Bento grid — always-visible cards (mobile: 0-3, desktop: 0-3) */}
         <div className="grid grid-cols-3 gap-4">
-          {REASONS.map((reason, i) => (
+          {mobileVisibleCards.map((reason, i) => (
             <Card
               key={reason.id}
               reason={reason}
@@ -382,6 +446,69 @@ export default function WhyChooseUs() {
               index={i}
             />
           ))}
+
+          {/* Cards 4-5: hidden on mobile by default, visible on md+ */}
+          {mobileToDesktopCards.map((reason, i) => {
+            const globalIndex = MOBILE_DEFAULT + i;
+            return (
+              <div
+                key={reason.id}
+                className={[
+                  // On mobile: hidden unless showAll; on md+: always in grid
+                  `col-span-3 ${GRID_LAYOUT[globalIndex].col}`,
+                  !showAll ? "hidden md:contents" : "contents",
+                ].join(" ")}
+              >
+                <Card
+                  reason={reason}
+                  layout={GRID_LAYOUT[globalIndex]}
+                  index={globalIndex}
+                />
+              </div>
+            );
+          })}
+        </div>
+
+        {/* Extra cards (6-7): hidden by default on all screens */}
+        <ExtraCardsContainer visible={showAll}>
+          <div className="grid grid-cols-3 gap-4 mt-4">
+            {remainingCards.map((reason, i) => {
+              const globalIndex = DESKTOP_DEFAULT + i;
+              return (
+                <Card
+                  key={reason.id}
+                  reason={reason}
+                  layout={GRID_LAYOUT[globalIndex]}
+                  index={globalIndex}
+                />
+              );
+            })}
+          </div>
+        </ExtraCardsContainer>
+
+        {/* View All / Show Less button */}
+        <div className="mt-8 flex justify-center">
+          <button
+            ref={buttonRef}
+            onClick={handleToggle}
+            className="group inline-flex items-center gap-2.5 rounded-full border border-[rgba(180,168,148,0.55)] bg-white/70 px-6 py-3 font-sans text-[0.78rem] font-semibold text-stone-700 backdrop-blur-xl shadow-[0_4px_18px_rgba(0,0,0,0.06)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-white/90 hover:border-[rgba(180,168,148,0.8)] hover:text-stone-900 hover:shadow-[0_8px_28px_rgba(0,0,0,0.1)]"
+          >
+            <span>{showAll ? "Show Less" : "View All Features"}</span>
+            <svg
+              width="13"
+              height="13"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2.5"
+              className={[
+                "transition-transform duration-300",
+                showAll ? "rotate-180" : "rotate-0",
+              ].join(" ")}
+            >
+              <path d="M6 9l6 6 6-6" />
+            </svg>
+          </button>
         </div>
 
         {/* Footer */}

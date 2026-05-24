@@ -64,6 +64,10 @@ const FAQS = [
   },
 ];
 
+// Default visible counts per breakpoint
+const DESKTOP_DEFAULT = 3;
+const MOBILE_DEFAULT = 2;
+
 function FAQRow({ faq, isOpen, onToggle, rowRef, isLast }) {
   const answerRef = useRef(null);
   const contentRef = useRef(null);
@@ -188,13 +192,62 @@ function FAQRow({ faq, isOpen, onToggle, rowRef, isLast }) {
   );
 }
 
+// Animated wrapper for extra FAQ rows that slide in/out
+function ExtraRowsContainer({ visible, children }) {
+  const containerRef = useRef(null);
+  const isFirstRender = useRef(true);
+
+  useEffect(() => {
+    // Skip animation on first render
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
+    }
+
+    if (!containerRef.current) return;
+
+    if (visible) {
+      gsap.fromTo(
+        containerRef.current,
+        { height: 0, opacity: 0 },
+        {
+          height: "auto",
+          opacity: 1,
+          duration: 0.55,
+          ease: "power3.out",
+        }
+      );
+    } else {
+      gsap.to(containerRef.current, {
+        height: 0,
+        opacity: 0,
+        duration: 0.38,
+        ease: "power2.in",
+      });
+    }
+  }, [visible]);
+
+  return (
+    <div
+      ref={containerRef}
+      style={visible ? {} : { height: 0, overflow: "hidden", opacity: 0 }}
+      className="overflow-hidden"
+    >
+      {children}
+    </div>
+  );
+}
+
 export default function FAQ() {
   const [openIndex, setOpenIndex] = useState(null);
+  const [showAll, setShowAll] = useState(false);
+
   const sectionRef = useRef(null);
   const eyebrowRef = useRef(null);
   const headingRef = useRef(null);
   const footerRef = useRef(null);
   const rowRefs = useRef([]);
+  const buttonRef = useRef(null);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -246,6 +299,43 @@ export default function FAQ() {
 
   const toggle = (i) => setOpenIndex(openIndex === i ? null : i);
 
+  const handleToggleShowAll = () => {
+    // If collapsing, close any open item that's in the hidden range
+    if (showAll) {
+      const isMobile = window.innerWidth < 768;
+      const defaultCount = isMobile ? MOBILE_DEFAULT : DESKTOP_DEFAULT;
+      if (openIndex !== null && openIndex >= defaultCount) {
+        setOpenIndex(null);
+      }
+    }
+    setShowAll((prev) => !prev);
+
+    // Subtle button pulse animation
+    if (buttonRef.current) {
+      gsap.fromTo(
+        buttonRef.current,
+        { scale: 0.96 },
+        { scale: 1, duration: 0.35, ease: "back.out(1.7)" }
+      );
+    }
+  };
+
+  // Determine how many items to show by default
+  // We render all but hide extras via ExtraRowsContainer
+  // Mobile: 2, Desktop: 4
+  const defaultCountMobile = MOBILE_DEFAULT;
+  const defaultCountDesktop = DESKTOP_DEFAULT;
+
+  // Split FAQs into always-visible and conditionally-visible
+  // We use CSS classes on a wrapper to handle md breakpoint for default count
+  // Strategy: render two sets — first N for mobile, first M for desktop
+  // Simplest approach: always-visible = first 2, extra-mobile = items 2-3, extra-desktop = items 4-7
+  // Then hide/show extra-mobile on md+, hide/show extra-desktop always controlled by showAll
+
+  const alwaysVisible = FAQS.slice(0, defaultCountMobile); // items 0–1 (always visible)
+  const mobileExtra = FAQS.slice(defaultCountMobile, defaultCountDesktop); // items 2–3 (hidden on mobile default, visible on desktop default)
+  const remaining = FAQS.slice(defaultCountDesktop); // items 4–7 (hidden by default on all screens)
+
   return (
     <section className="relative w-full overflow-hidden bg-[radial-gradient(circle_at_top_left,rgba(168,213,200,0.18),transparent_28%),radial-gradient(circle_at_top_right,rgba(200,185,155,0.22),transparent_32%),radial-gradient(circle_at_bottom_left,rgba(220,210,255,0.12),transparent_28%),linear-gradient(180deg,#f8f6f1_0%,#f5f1ea_45%,#f2ede5_100%)] py-16 md:py-24" ref={sectionRef}>
       <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden">
@@ -293,24 +383,90 @@ export default function FAQ() {
           <span className="w-8 shrink-0" />
         </div>
 
+        {/* FAQ rows */}
         <div>
-          {FAQS.map((faq, i) => (
+          {/* Always visible: first 2 items (mobile & desktop) */}
+          {alwaysVisible.map((faq, i) => (
             <FAQRow
               key={faq.question}
               faq={faq}
               isOpen={openIndex === i}
               onToggle={() => toggle(i)}
-              rowRef={(el) => {
-                rowRefs.current[i] = el;
-              }}
-              isLast={i === FAQS.length - 1}
+              rowRef={(el) => { rowRefs.current[i] = el; }}
+              isLast={false}
             />
           ))}
+
+          {/* Items 2–3: hidden on mobile by default, visible on md+ by default */}
+          {/* On desktop default view these are always shown; on mobile they're in the "extra" group */}
+          {mobileExtra.map((faq, i) => {
+            const globalIndex = defaultCountMobile + i;
+            return (
+              <div
+                key={faq.question}
+                className={[
+                  // On mobile: hidden unless showAll is true
+                  // On md+: always visible (regardless of showAll for desktop default)
+                  !showAll ? "hidden md:block" : "block",
+                ].join(" ")}
+              >
+                <FAQRow
+                  faq={faq}
+                  isOpen={openIndex === globalIndex}
+                  onToggle={() => toggle(globalIndex)}
+                  rowRef={(el) => { rowRefs.current[globalIndex] = el; }}
+                  isLast={false}
+                />
+              </div>
+            );
+          })}
+
+          {/* Remaining items 4–7: hidden by default on all screens, shown when showAll */}
+          <ExtraRowsContainer visible={showAll}>
+            {remaining.map((faq, i) => {
+              const globalIndex = defaultCountDesktop + i;
+              return (
+                <FAQRow
+                  key={faq.question}
+                  faq={faq}
+                  isOpen={openIndex === globalIndex}
+                  onToggle={() => toggle(globalIndex)}
+                  rowRef={(el) => { rowRefs.current[globalIndex] = el; }}
+                  isLast={globalIndex === FAQS.length - 1}
+                />
+              );
+            })}
+          </ExtraRowsContainer>
+        </div>
+
+        {/* View All / Show Less button */}
+        <div className="mt-6 flex justify-center">
+          <button
+            ref={buttonRef}
+            onClick={handleToggleShowAll}
+            className="group inline-flex items-center gap-2.5 rounded-full border border-[rgba(180,168,148,0.55)] bg-white/70 px-6 py-3 font-sans text-[0.78rem] font-semibold text-stone-700 backdrop-blur-xl shadow-[0_4px_18px_rgba(0,0,0,0.06)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-white/90 hover:border-[rgba(180,168,148,0.8)] hover:text-stone-900 hover:shadow-[0_8px_28px_rgba(0,0,0,0.1)]"
+          >
+            <span>{showAll ? "Show Less" : "View All Questions"}</span>
+            <svg
+              width="13"
+              height="13"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2.5"
+              className={[
+                "transition-transform duration-300",
+                showAll ? "rotate-180" : "rotate-0",
+              ].join(" ")}
+            >
+              <path d="M6 9l6 6 6-6" />
+            </svg>
+          </button>
         </div>
 
         <div
           ref={footerRef}
-          className="mt-4 flex flex-col gap-4 border-t border-[rgba(180,170,155,0.25)] pt-5 opacity-0 md:flex-row md:items-center md:justify-between"
+          className="mt-6 flex flex-col gap-4 border-t border-[rgba(180,170,155,0.25)] pt-5 opacity-0 md:flex-row md:items-center md:justify-between"
         >
           <p className="m-0 font-sans text-[0.8rem] font-extrabold uppercase tracking-[0.06em] text-[#6b6560]">
             Still curious? We reply within 24 hours.

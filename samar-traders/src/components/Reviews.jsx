@@ -64,6 +64,9 @@ const REVIEWS = [
   },
 ];
 
+const DESKTOP_DEFAULT = 4;
+const MOBILE_DEFAULT = 2;
+
 function Stars({ rating, size = 16 }) {
   return (
     <div
@@ -89,36 +92,34 @@ function Stars({ rating, size = 16 }) {
 function ReviewCard({ review, index }) {
   const [liked, setLiked] = useState(false);
   const [likes, setLikes] = useState(18 + index * 7);
-
   const cardRef = useRef(null);
 
   useEffect(() => {
     if (!cardRef.current) return;
 
     gsap.fromTo(
-  cardRef.current,
-  {
-    opacity: 0,
-    y: 24,
-    scale: 0.985,
-    filter: "blur(6px)",
-  },
-  {
-    opacity: 1,
-    y: 0,
-    scale: 1,
-    filter: "blur(0px)",
-    duration: 0.65,
-    ease: "expo.out",
-
-    scrollTrigger: {
-      trigger: cardRef.current,
-      start: "top 92%",
-      end: "bottom 15%",
-      toggleActions: "play none none reset",
-    },
-  }
-);
+      cardRef.current,
+      {
+        opacity: 0,
+        y: 24,
+        scale: 0.985,
+        filter: "blur(6px)",
+      },
+      {
+        opacity: 1,
+        y: 0,
+        scale: 1,
+        filter: "blur(0px)",
+        duration: 0.65,
+        ease: "expo.out",
+        scrollTrigger: {
+          trigger: cardRef.current,
+          start: "top 92%",
+          end: "bottom 15%",
+          toggleActions: "play none none reset",
+        },
+      }
+    );
   }, [index]);
 
   const handleLike = () => {
@@ -128,15 +129,10 @@ function ReviewCard({ review, index }) {
 
   const handleShare = async () => {
     const shareText = `${review.name} rated Samar Trading ${review.rating}/5: ${review.text}`;
-
     if (navigator.share) {
-      await navigator.share({
-        title: "Samar Trading Review",
-        text: shareText,
-      });
+      await navigator.share({ title: "Samar Trading Review", text: shareText });
       return;
     }
-
     await navigator.clipboard?.writeText(shareText);
   };
 
@@ -146,39 +142,31 @@ function ReviewCard({ review, index }) {
       className="group relative min-h-[320px] overflow-hidden rounded-[26px] border border-white/70 bg-white/60 p-5 opacity-0 shadow-[0_18px_60px_rgba(28,25,23,0.08)] backdrop-blur-xl transition duration-300 hover:-translate-y-1 hover:bg-white/75 hover:shadow-[0_24px_70px_rgba(28,25,23,0.13)] sm:p-6"
     >
       <div className="absolute -right-16 -top-16 h-36 w-36 rounded-full bg-[#89a8b8]/20 blur-2xl transition duration-300 group-hover:scale-125" />
-
       <div className="absolute -bottom-14 left-8 h-28 w-28 rounded-full bg-[#9ecfbf]/20 blur-2xl" />
 
       <div className="relative z-10 flex h-full flex-col justify-between gap-7">
         <div>
-          {/* Top Section */}
           <div className="mb-6 flex items-start gap-4">
-            {/* Letter Logo */}
             <div className="flex flex-col items-center">
               <div className="grid h-11 w-11 shrink-0 place-items-center rounded-2xl bg-[#3f7c78] text-white shadow-[0_8px_22px_rgba(79,100,114,0.22)]">
                 <span className="font-serif text-lg italic">
                   {review.name.charAt(0)}
                 </span>
               </div>
-
               <p className="mt-2 text-center font-sans text-[0.6rem] font-medium tracking-[0.08em] text-stone-400">
                 {review.date}
               </p>
             </div>
 
-            {/* Name + Meta */}
             <div className="min-w-0 flex-1">
               <h3 className="m-0 font-serif text-[1.05rem] font-semibold leading-tight text-stone-900">
                 {review.name}
               </h3>
-
               <div className="mt-2 flex flex-wrap items-center gap-2">
                 <p className="m-0 font-sans text-[0.62rem] font-semibold uppercase tracking-[0.14em] text-stone-400">
                   {review.place}
                 </p>
-
                 <span className="h-1 w-1 rounded-full bg-stone-300" />
-
                 <div className="shrink-0 rounded-full border border-[#b8cad3]/35 bg-[#edf4f7]/80 px-2.5 py-1">
                   <Stars rating={review.rating} size={12} />
                 </div>
@@ -186,13 +174,11 @@ function ReviewCard({ review, index }) {
             </div>
           </div>
 
-          {/* Review text */}
           <p className="m-0 font-sans text-[1.02rem] font-medium leading-[1.75] tracking-[0.01em] text-[#3f5552]">
             "{review.text}"
           </p>
         </div>
 
-        {/* Bottom buttons */}
         <div className="flex items-center justify-between border-t border-stone-200/70 pt-1">
           <button
             type="button"
@@ -222,24 +208,87 @@ function ReviewCard({ review, index }) {
   );
 }
 
+// Animated container for extra review cards
+function ExtraCardsContainer({ visible, children, onExpanded }) {
+  const containerRef = useRef(null);
+  const isFirstRender = useRef(true);
+
+  useEffect(() => {
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
+    }
+    if (!containerRef.current) return;
+
+    if (visible) {
+      // Animate open: measure natural height then tween to it
+      gsap.set(containerRef.current, { height: 0, opacity: 0, overflow: "hidden" });
+      // Use a short timeout to let React render children first
+      const id = setTimeout(() => {
+        if (!containerRef.current) return;
+        const naturalHeight = containerRef.current.scrollHeight;
+        gsap.to(containerRef.current, {
+          height: naturalHeight,
+          opacity: 1,
+          duration: 0.6,
+          ease: "power3.out",
+          onComplete: () => {
+            // Remove fixed height so layout can flex naturally
+            if (containerRef.current) {
+              gsap.set(containerRef.current, { height: "auto", overflow: "visible" });
+            }
+            onExpanded?.();
+          },
+        });
+      }, 16);
+      return () => clearTimeout(id);
+    } else {
+      // Animate close
+      const naturalHeight = containerRef.current.scrollHeight;
+      gsap.fromTo(
+        containerRef.current,
+        { height: naturalHeight, opacity: 1, overflow: "hidden" },
+        {
+          height: 0,
+          opacity: 0,
+          duration: 0.42,
+          ease: "power2.in",
+          onComplete: () => {
+            if (containerRef.current) {
+              gsap.set(containerRef.current, { overflow: "hidden" });
+            }
+          },
+        }
+      );
+    }
+  }, [visible]);
+
+  return (
+    <div
+      ref={containerRef}
+      style={visible ? {} : { height: 0, overflow: "hidden", opacity: 0 }}
+    >
+      {children}
+    </div>
+  );
+}
+
 export default function Reviews() {
+  const [showAll, setShowAll] = useState(false);
   const headingRef = useRef(null);
   const ratingRef = useRef(null);
+  const buttonRef = useRef(null);
 
   useEffect(() => {
     gsap.fromTo(
       headingRef.current,
-      {
-        opacity: 0,
-        y: 22,
-filter: "blur(6px)",
-      },
+      { opacity: 0, y: 22, filter: "blur(6px)" },
       {
         opacity: 1,
         y: 0,
         duration: 0.7,
-ease: "expo.out",
-filter: "blur(0px)",
+        ease: "expo.out",
+        filter: "blur(0px)",
         scrollTrigger: {
           trigger: headingRef.current,
           start: "top 85%",
@@ -250,19 +299,14 @@ filter: "blur(0px)",
 
     gsap.fromTo(
       ratingRef.current,
-     {
-  opacity: 0,
-  y: 24,
-  scale: 0.985,
-  filter: "blur(6px)",
-},
-{
-  opacity: 1,
-  y: 0,
-  scale: 1,
-  filter: "blur(0px)",
-  duration: 0.7,
-  ease: "expo.out",
+      { opacity: 0, y: 24, scale: 0.985, filter: "blur(6px)" },
+      {
+        opacity: 1,
+        y: 0,
+        scale: 1,
+        filter: "blur(0px)",
+        duration: 0.7,
+        ease: "expo.out",
         scrollTrigger: {
           trigger: ratingRef.current,
           start: "top 85%",
@@ -277,23 +321,34 @@ filter: "blur(0px)",
     return (total / REVIEWS.length).toFixed(1);
   }, []);
 
+  const handleToggle = () => {
+    setShowAll((prev) => !prev);
+    if (buttonRef.current) {
+      gsap.fromTo(
+        buttonRef.current,
+        { scale: 0.95 },
+        { scale: 1, duration: 0.38, ease: "back.out(1.7)" }
+      );
+    }
+  };
+
+  // Split reviews into always-visible and extra
+  // Mobile default: 2, Desktop default: 4
+  const alwaysVisibleMobile = REVIEWS.slice(0, MOBILE_DEFAULT);          // 0-1
+  const mobileToDesktopExtra = REVIEWS.slice(MOBILE_DEFAULT, DESKTOP_DEFAULT); // 2-3
+  const remaining = REVIEWS.slice(DESKTOP_DEFAULT);                       // 4-7
+
   return (
     <section className="relative max-w-10xl mx-4 md:mx-28 overflow-hidden bg-[#f5f3ee] px-2 py-16 md:px-4 md:py-24">
       <div className="absolute left-1/2 top-10 h-[520px] w-[520px] -translate-x-1/2 rounded-full border border-[#c8b99a]/25" />
-
       <div className="absolute left-1/2 top-24 h-[360px] w-[360px] -translate-x-1/2 rounded-full border border-[#9ecfbf]/25" />
 
       <div className="relative z-10 mx-auto max-w-[1200px]">
+        {/* Header */}
         <div className="mb-10 grid items-start gap-8 md:mb-12 md:grid-cols-[0.85fr_1.15fr]">
-          
-          {/* Heading Section */}
-          <div
-            ref={headingRef}
-            className="order-1 opacity-0 md:order-2"
-          >
+          <div ref={headingRef} className="order-1 opacity-0 md:order-2">
             <div className="mb-4 flex items-center gap-3">
               <span className="h-px w-10 bg-[#8aa2b0]" />
-
               <span className="font-sans text-[0.75rem] font-extrabold uppercase tracking-[0.24em] text-[#6f7f8d]">
                 Reviews & Ratings
               </span>
@@ -329,7 +384,6 @@ filter: "blur(0px)",
               <span className="font-serif text-[5.5rem] font-semibold leading-none tracking-[-0.06em] text-white">
                 {overallRating}
               </span>
-
               <span className="pb-3 font-sans text-lg font-semibold text-white/50">
                 / 5
               </span>
@@ -337,7 +391,6 @@ filter: "blur(0px)",
 
             <div className="mt-5 flex items-center gap-3">
               <Stars rating={5} size={20} />
-
               <span className="font-sans text-sm text-white/60">
                 20+ reviews online.
               </span>
@@ -347,13 +400,62 @@ filter: "blur(0px)",
 
         {/* Review Cards */}
         <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-4">
-          {REVIEWS.map((review, index) => (
-            <ReviewCard
-              key={review.name}
-              review={review}
-              index={index}
-            />
+          {/* Always visible on both mobile and desktop (first 2) */}
+          {alwaysVisibleMobile.map((review, index) => (
+            <ReviewCard key={review.name} review={review} index={index} />
           ))}
+
+          {/* Items 2-3: hidden on mobile by default, always visible on md+ */}
+          {mobileToDesktopExtra.map((review, i) => {
+            const index = MOBILE_DEFAULT + i;
+            return (
+              <div
+                key={review.name}
+                className={!showAll ? "hidden md:contents" : "contents"}
+              >
+                <ReviewCard review={review} index={index} />
+              </div>
+            );
+          })}
+        </div>
+
+        {/* Remaining reviews (4-7): hidden by default on all screens */}
+        <ExtraCardsContainer visible={showAll}>
+          <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-4 mt-5">
+            {remaining.map((review, i) => {
+              const index = DESKTOP_DEFAULT + i;
+              return (
+                <ReviewCard key={review.name} review={review} index={index} />
+              );
+            })}
+          </div>
+        </ExtraCardsContainer>
+
+        {/* View All / Show Less button */}
+        <div className="mt-10 flex justify-center">
+          <button
+            ref={buttonRef}
+            onClick={handleToggle}
+            className="group inline-flex items-center gap-3 rounded-full border border-[#8aa2b0]/40 bg-gradient-to-br from-[#2f6f6a]/10 to-[#4f9088]/10 px-7 py-3.5 font-sans text-[0.8rem] font-semibold text-[#3c7d76] backdrop-blur-xl shadow-[0_4px_20px_rgba(63,124,120,0.1)] transition-all duration-300 hover:-translate-y-0.5 hover:border-[#8aa2b0]/70 hover:bg-gradient-to-br hover:from-[#2f6f6a]/18 hover:to-[#4f9088]/18 hover:shadow-[0_8px_32px_rgba(63,124,120,0.2)] hover:text-[#2f6f6a]"
+          >
+            <span>
+              {showAll ? "Show Less" : `View All ${REVIEWS.length} Reviews`}
+            </span>
+            <svg
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2.5"
+              className={[
+                "transition-transform duration-300",
+                showAll ? "rotate-180" : "rotate-0",
+              ].join(" ")}
+            >
+              <path d="M6 9l6 6 6-6" />
+            </svg>
+          </button>
         </div>
       </div>
     </section>
