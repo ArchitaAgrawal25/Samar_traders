@@ -107,7 +107,7 @@ export default function WhatWeMake() {
   }, []);
 
   return (
-    <section ref={sectionRef} className="relative w-full overflow-hidden bg-[#f5f3ee] py-14 md:py-20">
+    <section ref={sectionRef} className="relative w-full overflow-hidden bg-[#f5f3ee] px-3 py-14 md:py-20">
       <div
         aria-hidden="true"
         className="pointer-events-none absolute right-[-8%] top-[5%] h-[40vw] w-[40vw] rounded-full bg-[radial-gradient(circle,rgba(168,213,200,0.12)_0%,transparent_70%)]"

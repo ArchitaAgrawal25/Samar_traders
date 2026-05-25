@@ -140,16 +140,16 @@ function IndexSidebar({ activeIndex, onSelect }) {
             <button
               key={p.id}
               onClick={() => onSelect(i)}
-              className="group flex items-center gap-3 py-2.5 text-left transition-all duration-200"
+              className="group flex items-center gap-3 py-2.5 text-left transition-all duration-100"
             >
               <span
-                className="font-sans tabular-nums transition-colors duration-200"
+                className="font-sans tabular-nums transition-colors duration-100"
                 style={{ fontSize: "0.56rem", color: isActive ? "#1c1917" : "#b8b0a8", letterSpacing: "0.08em" }}
               >
                 {p.id}
               </span>
               <span
-                className="transition-all duration-300"
+                className="transition-all duration-200"
                 style={{
                   display: "inline-block",
                   height: "1px",
@@ -158,7 +158,7 @@ function IndexSidebar({ activeIndex, onSelect }) {
                 }}
               />
               <span
-                className="font-sans transition-colors duration-200"
+                className="font-sans transition-colors duration-100"
                 style={{
                   fontSize: "0.78rem",
                   fontWeight: isActive ? 600 : 400,
@@ -556,7 +556,7 @@ export default function Projects() {
       {/* ── Body ── */}
       <div
         ref={containerRef}
-        className="mx-auto max-w-[1240px] px-6 md:px-12 py-16 md:py-20 flex gap-12 lg:gap-16"
+        className="max-w-10xl px-6 md:px-12 py-16 md:py-20 flex gap-12 lg:gap-16"
       >
         {/* Sticky sidebar */}
         <IndexSidebar activeIndex={activeIndex} onSelect={scrollToProject} />
