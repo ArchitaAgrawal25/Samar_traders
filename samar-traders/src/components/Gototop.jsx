@@ -22,6 +22,15 @@ export default function GoToTop() {
     return () => window.removeEventListener("scroll", onScroll);
   }, [visible]);
 
+  // ── FIX: reset hovered when button becomes hidden ─────────
+  // This ensures the tooltip hide effect always fires when
+  // the button disappears, preventing ghost tooltip on mobile.
+  useEffect(() => {
+    if (!visible) {
+      setHovered(false);
+    }
+  }, [visible]);
+
   // ── Button appear / disappear animation ───────────────────
   useEffect(() => {
     const el = btnRef.current;
@@ -53,6 +62,7 @@ export default function GoToTop() {
   }, [visible]);
 
   // ── Tooltip show / hide animation ────────────────────────
+  // Now also responds to visible=false via hovered being reset above
   useEffect(() => {
     const tip = tooltipRef.current;
     if (!tip) return;
@@ -70,6 +80,9 @@ export default function GoToTop() {
         }
       );
     } else {
+      // Kill any in-progress show animation before hiding,
+      // preventing stale opacity when button vanishes mid-hover.
+      gsap.killTweensOf(tip);
       tip.style.pointerEvents = "none";
       gsap.to(tip, {
         opacity: 0,

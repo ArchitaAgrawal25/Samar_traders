@@ -164,7 +164,7 @@ function FAQRow({ faq, isOpen, onToggle, rowRef, isLast }) {
           <div className="flex gap-4 md:gap-8">
             <span className="hidden w-[100px] shrink-0 md:block" />
             <div className="flex-1">
-              <p className="m-0 max-w-[580px] font-sans text-[clamp(0.82rem,1vw,0.92rem)] leading-relaxed text-stone-700">
+              <p className="pl-4 m-0 max-w-[580px] font-sans text-[clamp(0.82rem,1vw,0.92rem)] leading-relaxed text-stone-700">
                 {faq.answer}
               </p>
               <div className="mt-4 flex items-center gap-3">
