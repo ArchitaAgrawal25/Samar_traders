@@ -73,10 +73,12 @@ function HomeScrollRestorer() {
 
     const saved = sessionStorage.getItem(HOME_SCROLL_KEY);
 
+    
     if (saved !== null) {
       const targetY = Number(saved);
 
       if (!Number.isNaN(targetY)) {
+        
         const restoreExactly = () => {
           if (!active) return;
 

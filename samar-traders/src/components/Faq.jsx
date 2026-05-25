@@ -64,7 +64,6 @@ const FAQS = [
   },
 ];
 
-// Default visible counts per breakpoint
 const DESKTOP_DEFAULT = 3;
 const MOBILE_DEFAULT = 2;
 
@@ -191,17 +190,15 @@ function FAQRow({ faq, isOpen, onToggle, rowRef, isLast }) {
 }
 
 // ─── Animated expand / collapse container ────────────────────
-// Used for the "extra" rows that appear/disappear with Show All.
-// On COLLAPSE we:
-//   1. Freeze the container at its current pixel height
-//   2. Animate height → 0 smoothly
-//   3. After animation completes, scroll the section header back into view
-function ExtraRowsContainer({ visible, children, onCollapseDone }) {
+// FIX: Removed onCollapseDone / scrollIntoView callback entirely.
+// The isFirstRender guard ensures no animation or scroll side-effects
+// fire on initial mount / page refresh.
+function ExtraRowsContainer({ visible, children }) {
   const containerRef = useRef(null);
   const isFirstRender = useRef(true);
 
   useEffect(() => {
-    // Skip animation on initial mount — nothing to animate yet
+    // Skip animation on initial mount — prevents scroll behavior on refresh
     if (isFirstRender.current) {
       isFirstRender.current = false;
       return;
@@ -210,7 +207,6 @@ function ExtraRowsContainer({ visible, children, onCollapseDone }) {
 
     if (visible) {
       // ── EXPAND ──────────────────────────────────────────────
-      // Freeze at 0, then let React paint children, then tween to natural height
       gsap.set(containerRef.current, { height: 0, opacity: 0, overflow: "hidden" });
 
       const id = setTimeout(() => {
@@ -223,7 +219,6 @@ function ExtraRowsContainer({ visible, children, onCollapseDone }) {
           ease: "power3.out",
           onComplete: () => {
             if (containerRef.current) {
-              // Remove fixed height so layout can reflow freely
               gsap.set(containerRef.current, { height: "auto", overflow: "visible" });
             }
           },
@@ -232,8 +227,7 @@ function ExtraRowsContainer({ visible, children, onCollapseDone }) {
 
       return () => clearTimeout(id);
     } else {
-      // ── COLLAPSE ─────────────────────────────────────────────
-      // Capture the live rendered height before any changes
+      // ── COLLAPSE ── (no scroll side-effect)
       const liveHeight = containerRef.current.scrollHeight;
 
       gsap.fromTo(
@@ -244,10 +238,7 @@ function ExtraRowsContainer({ visible, children, onCollapseDone }) {
           opacity: 0,
           duration: 0.52,
           ease: "power3.inOut",
-          onComplete: () => {
-            // Notify parent so it can scroll the header into view
-            onCollapseDone?.();
-          },
+          // No onComplete scroll callback — that was causing the refresh scroll bug
         }
       );
     }
@@ -256,7 +247,6 @@ function ExtraRowsContainer({ visible, children, onCollapseDone }) {
   return (
     <div
       ref={containerRef}
-      // Initial CSS state — GSAP takes over after first toggle
       style={visible ? {} : { height: 0, overflow: "hidden", opacity: 0 }}
     >
       {children}
@@ -327,14 +317,6 @@ export default function FAQ() {
   // ── Accordion toggle ─────────────────────────────────────
   const toggle = (i) => setOpenIndex(openIndex === i ? null : i);
 
-  // ── Called by ExtraRowsContainer once its height → 0 ─────
-  // Smoothly scrolls the FAQ section heading back into view so
-  // the user is never left staring at empty space after collapse.
-  const handleCollapseDone = () => {
-    if (!sectionRef.current) return;
-    sectionRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
-  };
-
   // ── Show All / Show Less toggle ──────────────────────────
   const handleToggleShowAll = () => {
     const isMobile = window.innerWidth < 768;
@@ -347,7 +329,6 @@ export default function FAQ() {
 
     setShowAll((prev) => !prev);
 
-    // Subtle button pulse
     if (buttonRef.current) {
       gsap.fromTo(
         buttonRef.current,
@@ -358,11 +339,9 @@ export default function FAQ() {
   };
 
   // ── Row visibility splits ────────────────────────────────
-  // mobile: always show 0-1, desktop: always show 0-2
-  // on "show all" all 8 are visible
-  const alwaysVisible      = FAQS.slice(0, MOBILE_DEFAULT);               // 0-1
-  const mobileExtra        = FAQS.slice(MOBILE_DEFAULT, DESKTOP_DEFAULT); // 2
-  const remaining          = FAQS.slice(DESKTOP_DEFAULT);                 // 3-7
+  const alwaysVisible      = FAQS.slice(0, MOBILE_DEFAULT);
+  const mobileExtra        = FAQS.slice(MOBILE_DEFAULT, DESKTOP_DEFAULT);
+  const remaining          = FAQS.slice(DESKTOP_DEFAULT);
 
   return (
     <section
@@ -452,10 +431,7 @@ export default function FAQ() {
           })}
 
           {/* Remaining items (3–7): hidden by default, shown when showAll */}
-          <ExtraRowsContainer
-            visible={showAll}
-            onCollapseDone={handleCollapseDone}
-          >
+          <ExtraRowsContainer visible={showAll}>
             {remaining.map((faq, i) => {
               const globalIndex = DESKTOP_DEFAULT + i;
               return (

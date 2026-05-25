@@ -271,7 +271,12 @@ export default function Hero() {
 
   const [startCount, setStartCount] = useState(false);
 
+ // src/components/Hero.jsx
+// Replace the full useLayoutEffect inside Hero() with this:
+
   useLayoutEffect(() => {
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
     const ctx = gsap.context(() => {
       const wordEls = gsap.utils.toArray("[data-hero-word]");
 
@@ -284,6 +289,7 @@ export default function Hero() {
         y: 60,
         scale: 0.88,
         filter: "blur(12px)",
+        willChange: "auto", // do not keep extra GPU layers alive while idle
       });
 
       gsap.set(
@@ -301,23 +307,55 @@ export default function Hero() {
         filter: "blur(6px)",
       });
 
-      const tl = gsap.timeline({
+      if (reduceMotion) {
+        gsap.set(allCards, {
+          opacity: 1,
+          y: 0,
+          x: 0,
+          scale: 1,
+          filter: "blur(0px)",
+          clearProps: "willChange",
+        });
+
+        gsap.set(
+          [eyebrowRef.current, subRef.current, ctaRef.current, statsRef.current].filter(Boolean),
+          {
+            opacity: 1,
+            y: 0,
+            filter: "blur(0px)",
+          }
+        );
+
+        gsap.set(wordEls, {
+          opacity: 1,
+          yPercent: 0,
+          filter: "blur(0px)",
+          clearProps: "filter",
+        });
+
+        setStartCount(true);
+        return;
+      }
+
+      const introTl = gsap.timeline({
+        paused: true, // starts only when Hero is actually visible
         defaults: {
           ease: "expo.out",
         },
       });
 
-      tl.to(
-        [dCard1.current, mCard1.current].filter(Boolean),
-        {
-          opacity: 1,
-          y: 0,
-          scale: 1,
-          filter: "blur(0px)",
-          duration: 1,
-        },
-        0.05
-      )
+      introTl
+        .to(
+          [dCard1.current, mCard1.current].filter(Boolean),
+          {
+            opacity: 1,
+            y: 0,
+            scale: 1,
+            filter: "blur(0px)",
+            duration: 0.85,
+          },
+          0.05
+        )
         .to(
           [dCard2.current, mCard2.current].filter(Boolean),
           {
@@ -325,9 +363,9 @@ export default function Hero() {
             y: 0,
             scale: 1,
             filter: "blur(0px)",
-            duration: 0.9,
+            duration: 0.78,
           },
-          0.22
+          0.2
         )
         .to(
           [dCard3.current, mCard3.current].filter(Boolean),
@@ -336,9 +374,9 @@ export default function Hero() {
             y: 0,
             scale: 1,
             filter: "blur(0px)",
-            duration: 0.9,
+            duration: 0.78,
           },
-          0.38
+          0.34
         )
         .to(
           eyebrowRef.current,
@@ -346,9 +384,9 @@ export default function Hero() {
             opacity: 1,
             y: 0,
             filter: "blur(0px)",
-            duration: 0.7,
+            duration: 0.65,
           },
-          0.55
+          0.5
         )
         .to(
           wordEls,
@@ -356,9 +394,9 @@ export default function Hero() {
             opacity: 1,
             yPercent: 0,
             filter: "blur(0px)",
-            duration: 1.05,
+            duration: 0.95,
             ease: "power4.out",
-            stagger: 0.055,
+            stagger: 0.045,
             clearProps: "filter",
           },
           0.08
@@ -369,9 +407,9 @@ export default function Hero() {
             opacity: 1,
             y: 0,
             filter: "blur(0px)",
-            duration: 0.7,
+            duration: 0.6,
           },
-          1.35
+          1.15
         )
         .to(
           ctaRef.current,
@@ -379,42 +417,72 @@ export default function Hero() {
             opacity: 1,
             y: 0,
             filter: "blur(0px)",
-            duration: 0.65,
+            duration: 0.55,
           },
-          1.52
+          1.3
         )
         .to(
-  statsRef.current,
-  {
-    opacity: 1,
-    y: 0,
-    filter: "blur(0px)",
-    duration: 0.9,
-    ease: "power4.out",
-  },
-  0.08
-)
-.call(() => setStartCount(true), [], 0.08);
+          statsRef.current,
+          {
+            opacity: 1,
+            y: 0,
+            filter: "blur(0px)",
+            duration: 0.75,
+            ease: "power4.out",
+          },
+          0.08
+        )
+        .call(() => setStartCount(true), [], 0.08);
 
-      const float = (refs, opts) => {
-        refs
-          .filter((r) => r.current)
-          .forEach((r) => {
-            gsap.to(r.current, {
-              y: opts.y ?? -9,
-              x: opts.x ?? 0,
-              duration: opts.duration,
-              ease: "sine.inOut",
-              repeat: -1,
-              yoyo: true,
-              delay: opts.delay,
-            });
-          });
+      const floatTl = gsap.timeline({
+        paused: true,
+        repeat: -1,
+        defaults: {
+          ease: "sine.inOut",
+        },
+      });
+
+      // Staggered transform-only motion: fewer cards move at the same instant.
+      floatTl
+        .to([dCard1.current, mCard1.current].filter(Boolean), { y: -5, duration: 2.8, yoyo: true, repeat: 1 }, 0)
+        .to([dCard2.current, mCard2.current].filter(Boolean), { y: -4, duration: 2.6, yoyo: true, repeat: 1 }, 1.05)
+        .to([dCard3.current, mCard3.current].filter(Boolean), { y: -4, x: 1.5, duration: 2.7, yoyo: true, repeat: 1 }, 2.05);
+
+      let introPlayed = false;
+
+      const setFloatingActive = (active) => {
+        gsap.set(allCards, {
+          willChange: active ? "transform" : "auto", // only promote while motion is active
+        });
+
+        if (active) {
+          if (!introPlayed) {
+            introPlayed = true;
+            introTl.play(0);
+          }
+
+          floatTl.play();
+        } else {
+          floatTl.pause();
+        }
       };
 
-      float([dCard1, mCard1], { y: -9, duration: 3.5, delay: 1.2 });
-      float([dCard2, mCard2], { y: -6, duration: 2.8, delay: 1.7 });
-      float([dCard3, mCard3], { y: -7, x: 3, duration: 3.2, delay: 1.5 });
+      const observer = new IntersectionObserver(
+        ([entry]) => {
+          setFloatingActive(entry.isIntersecting);
+        },
+        {
+          threshold: 0.18,
+        }
+      );
+
+      if (sectionRef.current) observer.observe(sectionRef.current);
+
+      return () => {
+        observer.disconnect();
+        introTl.kill();
+        floatTl.kill();
+      };
     }, sectionRef);
 
     return () => ctx.revert();

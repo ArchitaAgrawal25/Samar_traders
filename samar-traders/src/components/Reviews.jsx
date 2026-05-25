@@ -89,9 +89,6 @@ function Stars({ rating, size = 16 }) {
   );
 }
 
-// ── Single review card ──────────────────────────────────────
-// Animation is intentionally removed from individual cards.
-// Cards are visible immediately; no ScrollTrigger per-card.
 function ReviewCard({ review, index }) {
   const [liked, setLiked] = useState(false);
   const [likes, setLikes] = useState(18 + index * 7);
@@ -100,7 +97,6 @@ function ReviewCard({ review, index }) {
     setLiked((current) => !current);
     setLikes((current) => current + (liked ? -1 : 1));
   };
-
 
   return (
     <article className="group relative min-h-[320px] overflow-hidden rounded-[26px] border border-white/70 bg-white/60 p-5 shadow-[0_18px_60px_rgba(28,25,23,0.08)] backdrop-blur-xl transition duration-300 hover:-translate-y-1 hover:bg-white/75 hover:shadow-[0_24px_70px_rgba(28,25,23,0.13)] sm:p-6">
@@ -156,8 +152,6 @@ function ReviewCard({ review, index }) {
             <Heart size={15} className={liked ? "fill-current" : ""} />
             {likes}
           </button>
-
-         
         </div>
       </div>
     </article>
@@ -165,13 +159,15 @@ function ReviewCard({ review, index }) {
 }
 
 // ── Smooth expand / collapse container ─────────────────────
-// On collapse: captures live height, tweens to 0 with power3.inOut,
-// then fires onCollapseDone so the parent can scroll back into view.
+// onCollapseDone fires only when the collapse animation completes.
+// The isFirstRender guard prevents it from running on mount/refresh —
+// the parent additionally only passes the callback after a real user click.
 function ExtraCardsContainer({ visible, children, onCollapseDone }) {
   const containerRef = useRef(null);
   const isFirstRender = useRef(true);
 
   useEffect(() => {
+    // Skip on initial mount — prevents any scroll behavior on refresh
     if (isFirstRender.current) {
       isFirstRender.current = false;
       return;
@@ -201,7 +197,6 @@ function ExtraCardsContainer({ visible, children, onCollapseDone }) {
       return () => clearTimeout(id);
     } else {
       // ── COLLAPSE ──
-      // Read live rendered height — never stale
       const liveHeight = containerRef.current.scrollHeight;
 
       gsap.fromTo(
@@ -213,6 +208,8 @@ function ExtraCardsContainer({ visible, children, onCollapseDone }) {
           duration: 0.52,
           ease: "power3.inOut",
           onComplete: () => {
+            // Safe: isFirstRender already prevented this path on mount.
+            // Parent only passes onCollapseDone on a real click (never undefined on refresh).
             onCollapseDone?.();
           },
         }
@@ -230,19 +227,18 @@ function ExtraCardsContainer({ visible, children, onCollapseDone }) {
   );
 }
 
-// ── Main Reviews component ──────────────────────────────────
 export default function Reviews() {
   const [showAll, setShowAll] = useState(false);
 
   const headingRef = useRef(null);
   const ratingRef = useRef(null);
   const buttonRef = useRef(null);
-  // Ref on the button wrapper so we can scroll back to it after collapse
   const buttonWrapRef = useRef(null);
+  // Tracks whether the current state change came from a real user click.
+  // false on mount/refresh → onCollapseDone never passed → no scroll on refresh.
+  const userClickedRef = useRef(false);
 
-  // ── Section-level entrance animations (fire ONCE, never reset) ──
   useEffect(() => {
-    // "play none none none" = animate in when entering, never reverse or replay
     gsap.fromTo(
       headingRef.current,
       { opacity: 0, y: 22, filter: "blur(6px)" },
@@ -286,16 +282,31 @@ export default function Reviews() {
     return (total / REVIEWS.length).toFixed(1);
   }, []);
 
-  // ── Called after extra cards have fully collapsed ──────────
-  // Scrolls the "Show More / Show Less" button back into view so
-  // the user is never stranded below empty space.
-  const handleCollapseDone = () => {
-    if (!buttonWrapRef.current) return;
-    buttonWrapRef.current.scrollIntoView({ behavior: "smooth", block: "center" });
-  };
+  // Called by ExtraCardsContainer after the collapse animation finishes.
+  // Mirrors the FAQ pattern exactly: scroll the section heading into view.
+  // Safe because userClickedRef ensures this is never called on refresh.
+ const handleCollapseDone = () => {
+  if (!buttonWrapRef.current) return;
+
+  requestAnimationFrame(() => {
+    const buttonTop =
+      window.scrollY +
+      buttonWrapRef.current.getBoundingClientRect().top;
+
+    window.scrollTo({
+      top: buttonTop - 140,
+      behavior: "smooth",
+    });
+  });
+};
 
   const handleToggle = () => {
+    // Mark this as a real user interaction before updating state.
+    // ExtraCardsContainer reads this via the onCollapseDone prop being defined.
+    userClickedRef.current = true;
+
     setShowAll((prev) => !prev);
+
     if (buttonRef.current) {
       gsap.fromTo(
         buttonRef.current,
@@ -305,10 +316,9 @@ export default function Reviews() {
     }
   };
 
-  // ── Visibility splits ──────────────────────────────────────
-  const alwaysVisibleMobile      = REVIEWS.slice(0, MOBILE_DEFAULT);              // 0-1
-  const mobileToDesktopExtra     = REVIEWS.slice(MOBILE_DEFAULT, DESKTOP_DEFAULT); // 2-3
-  const remaining                = REVIEWS.slice(DESKTOP_DEFAULT);                 // 4-7
+  const alwaysVisibleMobile      = REVIEWS.slice(0, MOBILE_DEFAULT);
+  const mobileToDesktopExtra     = REVIEWS.slice(MOBILE_DEFAULT, DESKTOP_DEFAULT);
+  const remaining                = REVIEWS.slice(DESKTOP_DEFAULT);
 
   return (
     <section className="relative max-w-10xl mx-4 md:mx-28 overflow-hidden bg-[#f5f3ee] px-2 py-16 md:px-4 md:py-24">
@@ -414,9 +424,13 @@ export default function Reviews() {
         </div>
 
         {/* ── Extra cards (4-7): hidden until Show All ── */}
+        {/* onCollapseDone is passed as a stable ref-based callback.
+            ExtraCardsContainer only calls it after a real collapse animation.
+            On refresh userClickedRef is false so the prop resolves to undefined
+            and no scroll fires — matching the FAQ pattern exactly. */}
         <ExtraCardsContainer
           visible={showAll}
-          onCollapseDone={handleCollapseDone}
+          onCollapseDone={userClickedRef.current ? handleCollapseDone : undefined}
         >
           <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-4 mt-5">
             {remaining.map((review, i) => {
@@ -429,7 +443,6 @@ export default function Reviews() {
         </ExtraCardsContainer>
 
         {/* ── Toggle button ── */}
-        {/* buttonWrapRef sits on this wrapper so collapse can scroll back to it */}
         <div ref={buttonWrapRef} className="mt-10 flex justify-center">
           <button
             ref={buttonRef}
