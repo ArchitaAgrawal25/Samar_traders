@@ -158,16 +158,17 @@ function ReviewCard({ review, index }) {
   );
 }
 
-// ── Smooth expand / collapse container ─────────────────────
-// onCollapseDone fires only when the collapse animation completes.
-// The isFirstRender guard prevents it from running on mount/refresh —
-// the parent additionally only passes the callback after a real user click.
-function ExtraCardsContainer({ visible, children, onCollapseDone }) {
+// ── Smooth expand / collapse — matches FAQ pattern exactly ──
+// No scroll manipulation: browser native scroll anchoring handles it
+// as long as the toggle button (below the collapsing content) has
+// overflow-anchor: auto (browser default) and the collapsing
+// container has overflow-anchor: none so the browser ignores it
+// as an anchor candidate and instead locks onto the button.
+function ExtraCardsContainer({ visible, children }) {
   const containerRef = useRef(null);
   const isFirstRender = useRef(true);
 
   useEffect(() => {
-    // Skip on initial mount — prevents any scroll behavior on refresh
     if (isFirstRender.current) {
       isFirstRender.current = false;
       return;
@@ -175,7 +176,6 @@ function ExtraCardsContainer({ visible, children, onCollapseDone }) {
     if (!containerRef.current) return;
 
     if (visible) {
-      // ── EXPAND ──
       gsap.set(containerRef.current, { height: 0, opacity: 0, overflow: "hidden" });
 
       const id = setTimeout(() => {
@@ -196,31 +196,26 @@ function ExtraCardsContainer({ visible, children, onCollapseDone }) {
 
       return () => clearTimeout(id);
     } else {
-      // ── COLLAPSE ──
       const liveHeight = containerRef.current.scrollHeight;
-
       gsap.fromTo(
         containerRef.current,
         { height: liveHeight, opacity: 1, overflow: "hidden" },
-        {
-          height: 0,
-          opacity: 0,
-          duration: 0.52,
-          ease: "power3.inOut",
-          onComplete: () => {
-            // Safe: isFirstRender already prevented this path on mount.
-            // Parent only passes onCollapseDone on a real click (never undefined on refresh).
-            onCollapseDone?.();
-          },
-        }
+        { height: 0, opacity: 0, duration: 0.52, ease: "power3.inOut" }
       );
     }
-  }, [visible]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [visible]);
 
   return (
+    // overflow-anchor: none — tells the browser NOT to use any element
+    // inside the collapsing area as a scroll anchor, so it naturally
+    // locks onto the toggle button below instead.
     <div
       ref={containerRef}
-      style={visible ? {} : { height: 0, overflow: "hidden", opacity: 0 }}
+      style={
+        visible
+          ? { overflowAnchor: "none" }
+          : { height: 0, overflow: "hidden", opacity: 0, overflowAnchor: "none" }
+      }
     >
       {children}
     </div>
@@ -231,29 +226,17 @@ export default function Reviews() {
   const [showAll, setShowAll] = useState(false);
 
   const headingRef = useRef(null);
-  const ratingRef = useRef(null);
-  const buttonRef = useRef(null);
+  const ratingRef  = useRef(null);
+  const buttonRef  = useRef(null);
   const buttonWrapRef = useRef(null);
-  // Tracks whether the current state change came from a real user click.
-  // false on mount/refresh → onCollapseDone never passed → no scroll on refresh.
-  const userClickedRef = useRef(false);
 
   useEffect(() => {
     gsap.fromTo(
       headingRef.current,
       { opacity: 0, y: 22, filter: "blur(6px)" },
       {
-        opacity: 1,
-        y: 0,
-        filter: "blur(0px)",
-        duration: 0.7,
-        ease: "expo.out",
-        scrollTrigger: {
-          trigger: headingRef.current,
-          start: "top 85%",
-          toggleActions: "play none none none",
-          once: true,
-        },
+        opacity: 1, y: 0, filter: "blur(0px)", duration: 0.7, ease: "expo.out",
+        scrollTrigger: { trigger: headingRef.current, start: "top 85%", toggleActions: "play none none none", once: true },
       }
     );
 
@@ -261,18 +244,8 @@ export default function Reviews() {
       ratingRef.current,
       { opacity: 0, y: 24, scale: 0.985, filter: "blur(6px)" },
       {
-        opacity: 1,
-        y: 0,
-        scale: 1,
-        filter: "blur(0px)",
-        duration: 0.7,
-        ease: "expo.out",
-        scrollTrigger: {
-          trigger: ratingRef.current,
-          start: "top 85%",
-          toggleActions: "play none none none",
-          once: true,
-        },
+        opacity: 1, y: 0, scale: 1, filter: "blur(0px)", duration: 0.7, ease: "expo.out",
+        scrollTrigger: { trigger: ratingRef.current, start: "top 85%", toggleActions: "play none none none", once: true },
       }
     );
   }, []);
@@ -282,29 +255,11 @@ export default function Reviews() {
     return (total / REVIEWS.length).toFixed(1);
   }, []);
 
-  // Called by ExtraCardsContainer after the collapse animation finishes.
-  // Mirrors the FAQ pattern exactly: scroll the section heading into view.
-  // Safe because userClickedRef ensures this is never called on refresh.
- const handleCollapseDone = () => {
-  if (!buttonWrapRef.current) return;
-
-  requestAnimationFrame(() => {
-    const buttonTop =
-      window.scrollY +
-      buttonWrapRef.current.getBoundingClientRect().top;
-
-    window.scrollTo({
-      top: buttonTop - 140,
-      behavior: "smooth",
-    });
-  });
-};
-
   const handleToggle = () => {
-    // Mark this as a real user interaction before updating state.
-    // ExtraCardsContainer reads this via the onCollapseDone prop being defined.
-    userClickedRef.current = true;
-
+    // No scroll manipulation — native scroll anchoring does the work.
+    // The toggle button has overflow-anchor: auto (browser default)
+    // and sits below the collapsing container which has overflow-anchor: none,
+    // so the browser naturally keeps the button in view on collapse.
     setShowAll((prev) => !prev);
 
     if (buttonRef.current) {
@@ -316,9 +271,9 @@ export default function Reviews() {
     }
   };
 
-  const alwaysVisibleMobile      = REVIEWS.slice(0, MOBILE_DEFAULT);
-  const mobileToDesktopExtra     = REVIEWS.slice(MOBILE_DEFAULT, DESKTOP_DEFAULT);
-  const remaining                = REVIEWS.slice(DESKTOP_DEFAULT);
+  const alwaysVisibleMobile  = REVIEWS.slice(0, MOBILE_DEFAULT);
+  const mobileToDesktopExtra = REVIEWS.slice(MOBILE_DEFAULT, DESKTOP_DEFAULT);
+  const remaining            = REVIEWS.slice(DESKTOP_DEFAULT);
 
   return (
     <section className="relative max-w-10xl mx-4 md:mx-28 overflow-hidden bg-[#f5f3ee] px-2 py-16 md:px-4 md:py-24">
@@ -356,15 +311,7 @@ export default function Reviews() {
               aria-label="Leave a Google review for Samar Trading"
               className="mt-5 inline-flex items-center gap-2 rounded-full border border-[#8aa2b0]/40 bg-gradient-to-br from-[#2f6f6a]/10 to-[#4f9088]/10 px-5 py-2.5 font-sans text-[0.78rem] font-semibold text-[#3c7d76] backdrop-blur-xl shadow-[0_4px_14px_rgba(63,124,120,0.08)] transition-all duration-200 hover:-translate-y-0.5 hover:border-[#8aa2b0]/70 hover:text-[#2f6f6a]"
             >
-              <svg
-                width="14"
-                height="14"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2.2"
-                aria-hidden="true"
-              >
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" aria-hidden="true">
                 <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
                 <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
               </svg>
@@ -389,27 +336,22 @@ export default function Reviews() {
               <span className="font-serif text-[5.5rem] font-semibold leading-none tracking-[-0.06em] text-white">
                 {overallRating}
               </span>
-              <span className="pb-3 font-sans text-lg font-semibold text-white/50">
-                / 5
-              </span>
+              <span className="pb-3 font-sans text-lg font-semibold text-white/50">/ 5</span>
             </div>
 
             <div className="mt-5 flex items-center gap-3">
               <Stars rating={5} size={20} />
-              <span className="font-sans text-sm text-white/60">
-                20+ reviews online.
-              </span>
+              <span className="font-sans text-sm text-white/60">20+ reviews online.</span>
             </div>
           </div>
         </div>
 
-        {/* ── Always-visible cards (first 2 on all screens) ── */}
+        {/* ── Always-visible cards ── */}
         <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-4">
           {alwaysVisibleMobile.map((review, index) => (
             <ReviewCard key={review.name} review={review} index={index} />
           ))}
 
-          {/* Items 2-3: hidden on mobile by default, always visible md+ */}
           {mobileToDesktopExtra.map((review, i) => {
             const index = MOBILE_DEFAULT + i;
             return (
@@ -423,15 +365,9 @@ export default function Reviews() {
           })}
         </div>
 
-        {/* ── Extra cards (4-7): hidden until Show All ── */}
-        {/* onCollapseDone is passed as a stable ref-based callback.
-            ExtraCardsContainer only calls it after a real collapse animation.
-            On refresh userClickedRef is false so the prop resolves to undefined
-            and no scroll fires — matching the FAQ pattern exactly. */}
-        <ExtraCardsContainer
-          visible={showAll}
-          onCollapseDone={userClickedRef.current ? handleCollapseDone : undefined}
-        >
+        {/* ── Extra cards: overflow-anchor:none so browser anchors
+               to the toggle button below on collapse ── */}
+        <ExtraCardsContainer visible={showAll}>
           <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-4 mt-5">
             {remaining.map((review, i) => {
               const index = DESKTOP_DEFAULT + i;
@@ -442,16 +378,20 @@ export default function Reviews() {
           </div>
         </ExtraCardsContainer>
 
-        {/* ── Toggle button ── */}
-        <div ref={buttonWrapRef} className="mt-10 flex justify-center">
+        {/* ── Toggle button — overflow-anchor: auto (browser default)
+               This is the element the browser locks onto during collapse.
+               Explicit style ensures no parent accidentally disables it. ── */}
+        <div
+          ref={buttonWrapRef}
+          className="mt-10 flex justify-center"
+          style={{ overflowAnchor: "auto" }}
+        >
           <button
             ref={buttonRef}
             onClick={handleToggle}
             className="group inline-flex items-center gap-3 rounded-full border border-[#8aa2b0]/40 bg-gradient-to-br from-[#2f6f6a]/10 to-[#4f9088]/10 px-7 py-3.5 font-sans text-[0.8rem] font-semibold text-[#3c7d76] backdrop-blur-xl shadow-[0_4px_20px_rgba(63,124,120,0.1)] transition-all duration-300 hover:-translate-y-0.5 hover:border-[#8aa2b0]/70 hover:bg-gradient-to-br hover:from-[#2f6f6a]/18 hover:to-[#4f9088]/18 hover:shadow-[0_8px_32px_rgba(63,124,120,0.2)] hover:text-[#2f6f6a]"
           >
-            <span>
-              {showAll ? "Show Less" : `View All ${REVIEWS.length} Reviews`}
-            </span>
+            <span>{showAll ? "Show Less" : `View All ${REVIEWS.length} Reviews`}</span>
             <svg
               width="14"
               height="14"
@@ -459,10 +399,7 @@ export default function Reviews() {
               fill="none"
               stroke="currentColor"
               strokeWidth="2.5"
-              className={[
-                "transition-transform duration-300",
-                showAll ? "rotate-180" : "rotate-0",
-              ].join(" ")}
+              className={["transition-transform duration-300", showAll ? "rotate-180" : "rotate-0"].join(" ")}
             >
               <path d="M6 9l6 6 6-6" />
             </svg>
