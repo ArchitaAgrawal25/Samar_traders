@@ -119,9 +119,9 @@ const REASONS = [
   },
   {
     id: "08",
-  title: "Dustproof & Airtight Sealing",
-  desc: "Advanced gasket sealing helps block dust, wind, and outdoor pollutants while maintaining a cleaner and quieter indoor environment.",
-  tag: "Airtight fit",
+    title: "Dustproof & Airtight Sealing",
+    desc: "Advanced gasket sealing helps block dust, wind, and outdoor pollutants while maintaining a cleaner and quieter indoor environment.",
+    tag: "Airtight fit",
     bg: "bg-red-50/70",
     border: "border-red-200/80",
     accent: "text-red-700",
@@ -147,10 +147,12 @@ const GRID_LAYOUT = [
   { col: "md:col-span-2", row: 3 },
 ];
 
+// Mirror FAQ exactly: first 2 always visible, item 2 hidden on mobile,
+// rest hidden on all screens until expanded
 const DESKTOP_DEFAULT = 4;
 const MOBILE_DEFAULT = 3;
 
-function Card({ reason, layout, index, isVisible }) {
+function Card({ reason, layout, index }) {
   const cardRef = useRef(null);
   const iconWrapRef = useRef(null);
   const [hovered, setHovered] = useState(false);
@@ -274,12 +276,14 @@ function Card({ reason, layout, index, isVisible }) {
   );
 }
 
-// Animated expand/collapse wrapper for extra cards
+// ── Animated expand / collapse — identical pattern to FAQ ────
+// isFirstRender guard prevents any animation or scroll side-effects on mount/refresh.
 function ExtraCardsContainer({ visible, children }) {
   const containerRef = useRef(null);
   const isFirstRender = useRef(true);
 
   useEffect(() => {
+    // Skip animation on initial mount — mirrors FAQ exactly
     if (isFirstRender.current) {
       isFirstRender.current = false;
       return;
@@ -287,14 +291,16 @@ function ExtraCardsContainer({ visible, children }) {
     if (!containerRef.current) return;
 
     if (visible) {
+      // ── EXPAND ──────────────────────────────────────────────
       gsap.set(containerRef.current, { height: 0, opacity: 0, overflow: "hidden" });
+
       const id = setTimeout(() => {
         if (!containerRef.current) return;
         const naturalHeight = containerRef.current.scrollHeight;
         gsap.to(containerRef.current, {
           height: naturalHeight,
           opacity: 1,
-          duration: 0.6,
+          duration: 0.55,
           ease: "power3.out",
           onComplete: () => {
             if (containerRef.current) {
@@ -303,26 +309,36 @@ function ExtraCardsContainer({ visible, children }) {
           },
         });
       }, 16);
+
       return () => clearTimeout(id);
     } else {
-      const naturalHeight = containerRef.current.scrollHeight;
+      // ── COLLAPSE — no scroll side-effect, mirrors FAQ ───────
+      const liveHeight = containerRef.current.scrollHeight;
+
       gsap.fromTo(
         containerRef.current,
-        { height: naturalHeight, opacity: 1, overflow: "hidden" },
+        { height: liveHeight, opacity: 1, overflow: "hidden" },
         {
           height: 0,
           opacity: 0,
-          duration: 0.42,
-          ease: "power2.in",
+          duration: 0.52,
+          ease: "power3.inOut",
         }
       );
     }
   }, [visible]);
 
   return (
+    // overflow-anchor: none — tells the browser NOT to anchor to anything
+    // inside the collapsing area, so it naturally locks onto the toggle
+    // button below instead. Mirrors FAQ pattern exactly.
     <div
       ref={containerRef}
-      style={visible ? {} : { height: 0, overflow: "hidden", opacity: 0 }}
+      style={
+        visible
+          ? { overflowAnchor: "none" }
+          : { height: 0, overflow: "hidden", opacity: 0, overflowAnchor: "none" }
+      }
     >
       {children}
     </div>
@@ -337,6 +353,8 @@ export default function WhyChooseUs() {
   const subRef = useRef(null);
   const dividerRef = useRef(null);
   const buttonRef = useRef(null);
+  // button wrap gets overflow-anchor: auto so browser scroll-anchors to it on collapse
+  const buttonWrapRef = useRef(null);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -368,24 +386,32 @@ export default function WhyChooseUs() {
     return () => ctx.revert();
   }, []);
 
+  // ── Toggle — mirrors FAQ handleToggleShowAll exactly ─────
   const handleToggle = () => {
+    const isMobile = window.innerWidth < 768;
+    const defaultCount = isMobile ? MOBILE_DEFAULT : DESKTOP_DEFAULT;
+
+    // When collapsing, close any open state that would be hidden
+    // (WhyChooseUs has no accordion state, but guard is here for parity)
+
     setShowAll((prev) => !prev);
+
     if (buttonRef.current) {
       gsap.fromTo(
         buttonRef.current,
-        { scale: 0.95 },
-        { scale: 1, duration: 0.38, ease: "back.out(1.7)" }
+        { scale: 0.96 },
+        { scale: 1, duration: 0.35, ease: "back.out(1.7)" }
       );
     }
   };
 
-  // Split cards into three visibility groups:
-  // - mobileVisible (0–3): always rendered in grid on all screens
-  // - mobileToDesktopExtra (4–5): hidden on mobile by default, visible on md+ by default
-  // - remaining (6–7): hidden on all screens by default, shown when showAll
-  const mobileVisibleCards = REASONS.slice(0, MOBILE_DEFAULT);           // 0-3
-  const mobileToDesktopCards = REASONS.slice(MOBILE_DEFAULT, DESKTOP_DEFAULT); // 4-5
-  const remainingCards = REASONS.slice(DESKTOP_DEFAULT);                  // 6-7
+  // ── Row visibility splits — mirrors FAQ exactly ──────────
+  // alwaysVisible (0–1): always shown on all screens
+  // mobileExtra  (2):    hidden on mobile by default, always visible md+
+  // remaining    (3–7):  hidden on all screens, shown when showAll
+  const alwaysVisible = REASONS.slice(0, MOBILE_DEFAULT);            // 0-1
+  const mobileExtra   = REASONS.slice(MOBILE_DEFAULT, DESKTOP_DEFAULT); // 2
+  const remaining     = REASONS.slice(DESKTOP_DEFAULT);              // 3-7
 
   return (
     <section
@@ -413,7 +439,7 @@ export default function WhyChooseUs() {
         {/* Header */}
         <div className="mb-10 md:mb-14 max-w-7xl">
           <div ref={eyebrowRef} className="opacity-0 flex items-center gap-3 mb-4">
-            <span className="font-sans text-[0.75rem] font-extrabold uppercase tracking-[0.2em] text-stone-500" style={{ fontSize: "0.9rem", fontWeight: 800, color: "#6b6560" }}>
+            <span className="font-sans text-[0.9rem] font-extrabold uppercase tracking-[0.18em]" style={{ fontWeight: 800, color: "#6b6560" }}>
               Why choose us
             </span>
           </div>
@@ -436,9 +462,9 @@ export default function WhyChooseUs() {
           </p>
         </div>
 
-        {/* Bento grid — always-visible cards (mobile: 0-3, desktop: 0-3) */}
+        {/* ── Always-visible cards (0–1, shown on all screens) ── */}
         <div className="grid grid-cols-3 gap-4">
-          {mobileVisibleCards.map((reason, i) => (
+          {alwaysVisible.map((reason, i) => (
             <Card
               key={reason.id}
               reason={reason}
@@ -447,14 +473,13 @@ export default function WhyChooseUs() {
             />
           ))}
 
-          {/* Cards 4-5: hidden on mobile by default, visible on md+ */}
-          {mobileToDesktopCards.map((reason, i) => {
+          {/* Card index 2: hidden on mobile by default, always visible md+ */}
+          {mobileExtra.map((reason, i) => {
             const globalIndex = MOBILE_DEFAULT + i;
             return (
               <div
                 key={reason.id}
                 className={[
-                  // On mobile: hidden unless showAll; on md+: always in grid
                   `col-span-3 ${GRID_LAYOUT[globalIndex].col}`,
                   !showAll ? "hidden md:contents" : "contents",
                 ].join(" ")}
@@ -469,10 +494,12 @@ export default function WhyChooseUs() {
           })}
         </div>
 
-        {/* Extra cards (6-7): hidden by default on all screens */}
+        {/* ── Extra cards (3–7): hidden by default on all screens ──
+             overflow-anchor: none so the browser anchors to the toggle
+             button below on collapse — mirrors FAQ ExtraRowsContainer. ── */}
         <ExtraCardsContainer visible={showAll}>
           <div className="grid grid-cols-3 gap-4 mt-4">
-            {remainingCards.map((reason, i) => {
+            {remaining.map((reason, i) => {
               const globalIndex = DESKTOP_DEFAULT + i;
               return (
                 <Card
@@ -486,8 +513,14 @@ export default function WhyChooseUs() {
           </div>
         </ExtraCardsContainer>
 
-        {/* View All / Show Less button */}
-        <div className="mt-8 flex justify-center">
+        {/* ── Toggle button — overflow-anchor: auto (browser default)
+             This is the element the browser locks onto during collapse.
+             Mirrors FAQ buttonWrapRef pattern exactly. ── */}
+        <div
+          ref={buttonWrapRef}
+          className="mt-8 flex justify-center"
+          style={{ overflowAnchor: "auto" }}
+        >
           <button
             ref={buttonRef}
             onClick={handleToggle}

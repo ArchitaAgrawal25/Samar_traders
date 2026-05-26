@@ -4,9 +4,10 @@ import { gsap } from "gsap";
 export default function GoToTop() {
   const [visible, setVisible] = useState(false);
   const [hovered, setHovered] = useState(false);
-  // Track whether we're on a touch device (no hover available)
+  // Hide tooltip on touch/mobile devices — check both hover capability and screen width
   const isTouchDevice = useRef(
-    typeof window !== "undefined" && window.matchMedia("(hover: none)").matches
+    typeof window !== "undefined" &&
+      (window.matchMedia("(hover: none)").matches || window.innerWidth < 768)
   );
   const btnRef = useRef(null);
   const tooltipRef = useRef(null);
@@ -60,10 +61,10 @@ export default function GoToTop() {
     }
   }, [visible]);
 
-  // ── Tooltip show / hide logic ─────────────────────────────
-  // On touch devices: tooltip visibility follows button visibility.
-  // On pointer devices: tooltip visibility follows hover state.
-  const tooltipShouldShow = isTouchDevice.current ? visible : hovered;
+  // ── Tooltip: only show on non-touch/desktop devices ──────
+  // Touch/mobile: never show tooltip
+  // Desktop (pointer + hover capable): show on hover
+  const tooltipShouldShow = isTouchDevice.current ? false : hovered;
 
   useEffect(() => {
     const tip = tooltipRef.current;
@@ -118,7 +119,7 @@ export default function GoToTop() {
       className="fixed bottom-6 right-5 sm:bottom-8 sm:right-6 md:right-8 z-[9998] flex flex-col items-center gap-2"
       style={{ pointerEvents: "none" }}
     >
-      {/* ── Tooltip ─────────────────────────────────────────── */}
+      {/* ── Tooltip — desktop/pointer devices only ──────────── */}
       <div
         ref={tooltipRef}
         role="tooltip"
@@ -131,6 +132,8 @@ export default function GoToTop() {
           "shadow-[0_8px_24px_rgba(0,0,0,0.4),inset_0_1px_0_rgba(255,255,255,0.05)]",
           "font-sans text-[0.68rem] font-semibold tracking-[0.08em] uppercase text-white/80",
           "pointer-events-none select-none whitespace-nowrap",
+          // Hidden entirely on mobile via CSS as a safety net
+          "hidden md:flex",
         ].join(" ")}
       >
         <svg

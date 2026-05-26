@@ -140,16 +140,16 @@ function IndexSidebar({ activeIndex, onSelect }) {
             <button
               key={p.id}
               onClick={() => onSelect(i)}
-              className="group flex items-center gap-3 py-2.5 text-left transition-all duration-100"
+              className="group flex items-center gap-3 py-2.5 text-left transition-all duration-200"
             >
               <span
-                className="font-sans tabular-nums transition-colors duration-100"
+                className="font-sans tabular-nums transition-colors duration-200"
                 style={{ fontSize: "0.56rem", color: isActive ? "#1c1917" : "#b8b0a8", letterSpacing: "0.08em" }}
               >
                 {p.id}
               </span>
               <span
-                className="transition-all duration-200"
+                className="transition-all duration-300"
                 style={{
                   display: "inline-block",
                   height: "1px",
@@ -158,7 +158,7 @@ function IndexSidebar({ activeIndex, onSelect }) {
                 }}
               />
               <span
-                className="font-sans transition-colors duration-100"
+                className="font-sans transition-colors duration-200"
                 style={{
                   fontSize: "0.78rem",
                   fontWeight: isActive ? 600 : 400,
@@ -206,11 +206,12 @@ function BriefUsButton() {
 }
 
 /* ─── Single Project Dossier ─── */
-function ProjectDossier({ project, sectionRef }) {
+// Accepts elRef (a real React ref to the wrapper div) instead of
+// a stale plain-object snapshot — fixes GSAP context and ScrollTrigger.
+function ProjectDossier({ project, elRef }) {
   const { open } = useQuoteModal();
   const [mainImg, setMainImg] = useState(0);
   const imgRefs = useRef([]);
-  const frameRef = useRef(null);
 
   // cross-fade images
   useEffect(() => {
@@ -220,24 +221,27 @@ function ProjectDossier({ project, sectionRef }) {
     });
   }, [mainImg]);
 
-  // scroll reveal
+  // scroll reveal — uses elRef which is the live DOM ref on the wrapper div
   useEffect(() => {
-    if (!sectionRef.current) return;
+    if (!elRef.current) return;
     const ctx = gsap.context(() => {
       gsap.fromTo(
-        sectionRef.current.querySelectorAll(".dossier-reveal"),
+        elRef.current.querySelectorAll(".dossier-reveal"),
         { opacity: 0, y: 22 },
         {
           opacity: 1, y: 0, duration: 0.65, stagger: 0.07, ease: "power3.out",
-          scrollTrigger: { trigger: sectionRef.current, start: "top 82%" },
+          scrollTrigger: { trigger: elRef.current, start: "top 82%" },
         }
       );
-    }, sectionRef);
+    }, elRef);
     return () => ctx.revert();
-  }, []);
+  }, [elRef]);
+
+  const prev = () => setMainImg(i => (i - 1 + project.images.length) % project.images.length);
+  const next = () => setMainImg(i => (i + 1) % project.images.length);
 
   return (
-    <article ref={sectionRef} className="pt-24 first:pt-0">
+    <article className="pt-24 first:pt-0">
       {/* ── Project header ── */}
       <div
         className="dossier-reveal opacity-0 flex flex-col md:flex-row md:items-baseline gap-4 md:gap-0 pb-4 border-b"
@@ -268,10 +272,7 @@ function ProjectDossier({ project, sectionRef }) {
           <span className="font-sans text-stone-400" style={{ fontSize: "0.62rem", letterSpacing: "0.06em" }}>
             {project.type}
           </span>
-          <span
-            className="font-serif italic"
-            style={{ fontSize: "0.95rem", color: project.accent }}
-          >
+          <span className="font-serif italic" style={{ fontSize: "0.95rem", color: project.accent }}>
             {project.year}
           </span>
         </div>
@@ -279,7 +280,6 @@ function ProjectDossier({ project, sectionRef }) {
 
       {/* ── Image grid ── */}
       <div className="dossier-reveal opacity-0 mt-5 grid gap-3" style={{ gridTemplateColumns: "1fr 0.62fr" }}>
-
         {/* Main hero image */}
         <div
           className="relative overflow-hidden rounded-[18px] cursor-pointer group"
@@ -290,15 +290,11 @@ function ProjectDossier({ project, sectionRef }) {
               key={src}
               ref={(el) => (imgRefs.current[i] = el)}
               className="absolute inset-0 bg-cover bg-center transition-none"
-              style={{
-                backgroundImage: `url(${src})`,
-                opacity: i === 0 ? 1 : 0,
-              }}
+              style={{ backgroundImage: `url(${src})`, opacity: i === 0 ? 1 : 0 }}
             />
           ))}
           <div className="absolute inset-0 bg-gradient-to-t from-stone-950/40 via-transparent to-white/8 rounded-[18px]" />
 
-          {/* Frame label */}
           <div
             className="absolute top-4 left-4 rounded-full border border-white/40 bg-white/20 px-3 py-1.5 backdrop-blur-xl"
             style={{ fontSize: "0.52rem", letterSpacing: "0.2em", color: "white", fontWeight: 600, fontFamily: "sans-serif", textTransform: "uppercase" }}
@@ -306,7 +302,6 @@ function ProjectDossier({ project, sectionRef }) {
             Frame {String(mainImg + 1).padStart(2, "0")} · Hero
           </div>
 
-          {/* Image dots */}
           <div className="absolute bottom-4 left-4 flex gap-1.5">
             {project.images.map((_, i) => (
               <button
@@ -349,8 +344,6 @@ function ProjectDossier({ project, sectionRef }) {
 
       {/* ── Brief + Materials ── */}
       <div className="dossier-reveal opacity-0 mt-6 grid md:grid-cols-[1fr_0.85fr] gap-8 md:gap-16">
-
-        {/* Brief */}
         <div>
           <div className="flex items-center gap-2 mb-3">
             <Eyebrow color="#9a9188">Brief</Eyebrow>
@@ -363,7 +356,6 @@ function ProjectDossier({ project, sectionRef }) {
           </p>
         </div>
 
-        {/* Materials specified */}
         <div>
           <div className="flex items-center gap-2 mb-4">
             <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#9a9188" strokeWidth="2">
@@ -382,17 +374,13 @@ function ProjectDossier({ project, sectionRef }) {
                 <span className="font-sans text-stone-700" style={{ fontSize: "0.84rem" }}>
                   {m.label}
                 </span>
-                <span
-                  className="font-sans text-stone-400 tabular-nums"
-                  style={{ fontSize: "0.62rem", letterSpacing: "0.1em" }}
-                >
+                <span className="font-sans text-stone-400 tabular-nums" style={{ fontSize: "0.62rem", letterSpacing: "0.1em" }}>
                   {m.code}
                 </span>
               </div>
             ))}
           </div>
 
-          {/* CTAs */}
           <div className="flex flex-wrap gap-3 mt-6">
             <button
               onClick={open}
@@ -440,20 +428,16 @@ function PageHeader() {
       className="relative overflow-hidden pb-12 pt-28 md:pt-32"
       style={{ background: "linear-gradient(180deg, #f8f5ef 0%, #f5f2eb 100%)" }}
     >
-      {/* Warm glow */}
       <div
         className="pointer-events-none absolute -top-20 right-[15%] h-[380px] w-[380px] rounded-full blur-[90px]"
         style={{ background: "radial-gradient(circle, rgba(200,169,110,0.2) 0%, transparent 70%)" }}
       />
-      {/* Subtle dot grid */}
       <div
         className="pointer-events-none absolute inset-0 opacity-[0.04]"
         style={{ backgroundImage: "radial-gradient(#1c1917 1px, transparent 1px)", backgroundSize: "28px 28px" }}
       />
 
       <div className="relative z-10 mx-auto max-w-[1240px] px-6 md:px-12">
-
-        {/* Meta strip */}
         <div
           className="proj-hero-el opacity-0 mb-10 flex flex-wrap items-center gap-6"
           style={{ borderBottom: "1px solid rgba(180,170,155,0.3)", paddingBottom: "16px" }}
@@ -473,17 +457,13 @@ function PageHeader() {
           ].map((item) => (
             <div key={item} className="flex items-center gap-3">
               <span className="h-px w-10 bg-[rgba(180,170,155,0.5)]" />
-              <span
-                className="font-sans font-semibold uppercase text-stone-400"
-                style={{ fontSize: "0.55rem", letterSpacing: "0.18em" }}
-              >
+              <span className="font-sans font-semibold uppercase text-stone-400" style={{ fontSize: "0.55rem", letterSpacing: "0.18em" }}>
                 {item}
               </span>
             </div>
           ))}
         </div>
 
-        {/* Main heading */}
         <div className="grid md:grid-cols-[1fr_auto] gap-8 items-start">
           <div>
             <h1
@@ -492,12 +472,7 @@ function PageHeader() {
             >
               An archive of openings
               <br />
-              <em
-                className="italic"
-                style={{ color: "#78716c" }}
-              >
-                — with footage.
-              </em>
+              <em className="italic" style={{ color: "#78716c" }}>— with footage.</em>
             </h1>
 
             <p
@@ -509,7 +484,6 @@ function PageHeader() {
             </p>
           </div>
 
-          {/* Breadcrumb */}
           <div className="proj-hero-el opacity-0 flex items-center gap-2 mt-2 self-start">
             <Link to="/" className="font-sans text-[0.56rem] font-semibold uppercase tracking-[0.18em] text-stone-400 no-underline hover:text-stone-700 transition-colors">Home</Link>
             <span className="text-stone-300">›</span>
@@ -524,16 +498,18 @@ function PageHeader() {
 /* ─── Main Page ─── */
 export default function Projects() {
   const [activeIndex, setActiveIndex] = useState(0);
-  const sectionRefs = useRef(PROJECTS.map(() => ({ current: null })));
-  const containerRef = useRef(null);
+
+  // Single flat array of refs — one per project — avoids the stale
+  // plain-object snapshot problem in the original implementation.
+  const elRefs = useRef(PROJECTS.map(() => ({ current: null })));
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
-  // Update active index based on scroll position
+  // IntersectionObserver reads elRefs.current[i].current directly
   useEffect(() => {
-    const observers = sectionRefs.current.map((ref, i) => {
+    const observers = elRefs.current.map((ref, i) => {
       if (!ref.current) return null;
       const obs = new IntersectionObserver(
         ([entry]) => { if (entry.isIntersecting) setActiveIndex(i); },
@@ -546,46 +522,39 @@ export default function Projects() {
   }, []);
 
   const scrollToProject = (i) => {
-    sectionRefs.current[i]?.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+    elRefs.current[i]?.current?.scrollIntoView({ behavior: "smooth", block: "start" });
   };
 
   return (
     <div className="min-h-screen" style={{ background: "#f5f2eb" }}>
       <PageHeader />
 
-      {/* ── Body ── */}
-      <div
-        ref={containerRef}
-        className="max-w-10xl px-6 md:px-12 py-16 md:py-20 flex gap-12 lg:gap-16"
-      >
-        {/* Sticky sidebar */}
+      <div className="mx-auto max-w-[1240px] px-6 md:px-12 py-16 md:py-20 flex gap-12 lg:gap-16">
         <IndexSidebar activeIndex={activeIndex} onSelect={scrollToProject} />
 
         {/* Dossiers column */}
-        <div className="flex-1 min-w-0 flex flex-col divide-y"
-          style={{ divideColor: "rgba(180,170,155,0.3)" }}>
-          {PROJECTS.map((project, i) => {
-            // ensure each ref object exists
-            if (!sectionRefs.current[i]) {
-              sectionRefs.current[i] = { current: null };
-            }
-            return (
-              <div
-                key={project.id}
-                ref={(el) => { sectionRefs.current[i].current = el; }}
-                style={{ scrollMarginTop: "100px" }}
-              >
-                <ProjectDossier
-                  project={project}
-                  sectionRef={{ current: sectionRefs.current[i].current }}
-                />
-              </div>
-            );
-          })}
+        <div
+          className="flex-1 min-w-0 flex flex-col divide-y"
+          style={{ divideColor: "rgba(180,170,155,0.3)" }}
+        >
+          {PROJECTS.map((project, i) => (
+            // The wrapper div holds the real ref. ProjectDossier receives
+            // elRefs.current[i] (the ref object) so it always reads the
+            // live DOM node — no stale snapshot on first render.
+            <div
+              key={project.id}
+              ref={(el) => { elRefs.current[i].current = el; }}
+              style={{ scrollMarginTop: "100px" }}
+            >
+              <ProjectDossier
+                project={project}
+                elRef={elRefs.current[i]}
+              />
+            </div>
+          ))}
         </div>
       </div>
 
-      {/* ── Bottom CTA ── */}
       <BottomCTA />
     </div>
   );
@@ -611,17 +580,12 @@ function BottomCTA() {
       className="relative overflow-hidden px-6 py-20 md:px-12 md:py-28"
       style={{ background: "linear-gradient(180deg, #1c1714 0%, #241e18 100%)" }}
     >
-      {/* Warm glow */}
-      <div
-        className="pointer-events-none absolute inset-0 flex items-center justify-center"
-        style={{ pointerEvents: "none" }}
-      >
+      <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
         <div
           className="h-[500px] w-[500px] rounded-full blur-[110px]"
           style={{ background: "radial-gradient(circle, rgba(200,169,110,0.14) 0%, transparent 70%)" }}
         />
       </div>
-      {/* Warm grid lines */}
       <div
         className="pointer-events-none absolute inset-0"
         style={{
@@ -642,9 +606,7 @@ function BottomCTA() {
           style={{ fontSize: "clamp(2.4rem, 6vw, 5rem)" }}
         >
           Your project could be<br />
-          <em
-            className="bg-gradient-to-r from-[#c8a96e] via-[#e0c890] to-[#9ecfbf] bg-clip-text italic text-transparent"
-          >
+          <em className="bg-gradient-to-r from-[#c8a96e] via-[#e0c890] to-[#9ecfbf] bg-clip-text italic text-transparent">
             dossier 07.
           </em>
         </h2>

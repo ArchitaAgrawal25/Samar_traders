@@ -171,7 +171,7 @@ function FAQRow({ faq, isOpen, onToggle, rowRef, isLast }) {
                 <Link
                   to="/contact"
                   onClick={(e) => e.stopPropagation()}
-                  className="inline-flex items-center gap-1.5 font-sans text-[0.72rem] tracking-[0.04em] text-stone-700 no-underline transition-all duration-200 hover:text-stone-900"
+                  className="pl-4 inline-flex items-center gap-1.5 font-sans text-[0.72rem] tracking-[0.04em] text-stone-700 no-underline transition-all duration-200 hover:text-stone-900"
                 >
                   <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2">
                     <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
