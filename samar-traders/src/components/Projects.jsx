@@ -13,12 +13,7 @@ const PROJECTS = [
     location: "Faizabad Road, Lucknow",
     description:
       "A venue-wide upgrade with 50+ precision-engineered uPVC windows. Toughened glass units paired with airtight weather seals enhanced ventilation, durability, and overall guest comfort during large gatherings.",
-    materials: [
-      "uPVC structural frames",
-      "Toughened safety glass",
-      "Multi-chamber insulation",
-      "Precision hardware",
-    ],
+    materials: ["uPVC structural frames", "Toughened safety glass", "Multi-chamber insulation", "Precision hardware"],
     accent: "#2a7a6a",
     media: [
       { type: "image", src: "/images/pr1-1.jpg" },
@@ -27,19 +22,13 @@ const PROJECTS = [
       { type: "image", src: "/images/pr1-4.jpg" },
     ],
   },
-
   {
     id: "02",
     name: "St. Stephans Academy",
     location: "Lucknow",
     description:
       "A campus-scale installation of 30 uPVC doors and windows designed for high-traffic educational environments. The system improves insulation, reduces noise, and ensures smooth daily operation across classrooms.",
-    materials: [
-      "uPVC door & window profiles",
-      "Toughened glazing panels",
-      "Institution-grade hardware",
-      "EPDM weather seals",
-    ],
+    materials: ["uPVC door & window profiles", "Toughened glazing panels", "Institution-grade hardware", "EPDM weather seals"],
     accent: "#a07840",
     media: [
       { type: "image", src: "/images/pr2-5.png" },
@@ -48,36 +37,26 @@ const PROJECTS = [
       { type: "image", src: "/images/pr2-4.jpg" },
     ],
   },
-
   {
     id: "03",
     name: "NABARD Training Centre",
     location: "Lucknow",
     description:
       "Energy-efficient uPVC windows installed across the training facility, improving thermal performance, reducing ambient noise, and ensuring long-term weather-proof operation suited for institutional use.",
-    materials: [
-      "uPVC insulated profiles",
-      "Toughened energy glass",
-      "Premium hardware fittings",
-    ],
+    materials: ["uPVC insulated profiles", "Toughened energy glass", "Premium hardware fittings"],
     accent: "#7a5c3a",
     media: [
       { type: "image", src: "/images/pr3-2.avif" },
       { type: "image", src: "/images/pr3-1.jpg" },
     ],
   },
-
   {
     id: "04",
     name: "Deva Memorial Orthopaedics & Eye Hospital",
     location: "Faizabad",
     description:
       "High-performance uPVC doors customized for a medical environment, featuring toughened glass panels, precision-aligned hardware, and sealed frames that ensure hygiene, durability, and smooth clinical operation.",
-    materials: [
-      "uPVC door profiles",
-      "Toughened safety glass",
-      "Medical-grade premium hardware",
-    ],
+    materials: ["uPVC door profiles", "Toughened safety glass", "Medical-grade premium hardware"],
     accent: "#4a6b8a",
     media: [
       { type: "image", src: "/images/pr4-1.png" },
@@ -89,26 +68,39 @@ const PROJECTS = [
 
 function Lightbox({ media, startIdx, onClose }) {
   const [idx, setIdx] = useState(startIdx);
+
   const overlayRef = useRef(null);
   const panelRef = useRef(null);
   const videoRef = useRef(null);
+
   const n = media.length;
   const item = media[idx];
 
-  const prev = useCallback(() => setIdx((i) => (i - 1 + n) % n), [n]);
-  const next = useCallback(() => setIdx((i) => (i + 1) % n), [n]);
+  const prev = useCallback(() => {
+    setIdx((i) => (i - 1 + n) % n);
+  }, [n]);
+
+  const next = useCallback(() => {
+    setIdx((i) => (i + 1) % n);
+  }, [n]);
 
   useEffect(() => {
     gsap.fromTo(
       overlayRef.current,
       { opacity: 0 },
-      { opacity: 1, duration: 0.24, ease: "power2.out" }
+      { opacity: 1, duration: 0.22, ease: "power2.out" }
     );
 
     gsap.fromTo(
       panelRef.current,
-      { opacity: 0, y: 28, scale: 0.97 },
-      { opacity: 1, y: 0, scale: 1, duration: 0.38, ease: "expo.out" }
+      { opacity: 0, scale: 0.96, y: 16 },
+      {
+        opacity: 1,
+        scale: 1,
+        y: 0,
+        duration: 0.3,
+        ease: "power3.out",
+      }
     );
   }, []);
 
@@ -120,22 +112,31 @@ function Lightbox({ media, startIdx, onClose }) {
     };
 
     window.addEventListener("keydown", handler);
-    return () => window.removeEventListener("keydown", handler);
+
+    return () => {
+      window.removeEventListener("keydown", handler);
+    };
   }, [prev, next]);
 
   useEffect(() => {
     return () => {
-      if (videoRef.current) videoRef.current.pause();
+      if (videoRef.current) {
+        videoRef.current.pause();
+      }
     };
   }, [idx]);
 
   const handleClose = () => {
-    gsap.to(overlayRef.current, { opacity: 0, duration: 0.18 });
+    gsap.to(overlayRef.current, {
+      opacity: 0,
+      duration: 0.16,
+    });
+
     gsap.to(panelRef.current, {
       opacity: 0,
-      y: 18,
       scale: 0.97,
-      duration: 0.18,
+      y: 10,
+      duration: 0.16,
       ease: "power2.in",
       onComplete: onClose,
     });
@@ -145,23 +146,89 @@ function Lightbox({ media, startIdx, onClose }) {
     <div
       ref={overlayRef}
       onClick={(e) => {
-        if (e.target === overlayRef.current) handleClose();
+        if (e.target === overlayRef.current) {
+          handleClose();
+        }
       }}
-      className="fixed inset-0 z-[99999] flex items-center justify-center overflow-y-auto bg-transparent"
+      className="
+        fixed inset-0 z-[999999]
+        flex items-center justify-center
+        bg-black/75
+        p-2 sm:p-4
+        backdrop-blur-sm
+      "
     >
+      {/* Modal */}
       <div
         ref={panelRef}
-        className="relative flex h-[72dvh] w-[min(880px,92vw)] flex-col overflow-hidden rounded-[24px] bg-white shadow-[0_24px_70px_rgba(28,25,23,0.28)]"
+        className="
+          relative
+          overflow-hidden
+          rounded-[20px]
+          shadow-[0_24px_70px_rgba(0,0,0,0.4)]
+        "
+        style={{
+          width: "fit-content",
+          height: "fit-content",
+          maxWidth: "94vw",
+          maxHeight: "90vh",
+        }}
       >
+        {/* Media */}
+        {item.type === "video" ? (
+          <video
+            ref={videoRef}
+            key={item.src}
+            src={item.src}
+            poster={item.poster}
+            controls
+            playsInline
+            autoPlay
+            muted
+            className="
+              block
+              max-h-[90vh]
+              max-w-[94vw]
+              rounded-[20px]
+              object-contain
+            "
+          />
+        ) : (
+          <img
+            key={item.src}
+            src={item.src}
+            alt=""
+            className="
+              block
+              max-h-[90vh]
+              max-w-[94vw]
+              rounded-[20px]
+              object-contain
+            "
+          />
+        )}
+
+        {/* Close Button */}
         <button
           type="button"
           onClick={handleClose}
           aria-label="Close lightbox"
-          className="absolute right-3 top-3 z-50 flex h-11 w-11 items-center justify-center rounded-full border border-white/80 bg-white/90 text-[#1c1917] shadow-[0_8px_24px_rgba(0,0,0,0.28)] backdrop-blur-md transition hover:scale-110 hover:bg-white md:right-4 md:top-4 md:h-12 md:w-12"
+          className="
+            absolute right-4 top-4 z-50
+            flex h-11 w-11
+            items-center justify-center
+            rounded-full
+            bg-black/80
+            text-white
+            shadow-lg
+            backdrop-blur-md
+            transition
+            hover:scale-110
+          "
         >
           <svg
-            width="20"
-            height="20"
+            width="18"
+            height="18"
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"
@@ -173,36 +240,31 @@ function Lightbox({ media, startIdx, onClose }) {
           </svg>
         </button>
 
-        <div className="flex min-h-0 flex-1 items-center justify-center overflow-hidden bg-white">
-          {item.type === "video" ? (
-            <video
-              ref={videoRef}
-              key={item.src}
-              src={item.src}
-              poster={item.poster}
-              controls
-              playsInline
-              autoPlay
-              muted
-              className="block h-auto max-h-full w-auto max-w-full object-contain"
-            />
-          ) : (
-            <img
-              key={item.src}
-              src={item.src}
-              alt=""
-              className="block h-auto max-h-full w-auto max-w-full object-contain"
-            />
-          )}
-        </div>
-
+        {/* Navigation */}
         {n > 1 && (
-          <div className="absolute bottom-4 left-1/2 z-50 flex -translate-x-1/2 items-center gap-3 rounded-full border border-white/70 bg-white/90 px-3 py-2 shadow-[0_8px_28px_rgba(0,0,0,0.25)] backdrop-blur-md">
+          <div
+            className="
+              absolute bottom-4 left-1/2 z-50
+              flex -translate-x-1/2 items-center gap-3
+              rounded-full
+              bg-black/75
+              px-3 py-2
+              backdrop-blur-md
+            "
+          >
             <button
               type="button"
               onClick={prev}
               aria-label="Previous"
-              className="flex h-10 w-10 items-center justify-center rounded-full bg-[#1c1917] text-white transition hover:scale-105 hover:bg-[#2c2724] md:h-11 md:w-11"
+              className="
+                flex h-10 w-10
+                items-center justify-center
+                rounded-full
+                bg-white
+                text-black
+                transition
+                hover:scale-105
+              "
             >
               <svg
                 width="16"
@@ -218,15 +280,19 @@ function Lightbox({ media, startIdx, onClose }) {
               </svg>
             </button>
 
-            <span className="min-w-14 text-center font-sans text-[0.68rem] tracking-[0.14em] text-[#1c1917] tabular-nums">
-              {String(idx + 1).padStart(2, "0")} / {String(n).padStart(2, "0")}
-            </span>
-
             <button
               type="button"
               onClick={next}
               aria-label="Next"
-              className="flex h-10 w-10 items-center justify-center rounded-full bg-[#1c1917] text-white transition hover:scale-105 hover:bg-[#2c2724] md:h-11 md:w-11"
+              className="
+                flex h-10 w-10
+                items-center justify-center
+                rounded-full
+                bg-white
+                text-black
+                transition
+                hover:scale-105
+              "
             >
               <svg
                 width="16"
@@ -247,6 +313,7 @@ function Lightbox({ media, startIdx, onClose }) {
     </div>
   );
 }
+
 function GalleryTile({ item, onClick }) {
   const [loaded, setLoaded] = useState(item.type === "video");
 
@@ -383,7 +450,6 @@ function ProjectSection({ project, index }) {
       )}
 
       <div className="proj-reveal mb-[clamp(28px,4vw,44px)] text-center">
-
         <h2 className="m-0 font-serif text-[clamp(2.2rem,5vw,3.8rem)] font-normal leading-none tracking-[-0.035em] text-[#1c1710]">
           {project.name}
         </h2>
@@ -461,54 +527,54 @@ function PageHeader() {
   }, []);
 
   return (
-   <header
-  ref={ref}
-  className="relative pb-10 overflow-hidden bg-gradient-to-br from-[#f9f7f2] via-[#f4f0e7] to-[#ede8dd] pt-[clamp(100px,13vw,136px)]"
->
-  <div className="pointer-events-none absolute -top-20 right-[10%] h-[420px] w-[420px] rounded-full bg-[radial-gradient(circle,rgba(200,169,110,0.22)_0%,transparent_70%)] blur-[80px]" />
-  <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(#1c1917_1px,transparent_1px)] bg-[length:30px_30px] opacity-[0.035]" />
+    <header
+      ref={ref}
+      className="relative overflow-hidden bg-gradient-to-br from-[#f9f7f2] via-[#f4f0e7] to-[#ede8dd] pb-10 pt-[clamp(100px,13vw,136px)]"
+    >
+      <div className="pointer-events-none absolute -top-20 right-[10%] h-[420px] w-[420px] rounded-full bg-[radial-gradient(circle,rgba(200,169,110,0.22)_0%,transparent_70%)] blur-[80px]" />
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(#1c1917_1px,transparent_1px)] bg-[length:30px_30px] opacity-[0.035]" />
 
-  <div className="relative z-[1] mx-auto max-w-[1200px] px-[clamp(20px,5vw,56px)]">
-    <div className="flex flex-col items-center justify-center text-center gap-8">
-      <div className="flex flex-col items-center">
-        <div className="proj-hero-el mb-2 flex items-center gap-3 opacity-0">
-          <span className="font-sans text-[0.78rem] font-extrabold uppercase tracking-[0.24em] text-[#9a9188]">
-            Project Gallery
-          </span>
-        </div>
+      <div className="relative z-[1] mx-auto max-w-full px-[clamp(20px,5vw,56px)]">
+        <div className="flex flex-col items-center justify-center gap-8 text-center">
+          <div className="flex flex-col items-center">
+            <div className="proj-hero-el mb-2 flex items-center gap-3 opacity-0">
+              <span className="font-sans text-[0.78rem] font-extrabold uppercase tracking-[0.24em] text-[#9a9188]">
+                Project Gallery
+              </span>
+            </div>
 
-        <h1 className="proj-hero-el m-0 font-serif text-[clamp(1.8rem,5vw,4rem)] font-normal leading-[0.96] tracking-[-0.04em] text-[#1c1710] opacity-0">
-          Built &amp; delivered
-          <em className="italic text-[#a07840]">— in Lucknow.</em>
-        </h1>
+            <h1 className="proj-hero-el m-0 font-serif text-[clamp(1.8rem,5vw,4rem)] font-normal leading-[0.96] tracking-[-0.04em] text-[#1c1710] opacity-0">
+              Built &amp; delivered
+              <em className="italic text-[#a07840]">— in Lucknow.</em>
+            </h1>
 
-        <p className="proj-hero-el mt-5 max-w-[720px] font-sans text-[clamp(0.85rem,1.1vw,1rem)] leading-[1.7] text-[#78716c] opacity-0">
-          A curated selection of completed installations — photos and videos from each site, direct from our team.
-        </p>
-      </div>
-
-      <div className="proj-hero-el flex flex-wrap justify-center gap-2.5 opacity-0">
-        {[
-          { v: PROJECTS.length, l: "Projects" },
-          { v: "2+", l: "Years" },
-          { v: "200+", l: "Installs" },
-        ].map(({ v, l }) => (
-          <div
-            key={l}
-            className="min-w-20 rounded-[18px] border border-[#c8b99a]/40 bg-white/55 px-5 py-4 text-center backdrop-blur"
-          >
-            <p className="m-0 font-serif text-[1.7rem] font-semibold leading-none tracking-[-0.04em] text-[#1c1710]">
-              {v}
-            </p>
-            <p className="mt-1.5 font-sans text-[0.52rem] font-bold uppercase tracking-[0.16em] text-[#a8a098]">
-              {l}
+            <p className="proj-hero-el mt-5 max-w-[720px] font-sans text-[clamp(0.85rem,1.1vw,1rem)] leading-[1.7] text-[#78716c] opacity-0">
+              A curated selection of completed installations — photos and videos from each site, direct from our team.
             </p>
           </div>
-        ))}
+
+          <div className="proj-hero-el flex flex-wrap justify-center gap-2.5 opacity-0">
+            {[
+              { v: PROJECTS.length, l: "Projects" },
+              { v: "2+", l: "Years" },
+              { v: "200+", l: "Installs" },
+            ].map(({ v, l }) => (
+              <div
+                key={l}
+                className="min-w-20 rounded-[18px] border border-[#c8b99a]/40 bg-white/55 px-5 py-4 text-center backdrop-blur"
+              >
+                <p className="m-0 font-serif text-[1.7rem] font-semibold leading-none tracking-[-0.04em] text-[#1c1710]">
+                  {v}
+                </p>
+                <p className="mt-1.5 font-sans text-[0.52rem] font-bold uppercase tracking-[0.16em] text-[#a8a098]">
+                  {l}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
-    </div>
-  </div>
-</header>
+    </header>
   );
 }
 
@@ -537,7 +603,7 @@ function BottomCTA() {
   return (
     <footer
       ref={ref}
-      className="relative overflow-hidden bg-gradient-to-b from-[#1c1714] to-[#241e18] px-[clamp(20px,5vw,56px)] py-[clamp(60px,8vw,112px)]"
+      className="relative overflow-hidden bg-gradient-to-b from-[#1c1714] to-[#241e18] px-[clamp(20px,5vw,56px)] py-[clamp(50px,6vw,96px)]"
     >
       <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
         <div className="h-[500px] w-[500px] rounded-full bg-[radial-gradient(circle,rgba(200,169,110,0.14)_0%,transparent_70%)] blur-[110px]" />
@@ -597,7 +663,7 @@ export default function Projects() {
     <div className="min-h-screen bg-[#f5f2eb]">
       <PageHeader />
 
-      <div className="mx-auto max-w-[1200px] px-[clamp(20px,5vw,56px)] py-[clamp(48px,7vw,96px)]">
+      <div className="mx-auto max-w-[1300px] px-[clamp(20px,5vw,56px)] py-[clamp(48px,7vw,96px)]">
         {PROJECTS.map((project, i) => (
           <ProjectSection key={project.id} project={project} index={i} />
         ))}
