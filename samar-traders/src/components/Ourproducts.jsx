@@ -28,7 +28,7 @@ const PRODUCTS = [
   location: "NABARD | Training Center | Lucknow",
   desc: "High-efficiency uPVC windows installed at the premises, offering improved insulation, noise control, and durable weather-sealed performance.",
   materials: ["uPVC profiles", "Toughened glass", "Premium hardware"],
-  images: ["/images/pr3-2.jpg","/images/pr3-1.jpg"],
+  images: ["/images/pr3-2.avif","/images/pr3-1.jpg"],
 },
   {
   id: "04",
@@ -438,6 +438,7 @@ export default function OurProducts() {
                     ref={(el) => (imgRefs.current[i] = el)}
                     className="absolute inset-0 transition-none"
                     style={{
+                      objectFit:"cover",
                       backgroundImage: `url(${p.images[0]})`,
                       backgroundSize: "cover",
                       backgroundPosition: "center",
