@@ -9,63 +9,80 @@ gsap.registerPlugin(ScrollTrigger);
 const PROJECTS = [
   {
     id: "01",
-    name: "Hillcrest Villa",
-    location: "Gomti Nagar, Lucknow",
+    name: "The Magnolia – Marriage Lawn",
+    location: "Faizabad Road, Lucknow",
     description:
-      "A sprawling family villa wrapped in floor-to-ceiling uPVC sliding walls, anchored by a warm teak entry door cut from a single slab. Every opening frame-flush with the architecture.",
-    materials: ["uPVC Sliding Tracks", "Teak hardwood entry", "10mm toughened glass", "Anodised hardware"],
+      "A venue-wide upgrade with 50+ precision-engineered uPVC windows. Toughened glass units paired with airtight weather seals enhanced ventilation, durability, and overall guest comfort during large gatherings.",
+    materials: [
+      "uPVC structural frames",
+      "Toughened safety glass",
+      "Multi-chamber insulation",
+      "Precision hardware",
+    ],
     accent: "#2a7a6a",
     media: [
-      { type: "image", src: "/images/hero1.jpg" },
-      { type: "image", src: "/images/hero2.jpg" },
-      { type: "image", src: "/images/hero3.jpeg" },
-      { type: "image", src: "/images/door1.jpg" },
+      { type: "image", src: "/images/pr1-1.jpg" },
+      { type: "image", src: "/images/pr1-2.jpg" },
+      { type: "image", src: "/images/pr1-3.jpg" },
+      { type: "image", src: "/images/pr1-4.jpg" },
     ],
   },
+
   {
     id: "02",
-    name: "Lakeside Apartments",
-    location: "Hazratganj, Lucknow",
+    name: "St. Stephans Academy",
+    location: "Lucknow",
     description:
-      "Slim-profile casement windows across 24 apartments, each unit demanding a bespoke sizing run. Delivered in six weeks with zero rework on site.",
-    materials: ["uPVC Casement frames", "ROTO Germany hardware", "EPDM triple gasket seal", "SS mosquito mesh"],
+      "A campus-scale installation of 30 uPVC doors and windows designed for high-traffic educational environments. The system improves insulation, reduces noise, and ensures smooth daily operation across classrooms.",
+    materials: [
+      "uPVC door & window profiles",
+      "Toughened glazing panels",
+      "Institution-grade hardware",
+      "EPDM weather seals",
+    ],
     accent: "#a07840",
     media: [
-      { type: "video", src: "/videos/project2-v1.mp4", poster: "/images/hero2.jpg" },
-      { type: "video", src: "/videos/project2-v2.mp4", poster: "/images/door2.jpg" },
-      { type: "image", src: "/images/door3.png" },
-      { type: "image", src: "/images/door4.jpg" },
-      { type: "image", src: "/images/win1.jpg" },
-      { type: "image", src: "/images/win2.webp" },
+      { type: "image", src: "/images/pr2-5.png" },
+      { type: "image", src: "/images/pr2-2.jpg" },
+      { type: "image", src: "/images/pr2-6.png" },
+      { type: "image", src: "/images/pr2-4.jpg" },
     ],
   },
+
   {
     id: "03",
-    name: "Aster Café",
-    location: "Indira Nagar, Lucknow",
+    name: "NABARD Training Centre",
+    location: "Lucknow",
     description:
-      "A modular kitchen installation for a 40-cover café — L-shaped layout, full appliance integration, and a custom stone-topped island that doubles as a prep and pass counter.",
-    materials: ["Modular kitchen cabinetry", "Quartz stone countertop", "Soft-close drawer systems", "Built-in appliance housing"],
+      "Energy-efficient uPVC windows installed across the training facility, improving thermal performance, reducing ambient noise, and ensuring long-term weather-proof operation suited for institutional use.",
+    materials: [
+      "uPVC insulated profiles",
+      "Toughened energy glass",
+      "Premium hardware fittings",
+    ],
     accent: "#7a5c3a",
     media: [
-      { type: "image", src: "/images/show1.JPG" },
-      { type: "image", src: "/images/show3.JPG" },
+      { type: "image", src: "/images/pr3-2.avif" },
+      { type: "image", src: "/images/pr3-1.jpg" },
     ],
   },
+
   {
     id: "04",
-    name: "Whitefield Office Park",
-    location: "Aliganj, Lucknow",
+    name: "Deva Memorial Orthopaedics & Eye Hospital",
+    location: "Faizabad",
     description:
-      "Glass partition walls across three floors of a corporate office, with frameless pivot doors and acoustic seals engineered to hit 38dB reduction — verified post-install.",
-    materials: ["10mm toughened glass", "Aluminium channels", "Acoustic EPDM seals", "Frameless pivot hinges"],
-    accent: "#3a5a7a",
+      "High-performance uPVC doors customized for a medical environment, featuring toughened glass panels, precision-aligned hardware, and sealed frames that ensure hygiene, durability, and smooth clinical operation.",
+    materials: [
+      "uPVC door profiles",
+      "Toughened safety glass",
+      "Medical-grade premium hardware",
+    ],
+    accent: "#4a6b8a",
     media: [
-      { type: "image", src: "/images/show5.JPG" },
-      { type: "image", src: "/images/show7.JPG" },
-      { type: "image", src: "/images/hero2.jpg" },
-      { type: "video", src: "/videos/project4-v1.mp4", poster: "/images/show5.JPG" },
-      { type: "video", src: "/videos/project4-v2.mp4", poster: "/images/show7.JPG" },
+      { type: "image", src: "/images/pr4-1.png" },
+      { type: "image", src: "/images/pr4-2.png" },
+      { type: "image", src: "/images/pr4-3.png" },
     ],
   },
 ];
@@ -82,25 +99,16 @@ function Lightbox({ media, startIdx, onClose }) {
   const next = useCallback(() => setIdx((i) => (i + 1) % n), [n]);
 
   useEffect(() => {
-    const prevOverflow = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-
-    return () => {
-      document.body.style.overflow = prevOverflow;
-    };
-  }, []);
-
-  useEffect(() => {
     gsap.fromTo(
       overlayRef.current,
       { opacity: 0 },
-      { opacity: 1, duration: 0.22, ease: "power2.out" }
+      { opacity: 1, duration: 0.24, ease: "power2.out" }
     );
 
     gsap.fromTo(
       panelRef.current,
-      { scale: 0.94, opacity: 0, y: 18 },
-      { scale: 1, opacity: 1, y: 0, duration: 0.34, ease: "expo.out" }
+      { opacity: 0, y: 28, scale: 0.97 },
+      { opacity: 1, y: 0, scale: 1, duration: 0.38, ease: "expo.out" }
     );
   }, []);
 
@@ -124,10 +132,10 @@ function Lightbox({ media, startIdx, onClose }) {
   const handleClose = () => {
     gsap.to(overlayRef.current, { opacity: 0, duration: 0.18 });
     gsap.to(panelRef.current, {
-      scale: 0.95,
       opacity: 0,
-      y: 10,
-      duration: 0.16,
+      y: 18,
+      scale: 0.97,
+      duration: 0.18,
       ease: "power2.in",
       onComplete: onClose,
     });
@@ -139,25 +147,25 @@ function Lightbox({ media, startIdx, onClose }) {
       onClick={(e) => {
         if (e.target === overlayRef.current) handleClose();
       }}
-      className="fixed inset-0 z-[99999] flex items-center justify-center overflow-hidden bg-black/65 px-3 py-5 backdrop-blur-md sm:px-6"
+      className="fixed inset-0 z-[99999] flex items-center justify-center overflow-y-auto bg-transparent"
     >
       <div
         ref={panelRef}
-        className="relative flex h-[min(86dvh,760px)] w-[min(94vw,1080px)] flex-col overflow-hidden rounded-2xl border border-[#c8b99a]/25 bg-[#100d0a] shadow-[0_30px_90px_rgba(0,0,0,0.65)]"
+        className="relative flex h-[72dvh] w-[min(880px,92vw)] flex-col overflow-hidden rounded-[24px] bg-white shadow-[0_24px_70px_rgba(28,25,23,0.28)]"
       >
         <button
           type="button"
           onClick={handleClose}
           aria-label="Close lightbox"
-          className="absolute right-3 top-3 z-50 flex h-12 w-12 items-center justify-center rounded-full border border-white/45 bg-black/85 text-white shadow-[0_10px_30px_rgba(0,0,0,0.55)] backdrop-blur transition hover:scale-110 hover:border-white hover:bg-[#2c2724] sm:right-4 sm:top-4 sm:h-14 sm:w-14"
+          className="absolute right-3 top-3 z-50 flex h-11 w-11 items-center justify-center rounded-full border border-white/80 bg-white/90 text-[#1c1917] shadow-[0_8px_24px_rgba(0,0,0,0.28)] backdrop-blur-md transition hover:scale-110 hover:bg-white md:right-4 md:top-4 md:h-12 md:w-12"
         >
           <svg
-            width="22"
-            height="22"
+            width="20"
+            height="20"
             viewBox="0 0 24 24"
             fill="none"
-            stroke="white"
-            strokeWidth="2.4"
+            stroke="currentColor"
+            strokeWidth="2.5"
             strokeLinecap="round"
             strokeLinejoin="round"
           >
@@ -165,119 +173,80 @@ function Lightbox({ media, startIdx, onClose }) {
           </svg>
         </button>
 
-        <div className="flex min-h-0 flex-1 items-center justify-center overflow-hidden px-3 pb-3 pt-16 sm:px-5 sm:pb-4 sm:pt-20">
-          <div className="flex h-full w-full items-center justify-center overflow-hidden rounded-xl bg-black/35">
-            {item.type === "video" ? (
-              <video
-                ref={videoRef}
-                key={item.src}
-                src={item.src}
-                poster={item.poster}
-                controls
-                playsInline
-                autoPlay
-                muted
-                className="block max-h-full max-w-full rounded-xl object-contain"
-              />
-            ) : (
-              <img
-                key={item.src}
-                src={item.src}
-                alt=""
-                className="block max-h-full max-w-full rounded-xl object-contain"
-              />
-            )}
-          </div>
+        <div className="flex min-h-0 flex-1 items-center justify-center overflow-hidden bg-white">
+          {item.type === "video" ? (
+            <video
+              ref={videoRef}
+              key={item.src}
+              src={item.src}
+              poster={item.poster}
+              controls
+              playsInline
+              autoPlay
+              muted
+              className="block h-auto max-h-full w-auto max-w-full object-contain"
+            />
+          ) : (
+            <img
+              key={item.src}
+              src={item.src}
+              alt=""
+              className="block h-auto max-h-full w-auto max-w-full object-contain"
+            />
+          )}
         </div>
 
         {n > 1 && (
-          <div className="flex shrink-0 flex-col items-center gap-2 border-t border-white/10 bg-[#0b0806]/95 px-3 py-3 sm:py-4">
-            <div className="flex items-center justify-center gap-4">
-              <button
-                type="button"
-                onClick={prev}
-                aria-label="Previous"
-                className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-white/30 bg-white/10 text-white shadow-[0_4px_20px_rgba(0,0,0,0.35)] backdrop-blur transition hover:scale-105 hover:border-white/60 hover:bg-white/20 sm:h-[52px] sm:w-[52px]"
+          <div className="absolute bottom-4 left-1/2 z-50 flex -translate-x-1/2 items-center gap-3 rounded-full border border-white/70 bg-white/90 px-3 py-2 shadow-[0_8px_28px_rgba(0,0,0,0.25)] backdrop-blur-md">
+            <button
+              type="button"
+              onClick={prev}
+              aria-label="Previous"
+              className="flex h-10 w-10 items-center justify-center rounded-full bg-[#1c1917] text-white transition hover:scale-105 hover:bg-[#2c2724] md:h-11 md:w-11"
+            >
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
               >
-                <svg
-                  width="18"
-                  height="18"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="white"
-                  strokeWidth="2.3"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <path d="M15 18l-6-6 6-6" />
-                </svg>
-              </button>
+                <path d="M15 18l-6-6 6-6" />
+              </svg>
+            </button>
 
-              <span className="min-w-16 text-center font-sans text-[0.72rem] tracking-[0.14em] text-white/60 tabular-nums">
-                {String(idx + 1).padStart(2, "0")} / {String(n).padStart(2, "0")}
-              </span>
+            <span className="min-w-14 text-center font-sans text-[0.68rem] tracking-[0.14em] text-[#1c1917] tabular-nums">
+              {String(idx + 1).padStart(2, "0")} / {String(n).padStart(2, "0")}
+            </span>
 
-              <button
-                type="button"
-                onClick={next}
-                aria-label="Next"
-                className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-white/30 bg-white/10 text-white shadow-[0_4px_20px_rgba(0,0,0,0.35)] backdrop-blur transition hover:scale-105 hover:border-white/60 hover:bg-white/20 sm:h-[52px] sm:w-[52px]"
+            <button
+              type="button"
+              onClick={next}
+              aria-label="Next"
+              className="flex h-10 w-10 items-center justify-center rounded-full bg-[#1c1917] text-white transition hover:scale-105 hover:bg-[#2c2724] md:h-11 md:w-11"
+            >
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
               >
-                <svg
-                  width="18"
-                  height="18"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="white"
-                  strokeWidth="2.3"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <path d="M9 18l6-6-6-6" />
-                </svg>
-              </button>
-            </div>
-
-            <div className="flex max-w-full items-center gap-2 overflow-x-auto px-1 py-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-              {media.map((m, i) => (
-                <button
-                  type="button"
-                  key={i}
-                  onClick={() => setIdx(i)}
-                  aria-label={`View item ${i + 1}`}
-                  className={`h-10 w-[52px] shrink-0 overflow-hidden rounded-[9px] border-2 bg-[#111] p-0 transition ${
-                    i === idx
-                      ? "scale-105 border-white/90 opacity-100"
-                      : "border-white/20 opacity-45 hover:opacity-80"
-                  }`}
-                >
-                  {m.type === "video" ? (
-                    <div
-                      className="flex h-full w-full items-center justify-center bg-cover bg-center"
-                      style={{
-                        backgroundImage: m.poster ? `url(${m.poster})` : undefined,
-                        backgroundColor: m.poster ? undefined : "#2a2a2a",
-                      }}
-                    >
-                      {!m.poster && (
-                        <svg width="10" height="10" viewBox="0 0 24 24" fill="white">
-                          <polygon points="5,3 19,12 5,21" />
-                        </svg>
-                      )}
-                    </div>
-                  ) : (
-                    <img src={m.src} alt="" className="block h-full w-full object-cover" />
-                  )}
-                </button>
-              ))}
-            </div>
+                <path d="M9 18l6-6-6-6" />
+              </svg>
+            </button>
           </div>
         )}
       </div>
     </div>
   );
 }
-
 function GalleryTile({ item, onClick }) {
   const [loaded, setLoaded] = useState(item.type === "video");
 
@@ -414,15 +383,6 @@ function ProjectSection({ project, index }) {
       )}
 
       <div className="proj-reveal mb-[clamp(28px,4vw,44px)] text-center">
-        <div className="mb-3.5 inline-flex items-center gap-2.5">
-          <span className="font-sans text-[0.52rem] uppercase tracking-[0.22em] text-[#a09684]/70 tabular-nums">
-            N° {project.id}
-          </span>
-          <span className="h-px w-5 bg-[#b4a894]/40" />
-          <span className="font-sans text-[0.50rem] uppercase tracking-[0.16em] text-[#a09684]/65">
-            {mediaLabel}
-          </span>
-        </div>
 
         <h2 className="m-0 font-serif text-[clamp(2.2rem,5vw,3.8rem)] font-normal leading-none tracking-[-0.035em] text-[#1c1710]">
           {project.name}
@@ -501,65 +461,54 @@ function PageHeader() {
   }, []);
 
   return (
-    <header
-      ref={ref}
-      className="relative overflow-hidden bg-gradient-to-br from-[#f9f7f2] via-[#f4f0e7] to-[#ede8dd] pb-16 pt-[clamp(100px,13vw,136px)]"
-    >
-      <div className="pointer-events-none absolute -top-20 right-[10%] h-[420px] w-[420px] rounded-full bg-[radial-gradient(circle,rgba(200,169,110,0.22)_0%,transparent_70%)] blur-[80px]" />
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(#1c1917_1px,transparent_1px)] bg-[length:30px_30px] opacity-[0.035]" />
+   <header
+  ref={ref}
+  className="relative pb-10 overflow-hidden bg-gradient-to-br from-[#f9f7f2] via-[#f4f0e7] to-[#ede8dd] pt-[clamp(100px,13vw,136px)]"
+>
+  <div className="pointer-events-none absolute -top-20 right-[10%] h-[420px] w-[420px] rounded-full bg-[radial-gradient(circle,rgba(200,169,110,0.22)_0%,transparent_70%)] blur-[80px]" />
+  <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(#1c1917_1px,transparent_1px)] bg-[length:30px_30px] opacity-[0.035]" />
 
-      <div className="relative z-[1] mx-auto max-w-[1200px] px-[clamp(20px,5vw,56px)]">
-        <div className="proj-hero-el mb-9 flex items-center gap-2 opacity-0">
-          <Link
-            to="/"
-            className="font-sans text-[0.56rem] font-semibold uppercase tracking-[0.18em] text-[#a8a098] no-underline transition hover:text-[#5a5248]"
-          >
-            Home
-          </Link>
-          <span className="text-[#d0c8bc]">›</span>
-          <span className="font-sans text-[0.56rem] font-semibold uppercase tracking-[0.18em] text-[#a07840]">
-            Projects
+  <div className="relative z-[1] mx-auto max-w-[1200px] px-[clamp(20px,5vw,56px)]">
+    <div className="flex flex-col items-center justify-center text-center gap-8">
+      <div className="flex flex-col items-center">
+        <div className="proj-hero-el mb-2 flex items-center gap-3 opacity-0">
+          <span className="font-sans text-[0.78rem] font-extrabold uppercase tracking-[0.24em] text-[#9a9188]">
+            Project Gallery
           </span>
         </div>
 
-        <div className="flex flex-wrap items-end justify-between gap-8">
-          <div>
-            <div className="proj-hero-el mb-4 flex items-center gap-3 opacity-0">
-              <span className="h-px w-8 bg-gradient-to-r from-[#c8b99a] to-transparent" />
-              <span className="font-sans text-[0.58rem] font-extrabold uppercase tracking-[0.24em] text-[#9a9188]">
-                Project Gallery
-              </span>
-            </div>
+        <h1 className="proj-hero-el m-0 font-serif text-[clamp(1.8rem,5vw,4rem)] font-normal leading-[0.96] tracking-[-0.04em] text-[#1c1710] opacity-0">
+          Built &amp; delivered
+          <em className="italic text-[#a07840]">— in Lucknow.</em>
+        </h1>
 
-            <h1 className="proj-hero-el m-0 font-serif text-[clamp(2.8rem,7vw,6rem)] font-normal leading-[0.96] tracking-[-0.04em] text-[#1c1710] opacity-0">
-              Built &amp; delivered
-              <br />
-              <em className="italic text-[#a07840]">— in Lucknow.</em>
-            </h1>
+        <p className="proj-hero-el mt-5 max-w-[720px] font-sans text-[clamp(0.85rem,1.1vw,1rem)] leading-[1.7] text-[#78716c] opacity-0">
+          A curated selection of completed installations — photos and videos from each site, direct from our team.
+        </p>
+      </div>
 
-            <p className="proj-hero-el mt-5 max-w-[480px] font-sans text-[clamp(0.85rem,1.1vw,1rem)] leading-[1.7] text-[#78716c] opacity-0">
-              A curated selection of completed installations — photos and videos from each site, direct from our team.
+      <div className="proj-hero-el flex flex-wrap justify-center gap-2.5 opacity-0">
+        {[
+          { v: PROJECTS.length, l: "Projects" },
+          { v: "2+", l: "Years" },
+          { v: "200+", l: "Installs" },
+        ].map(({ v, l }) => (
+          <div
+            key={l}
+            className="min-w-20 rounded-[18px] border border-[#c8b99a]/40 bg-white/55 px-5 py-4 text-center backdrop-blur"
+          >
+            <p className="m-0 font-serif text-[1.7rem] font-semibold leading-none tracking-[-0.04em] text-[#1c1710]">
+              {v}
+            </p>
+            <p className="mt-1.5 font-sans text-[0.52rem] font-bold uppercase tracking-[0.16em] text-[#a8a098]">
+              {l}
             </p>
           </div>
-
-          <div className="proj-hero-el flex flex-wrap gap-2.5 opacity-0">
-            {[{ v: PROJECTS.length, l: "Projects" }, { v: "2+", l: "Years" }, { v: "200+", l: "Installs" }].map(({ v, l }) => (
-              <div
-                key={l}
-                className="min-w-20 rounded-[18px] border border-[#c8b99a]/40 bg-white/55 px-5 py-4 text-center backdrop-blur"
-              >
-                <p className="m-0 font-serif text-[1.7rem] font-semibold leading-none tracking-[-0.04em] text-[#1c1710]">
-                  {v}
-                </p>
-                <p className="mt-1.5 font-sans text-[0.52rem] font-bold uppercase tracking-[0.16em] text-[#a8a098]">
-                  {l}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
+        ))}
       </div>
-    </header>
+    </div>
+  </div>
+</header>
   );
 }
 
