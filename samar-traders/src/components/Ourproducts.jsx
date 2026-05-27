@@ -8,64 +8,37 @@ gsap.registerPlugin(ScrollTrigger);
 const PRODUCTS = [
   {
     id: "01",
-    name: "uPVC Casement Windows",
-    category: "uPVC",
-    type: "Windows",
-    location: "Gomti Nagar, Lucknow",
-    desc: "Energy-efficient multi-chamber uPVC frames with German hardware, weather-sealed gaskets and tilt-turn operation for maximum ventilation control.",
-    materials: ["uPVC frames", "Toughened glass", "ROTO hardware"],
-    images: ["/images/hero1.jpg", "/images/hero2.jpg", "/images/hero3.jpeg"],
+    name: "uPVC Windows",
+    location: "The Magnolia | Marriage Lawn | Faizabad Road | Lucknow",
+    desc: "Installed 50+ advanced uPVC window units featuring toughened glass, and precision weather-sealing to improve ventilation, durability, and overall comfort at the venue.",
+    materials: ["uPVC frames", "Toughened glass"],
+    images: ["/images/pr1-1.jpg", "/images/pr1-2.jpg","/images/pr1-3.jpg","/images/pr1-4.jpg",],
   },
   {
-    id: "02",
-    name: "Aluminium Sliding Doors",
-    category: "Aluminium",
-    type: "Doors",
-    location: "Hazratganj, Lucknow",
-    desc: "Slim-profile aluminium sliding systems with floor-to-ceiling glass for seamless indoor-outdoor flow. Powder-coated in 200+ RAL shades.",
-    materials: ["6063-T5 Aluminium", "Structural glazing", "Stainless rollers"],
-    images: ["/images/hero2.jpg", "/images/hero3.jpeg", "/images/hero1.jpg"],
-  },
+  id: "02",
+  name: "uPVC Doors & Windows",
+  location: "ST. STEPHANS ACADEMY | General education school | Lucknow",
+  desc: "30 High-performance uPVC door and window systems installed across the campus, offering excellent insulation, noise reduction, and smooth operational functionality.",
+  materials: ["uPVC profiles", "Toughened glass"],
+  images: ["/images/pr2-5.png", "/images/pr2-2.jpg", "/images/pr2-6.png","/images/pr2-4.jpg"],
+},
   {
-    id: "03",
-    name: "Wooden Entry Doors",
-    category: "Wood",
-    type: "Doors",
-    location: "Aliganj, Lucknow",
-    desc: "Solid teak and engineered hardwood doors with CNC-routed panels, termite-treatment and custom lacquer finishes for lasting impressions.",
-    materials: ["Solid teak", "Engineered wood", "Mortise lock"],
-    images: ["/images/hero3.jpeg", "/images/hero1.jpg", "/images/hero2.jpg"],
-  },
+  id: "03",
+  name: "uPVC Windows",
+  location: "NABARD | Training Center | Lucknow",
+  desc: "High-efficiency uPVC windows installed at the premises, offering improved insulation, noise control, and durable weather-sealed performance.",
+  materials: ["uPVC profiles", "Toughened glass", "Premium hardware"],
+  images: ["/images/pr3-2.jpg","/images/pr3-1.jpg"],
+},
   {
-    id: "04",
-    name: "Glass Partitions",
-    category: "Glass",
-    type: "Partitions",
-    location: "Vikas Nagar, Lucknow",
-    desc: "10mm toughened and frosted glass office partitions with slim aluminium frames, acoustic seals and full-height pivot doors.",
-    materials: ["10mm toughened glass", "Frosted film", "Aluminium channels"],
-    images: ["/images/hero1.jpg", "/images/hero3.jpeg", "/images/hero2.jpg"],
-  },
-  {
-    id: "05",
-    name: "uPVC Sliding Windows",
-    category: "uPVC",
-    type: "Windows",
-    location: "Indira Nagar, Lucknow",
-    desc: "Low-maintenance uPVC sliding windows with stainless mesh, multi-point locking and UV-stabilised profiles for Indian climate zones.",
-    materials: ["uPVC profiles", "SS mosquito mesh", "Multi-point lock"],
-    images: ["/images/hero2.jpg", "/images/hero1.jpg", "/images/hero3.jpeg"],
-  },
-  {
-    id: "06",
-    name: "Folding Balcony Enclosures",
-    category: "Aluminium",
-    type: "Enclosures",
-    location: "Gomti Nagar Ext., Lucknow",
-    desc: "Thermally broken aluminium bi-fold systems that fully retract to open balconies to the sky — ideal for apartments and penthouses.",
-    materials: ["Thermally broken Al", "Laminated glass", "Concealed hinges"],
-    images: ["/images/hero3.jpeg", "/images/hero2.jpg", "/images/hero1.jpg"],
-  },
+  id: "04",
+  name: "uPVC Doors",
+  location: "Deva Memorial ORTHOPAEDICS AND EYE HOSPITAL | Faizabad",
+  desc: "High-performance uPVC doors with toughened glass panels, precision hardware, and weather-sealed frames for reliable strength, insulation, and smooth operation.",
+  materials: ["uPVC profiles", "Toughened glass", "Premium hardware"],
+  images: ["/images/pr4-1.png", "/images/pr4-2.png", "/images/pr4-3.png"],
+},
+ 
 ];
 
 // ─── tiny helpers ────────────────────────────────────────────
@@ -182,6 +155,7 @@ function ProductModal({ product, onClose }) {
                     onClick={() => setImgIdx(i)}
                     className="transition-all duration-200"
                     style={{
+                      objectFit: "cover",
                       width: imgIdx === i ? "22px" : "6px",
                       height: "6px",
                       borderRadius: "99px",
@@ -210,14 +184,7 @@ function ProductModal({ product, onClose }) {
           {/* ── Right: detail ── */}
           <div className="flex flex-col gap-5 p-6 md:p-7">
             {/* Category label */}
-            <div>
-              <span
-                className="font-sans text-stone-500 uppercase tracking-[0.16em]"
-                style={{ fontSize: "0.58rem" }}
-              >
-                {product.category} — {product.type}
-              </span>
-            </div>
+           
 
             {/* Name + location */}
             <div>
@@ -484,9 +451,7 @@ export default function OurProducts() {
                   className="absolute bottom-0 left-0 right-0 p-5"
                   style={{ background: "linear-gradient(to top, rgba(15,12,8,0.75) 0%, transparent 100%)", zIndex: 2 }}
                 >
-                  <p className="font-sans text-white/60 m-0 mb-0.5" style={{ fontSize: "0.78rem", letterSpacing: "0.14em", textTransform: "uppercase" }}>
-                    {PRODUCTS[hovered].category} · {PRODUCTS[hovered].type}
-                  </p>
+
                   <p className="font-serif text-white m-0 mb-1.5" style={{ fontSize: "1.5rem", fontWeight: 400, letterSpacing: "-0.01em" }}>
                     {PRODUCTS[hovered].name}
                   </p>
@@ -596,7 +561,7 @@ function ProductRow({ product, index, isHovered, isActive, rowRef, onMouseEnter,
           className="font-sans text-stone-400 m-0 mt-0.5 uppercase tracking-[0.12em] truncate"
           style={{ fontSize: "0.65rem" }}
         >
-          {product.location} · {product.category}
+          {product.location} 
         </p>
       </div>
 
