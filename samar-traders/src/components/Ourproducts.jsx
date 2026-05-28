@@ -7,23 +7,37 @@ gsap.registerPlugin(ScrollTrigger);
 
 const PRODUCTS = [
   {
-    id: "01",
+  id: "01",
+  name: "Modular Kitchens",
+  location: "Group Centre | CRPF Camp | Lucknow",
+  desc: "Ongoing execution of 600 modular kitchens designed for efficient space utilization, durability, and long-term residential use across the CRPF campus.",
+  materials: [
+    "Modular plywood cabinetry",
+    "Premium laminate finishes",
+  ],
+  images: [
+    "/images/pr5-1.webp",
+    "/images/pr5-2.jpeg",
+  ],
+},
+  {
+    id: "02",
     name: "uPVC Windows",
     location: "The Magnolia | Marriage Lawn | Faizabad Road | Lucknow",
     desc: "Installed 50+ advanced uPVC window units featuring toughened glass, and precision weather-sealing to improve ventilation, durability, and overall comfort at the venue.",
     materials: ["uPVC frames", "Toughened glass"],
-    images: ["/images/pr1-1.jpg", "/images/pr1-2.jpg","/images/pr1-3.jpg","/images/pr1-4.jpg",],
+    images: ["/images/pr1-1.jpg","/images/pr1-5.webp", "/images/pr1-2.jpg","/images/pr1-3.jpg","/images/pr1-4.jpg",],
   },
   {
-  id: "02",
+  id: "03",
   name: "uPVC Doors & Windows",
   location: "ST. STEPHANS ACADEMY | General education school | Lucknow",
   desc: "30 High-performance uPVC door and window systems installed across the campus, offering excellent insulation, noise reduction, and smooth operational functionality.",
   materials: ["uPVC profiles", "Toughened glass"],
-  images: ["/images/pr2-5.png", "/images/pr2-2.jpg", "/images/pr2-6.png","/images/pr2-4.jpg"],
+  images: ["/images/pr2-5.png", "/images/pr2-7.jpg", "/images/pr2-2.jpg", "/images/pr2-6.png","/images/pr2-4.jpg"],
 },
   {
-  id: "03",
+  id: "04",
   name: "uPVC Windows",
   location: "NABARD | Training Center | Lucknow",
   desc: "High-efficiency uPVC windows installed at the premises, offering improved insulation, noise control, and durable weather-sealed performance.",
@@ -31,12 +45,12 @@ const PRODUCTS = [
   images: ["/images/pr3-2.avif","/images/pr3-1.jpg"],
 },
   {
-  id: "04",
+  id: "05",
   name: "uPVC Doors",
   location: "Deva Memorial ORTHOPAEDICS AND EYE HOSPITAL | Faizabad",
   desc: "High-performance uPVC doors with toughened glass panels, precision hardware, and weather-sealed frames for reliable strength, insulation, and smooth operation.",
   materials: ["uPVC profiles", "Toughened glass", "Premium hardware"],
-  images: ["/images/pr4-1.png", "/images/pr4-2.png", "/images/pr4-3.png"],
+  images: ["/images/pr4-1.png","/images/pr4-4.webp", "/images/pr4-2.png", "/images/pr4-3.png"],
 },
  
 ];

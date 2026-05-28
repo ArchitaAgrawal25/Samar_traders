@@ -7,8 +7,27 @@ import { useQuoteModal } from "./QuoteModal";
 gsap.registerPlugin(ScrollTrigger);
 
 const PROJECTS = [
+   {
+  id: "01",
+  name: "Group Centre - CRPF Camp",
+  location: "Lucknow, Uttar Pradesh",
+  description:
+    "An ongoing large-scale modular kitchen project for the CRPF Group Centre campus in Lucknow. The contract includes the design, fabrication, and installation of 600 modern modular kitchens built for durability, efficient space utilization, and long-term daily use across residential units.",
+  materials: [
+    "Modular plywood cabinetry",
+    "Premium laminate finishes",
+    "Soft-close hardware systems",
+    "Quartz & granite countertops",
+  ],
+  accent: "#7a5c3a",
+  media: [
+    { type: "image", src: "/images/pr5-1.webp" },
+    { type: "image", src: "/images/pr5-21.jpeg" },
+ 
+  ],
+},
   {
-    id: "01",
+    id: "02",
     name: "The Magnolia – Marriage Lawn",
     location: "Faizabad Road, Lucknow",
     description:
@@ -16,6 +35,7 @@ const PROJECTS = [
     materials: ["uPVC structural frames", "Toughened safety glass", "Multi-chamber insulation", "Precision hardware"],
     accent: "#2a7a6a",
     media: [
+      { type: "image", src: "/images/pr1-5.webp" },
       { type: "image", src: "/images/pr1-1.jpg" },
       { type: "image", src: "/images/pr1-2.jpg" },
       { type: "image", src: "/images/pr1-3.jpg" },
@@ -23,7 +43,7 @@ const PROJECTS = [
     ],
   },
   {
-    id: "02",
+    id: "03",
     name: "St. Stephans Academy",
     location: "Lucknow",
     description:
@@ -31,6 +51,7 @@ const PROJECTS = [
     materials: ["uPVC door & window profiles", "Toughened glazing panels", "Institution-grade hardware", "EPDM weather seals"],
     accent: "#a07840",
     media: [
+      { type: "image", src: "/images/pr2-7.jpg" },
       { type: "image", src: "/images/pr2-5.png" },
       { type: "image", src: "/images/pr2-2.jpg" },
       { type: "image", src: "/images/pr2-6.png" },
@@ -38,7 +59,7 @@ const PROJECTS = [
     ],
   },
   {
-    id: "03",
+    id: "04",
     name: "NABARD Training Centre",
     location: "Lucknow",
     description:
@@ -51,7 +72,7 @@ const PROJECTS = [
     ],
   },
   {
-    id: "04",
+    id: "05",
     name: "Deva Memorial Orthopaedics & Eye Hospital",
     location: "Faizabad",
     description:
@@ -59,6 +80,7 @@ const PROJECTS = [
     materials: ["uPVC door profiles", "Toughened safety glass", "Medical-grade premium hardware"],
     accent: "#4a6b8a",
     media: [
+      { type: "image", src: "/images/pr4-4.webp" },
       { type: "image", src: "/images/pr4-1.png" },
       { type: "image", src: "/images/pr4-2.png" },
       { type: "image", src: "/images/pr4-3.png" },
@@ -555,7 +577,7 @@ function PageHeader() {
 
           <div className="proj-hero-el flex flex-wrap justify-center gap-2.5 opacity-0">
             {[
-              { v: PROJECTS.length, l: "Projects" },
+              { v: "20+", l: "Projects" },
               { v: "2+", l: "Years" },
               { v: "200+", l: "Installs" },
             ].map(({ v, l }) => (
