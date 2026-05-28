@@ -1,9 +1,8 @@
 import { useEffect, useState, useRef } from "react";
-import { Mail, MapPin, Phone, Clock, ExternalLink, UserRound, FileText } from "lucide-react";
+import { Mail, MapPin, Phone, Clock, ExternalLink, FileText } from "lucide-react";
 import { gsap } from "gsap";
 
 const CONTACT = {
-  owner: "Satendra Tiwari",
   phone: "+91 84291 53343",
   email: "contact@samartrading.in",
   location:
@@ -20,12 +19,12 @@ const embedUrl = `https://www.google.com/maps?q=${encodeURIComponent(
   CONTACT.mapsQuery
 )}&output=embed`;
 
+// Owner removed — only 4 detail cards remain
 const DETAILS = [
-  { icon: UserRound, label: "Owner",   value: CONTACT.owner,    href: null },
-  { icon: Phone,     label: "Phone",   value: CONTACT.phone,    href: `tel:${CONTACT.phone.replace(/\s/g, "")}` },
-  { icon: Mail,      label: "Email",   value: CONTACT.email,    href: `mailto:${CONTACT.email}` },
-  { icon: Clock,     label: "Hours",   value: CONTACT.hours,    href: null },
-  { icon: MapPin,    label: "Address", value: CONTACT.location, href: directionsUrl },
+  { icon: Phone,  label: "Phone",   value: CONTACT.phone,    href: `tel:${CONTACT.phone.replace(/\s/g, "")}` },
+  { icon: Mail,   label: "Email",   value: CONTACT.email,    href: `mailto:${CONTACT.email}` },
+  { icon: Clock,  label: "Hours",   value: CONTACT.hours,    href: null },
+  { icon: MapPin, label: "Address", value: CONTACT.location, href: directionsUrl },
 ];
 
 /* ── Contact detail card ── */
@@ -44,15 +43,17 @@ function DetailCard({ icon: Icon, label, value, href }) {
 
   if (href) {
     return (
-      <a key={label} href={href}
+      <a
+        href={href}
         target={href.startsWith("http") ? "_blank" : undefined}
         rel={href.startsWith("http") ? "noreferrer" : undefined}
-        className="block no-underline">
+        className="block no-underline h-full"
+      >
         {inner}
       </a>
     );
   }
-  return <div key={label}>{inner}</div>;
+  return <div className="h-full">{inner}</div>;
 }
 
 /* ── Inline Quote Form ── */
@@ -267,13 +268,11 @@ export default function Contact() {
 
       <div className="max-w-5xl text-stone-800 mx-auto px-5 pb-20 flex flex-col gap-6">
 
-        {/* ── Contact detail cards ── */}
-        {/* First row: Owner, Phone, Email (3 cols). Second row: Hours + Address centered */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 ">
-          {DETAILS.slice(0, 3).map((d) => <DetailCard key={d.label} {...d} />)}
-        </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:w-2/3 lg:mx-auto">
-          {DETAILS.slice(3).map((d) => <DetailCard key={d.label} {...d} />)}
+        {/* ── Contact detail cards — 2×2 grid on md+, stacked on mobile ── */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          {DETAILS.map((d) => (
+            <DetailCard key={d.label} {...d} />
+          ))}
         </div>
 
         {/* ── Map + Quote form side by side ── */}

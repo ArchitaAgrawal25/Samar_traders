@@ -1,4 +1,5 @@
 import { useEffect, useLayoutEffect, useRef, useState, useCallback } from "react";
+import { createPortal } from "react-dom";
 import { Link } from "react-router-dom";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -164,7 +165,9 @@ function Lightbox({ media, startIdx, onClose }) {
     });
   };
 
-  return (
+  // ── FIX: render via portal so Lightbox always sits above all
+  //         project sections regardless of their stacking context.
+  return createPortal(
     <div
       ref={overlayRef}
       onClick={(e) => {
@@ -332,7 +335,8 @@ function Lightbox({ media, startIdx, onClose }) {
           </div>
         )}
       </div>
-    </div>
+    </div>,
+    document.body
   );
 }
 

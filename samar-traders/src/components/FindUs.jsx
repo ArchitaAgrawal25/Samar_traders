@@ -193,11 +193,7 @@ export default function FindUs() {
               </div>
 
               <div className="grid gap-3">
-                <ContactLine
-                  icon={UserRound}
-                  label="Owner"
-                  value={CONTACT.owner}
-                />
+
 
                 <ContactLine
                   icon={Phone}
