@@ -37,8 +37,9 @@ function useCountUp(target, duration = 2.0, start = false) {
 }
 
 const STATS_DATA = [
-  { value: "10+", label: "Years Experience" },
-  { value: "500+", label: "Projects Delivered" },
+  { value: "2+", label: "Years Experience" },
+  { value: "150+", label: "Projects Delivered" },
+  { value: "5000+", label: "Installs" },
   { value: "100%", label: "Client Satisfaction" },
 ];
 

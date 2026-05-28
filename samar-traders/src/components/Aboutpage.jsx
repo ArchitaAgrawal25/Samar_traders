@@ -42,11 +42,10 @@ const VALUES = [
 ];
 
 const STATS = [
-  { value: "200+", label: "Projects Delivered" },
+  { value: "150+", label: "Projects Delivered" },
+  { value: "5000+", label: "Installs" },
   { value: "100%", label: "Client Satisfaction" },
-  { value: "2yr+", label: "In Business" },
-  { value: "5+",   label: "Product Categories" },
-];
+  { value: "2yr+", label: "In Business" },];
 
 const PILLARS = [
   {
@@ -90,14 +89,9 @@ function HeroSection() {
       <div className="pointer-events-none absolute inset-0"
         style={{ backgroundImage: "radial-gradient(rgba(0,0,0,0.06) 1px, transparent 1px)", backgroundSize: "32px 32px" }} />
 
-      <div className="relative z-10 mx-auto w-full max-w-[860px] px-6 py-14 md:px-12 flex flex-col items-center text-center">
+      <div className="relative z-10 mx-auto  w-full max-w-[860px] px-6 py-14 md:px-12 flex flex-col items-center text-center">
 
-        {/* Breadcrumb */}
-        <div className="about-hero-el mb-12 flex items-center gap-2 opacity-0">
-          <Link to="/" className="font-sans text-[0.58rem] font-semibold uppercase tracking-[0.2em] text-stone-400 no-underline hover:text-stone-700 transition-colors">Home</Link>
-          <span className="text-stone-300">›</span>
-          <span className="font-sans text-[0.58rem] font-semibold uppercase tracking-[0.2em] text-[#a07840]">About</span>
-        </div>
+        
 
         {/* Eyebrow */}
         <div className="about-hero-el mb-6 inline-flex items-center gap-3 opacity-0">
@@ -116,10 +110,9 @@ function HeroSection() {
         </h1>
 
         {/* Description */}
-        <p className="about-hero-el opacity-0 mb-10 max-w-[580px] font-sans leading-relaxed text-stone-500"
+        <p className="about-hero-el opacity-0 mb-10 max-w-8xl font-sans leading-relaxed text-stone-500"
           style={{ fontSize: "clamp(0.9rem, 1.2vw, 1.05rem)" }}>
-          Since 2024, Samar Trading has delivered premium uPVC doors and windows, modular kitchens,
-          wardrobes and interior solutions across Lucknow — driven by a team with an obsession for
+          Since 2024, Samar Trading has delivered premium uPVC doors and windows, modular kitchens, wardrobes and interior solutions across Lucknow — driven by a team with an obsession for
           precision and zero tolerance for mediocrity.
         </p>
 
@@ -201,7 +194,7 @@ function ApproachSection() {
         </h2>
 
         {/* Para */}
-        <p className="approach-el opacity-0 m-0 max-w-[560px] font-sans text-stone-500 leading-relaxed"
+        <p className="approach-el opacity-0 m-0 max-w-[1240px] font-sans text-stone-500 leading-relaxed"
           style={{ fontSize: "0.92rem" }}>
           Samar Trading was founded with a clear conviction — that Lucknow's homeowners and
           institutions deserve the same premium materials and installation standards found in
@@ -292,7 +285,7 @@ function ValuesSection() {
             Our values,{" "}
             <em className="italic text-[#2a7a6a]">non-negotiable.</em>
           </h2>
-          <p className="m-0 font-sans text-stone-500 max-w-[400px] leading-relaxed"
+          <p className="m-0 font-sans text-stone-500 max-w-[1240px] leading-relaxed"
             style={{ fontSize: "0.85rem" }}>
             These aren't mission statement filler. They're the decisions our team makes every day on site.
           </p>
@@ -361,7 +354,7 @@ function ShowroomCTA() {
       <div className="pointer-events-none absolute inset-0"
         style={{ backgroundImage: "linear-gradient(rgba(200,169,110,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(200,169,110,0.04) 1px, transparent 1px)", backgroundSize: "56px 56px" }} />
 
-      <div className="relative z-10 mx-auto max-w-[900px] px-6 md:px-12 text-center flex flex-col items-center gap-6">
+      <div className="relative z-10 mx-auto max-w-[1240px] px-6 md:px-12 text-center flex flex-col items-center gap-6">
 
         <div className="cta-el opacity-0 flex items-center gap-3">
           <div className="h-px w-10 bg-gradient-to-r from-transparent to-[#c8b99a]/60" />
@@ -377,7 +370,7 @@ function ShowroomCTA() {
           </em>
         </h2>
 
-        <p className="cta-el opacity-0 m-0 font-sans text-white/45 leading-relaxed max-w-[540px]"
+        <p className="cta-el opacity-0 m-0 font-sans text-white/45 leading-relaxed max-w-[1240px]"
           style={{ fontSize: "0.92rem" }}>
           Our showroom in Gomti Nagar, Lucknow is open Monday to Sunday, 11 AM to 8 PM.
           Walk in — no appointment needed. Our team will guide you through every option.

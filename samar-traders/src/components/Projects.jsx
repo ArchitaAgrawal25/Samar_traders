@@ -581,9 +581,9 @@ function PageHeader() {
 
           <div className="proj-hero-el flex flex-wrap justify-center gap-2.5 opacity-0">
             {[
-              { v: "20+", l: "Projects" },
+              { v: "150+", l: "Projects" },
+              { v: "5000+", l: "Installs" },
               { v: "2+", l: "Years" },
-              { v: "200+", l: "Installs" },
             ].map(({ v, l }) => (
               <div
                 key={l}

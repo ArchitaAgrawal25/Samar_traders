@@ -12,9 +12,9 @@ const FEATURES = [
 ];
 
 const STATS = [
-  { value: "200+", label: "Projects Delivered" },
+  { value: "150+", label: "Projects Delivered" },
   { value: "100%", label: "Client Satisfaction" },
-  { value: "5+",   label: "Product Categories" },
+  { value: "5000+",   label: "Installs" },
 ];
 
 export default function About() {

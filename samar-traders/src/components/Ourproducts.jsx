@@ -31,7 +31,7 @@ const PRODUCTS = [
   {
   id: "03",
   name: "uPVC Doors & Windows",
-  location: "ST. STEPHANS ACADEMY | General education school | Lucknow",
+  location: "St. Stephans Academy | General education school | Lucknow",
   desc: "30 High-performance uPVC door and window systems installed across the campus, offering excellent insulation, noise reduction, and smooth operational functionality.",
   materials: ["uPVC profiles", "Toughened glass"],
   images: ["/images/pr2-5.png", "/images/pr2-7.jpg", "/images/pr2-2.jpg", "/images/pr2-6.png","/images/pr2-4.jpg"],
@@ -47,7 +47,7 @@ const PRODUCTS = [
   {
   id: "05",
   name: "uPVC Doors",
-  location: "Deva Memorial ORTHOPAEDICS AND EYE HOSPITAL | Faizabad",
+  location: "Deva Memorial Orthopaedics and eye hospital | Faizabad",
   desc: "High-performance uPVC doors with toughened glass panels, precision hardware, and weather-sealed frames for reliable strength, insulation, and smooth operation.",
   materials: ["uPVC profiles", "Toughened glass", "Premium hardware"],
   images: ["/images/pr4-1.png","/images/pr4-4.webp", "/images/pr4-2.png", "/images/pr4-3.png"],
@@ -570,13 +570,14 @@ function ProductRow({ product, index, isHovered, isActive, rowRef, onMouseEnter,
           className="font-serif text-stone-900 m-0 leading-tight truncate transition-all duration-200"
           style={{ fontSize: isHovered ? "1.25rem" : "1.1rem", fontWeight: 400, letterSpacing: "-0.01em" }}
         >
-          {product.name}
+              {product.location} 
         </p>
         <p
-          className="font-sans text-stone-400 m-0 mt-0.5 uppercase tracking-[0.12em] truncate"
+          className="font-sans text-stone-700 m-0 mt-0.5 uppercase tracking-[0.12em] truncate"
           style={{ fontSize: "0.65rem" }}
         >
-          {product.location} 
+      
+          {product.name}
         </p>
       </div>
 
