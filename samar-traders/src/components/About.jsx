@@ -128,7 +128,7 @@ export default function About() {
         {/* 4c ── CLOSING / CTA ── */}
         <div ref={closingRef} className="opacity-0 flex flex-col items-center gap-3">
           <span className="font-sans text-[0.75rem] text-stone-500 italic">
-            Serving homes &amp; businesses across Lucknow since 2024.
+            Serving homes &amp; businesses across Lucknow since 2017.
           </span>
           <Link
             to="/about"

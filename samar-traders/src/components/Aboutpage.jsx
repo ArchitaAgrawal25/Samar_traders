@@ -45,7 +45,7 @@ const STATS = [
   { value: "150+", label: "Projects Delivered" },
   { value: "5000+", label: "Installs" },
   { value: "100%", label: "Client Satisfaction" },
-  { value: "2yr+", label: "In Business" },];
+  { value: "9yr+", label: "In Business" },];
 
 const PILLARS = [
   {

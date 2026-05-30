@@ -511,7 +511,7 @@ export default function Services() {
           <div className="hero-fade mb-0 flex flex-col gap-8 opacity-0 md:flex-row md:items-start md:justify-evenly">
             <div>
               <p className="mb-2 font-sans text-[0.6rem] font-bold uppercase tracking-[0.22em] text-stone-800">
-                Samar Trading · Est. 2024
+                Samar Trading · Est. 2017
               </p>
               <h1
                 className="m-0 font-serif font-normal text-stone-900"

@@ -52,6 +52,23 @@ const PRODUCTS = [
     materials: ["uPVC profiles", "Toughened glass", "Premium hardware"],
     images: ["/images/pr4-1.png", "/images/pr4-4.webp", "/images/pr4-2.png", "/images/pr4-3.png"],
   },
+  {
+  id: "06",
+  name: "uPVC Windows",
+  location: "Hotel Roselle Inn | Indira Nagar | Lucknow",
+  desc: "Installed 30+ premium uPVC window units across the property, featuring toughened glass, multi-chamber insulated profiles, and precision weather sealing to enhance comfort, energy efficiency, and long-term durability.",
+  materials: [
+    "uPVC profiles",
+    "Toughened glass",
+    "Multi-chamber insulation",
+    "Premium hardware"
+  ],
+  images: [
+    "/images/pr6-1.webp",
+    "/images/pr6-3.webp",
+    "/images/pr6-4.webp"
+  ],
+},
 ];
 
 // ─── tiny helpers ────────────────────────────────────────────

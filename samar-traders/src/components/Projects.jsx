@@ -86,6 +86,26 @@ const PROJECTS = [
       { type: "image", src: "/images/pr4-3.png" },
     ],
   },
+  {
+  id: "06",
+  name: "Hotel Roselle Inn",
+  location: "Indira Nagar, Lucknow",
+  description:
+    "Installation of 30+ premium uPVC window units across the hotel property. The project incorporated toughened glass, multi-chamber insulated profiles, and precision weather-sealing systems to improve energy efficiency, guest comfort, noise reduction, and long-term durability.",
+  materials: [
+    "uPVC profiles",
+    "Toughened glass",
+    "Multi-chamber insulation",
+    "Premium hardware",
+  ],
+  accent: "#2a7a6a",
+  media: [
+    { type: "image", src: "/images/pr6-2.webp" },
+    { type: "image", src: "/images/pr6-1.webp" },
+    { type: "image", src: "/images/pr6-3.webp" },
+    { type: "image", src: "/images/pr6-4.webp" },
+  ],
+},
 ];
 
 function Lightbox({ media, startIdx, onClose }) {
@@ -516,7 +536,7 @@ function PageHeader() {
             {[
               { v: "150+", l: "Projects" },
               { v: "5000+", l: "Installs" },
-              { v: "2+", l: "Years" },
+              { v: "9+", l: "Years" },
             ].map(({ v, l }) => (
               <div
                 key={l}

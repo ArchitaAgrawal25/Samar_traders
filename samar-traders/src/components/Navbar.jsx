@@ -298,7 +298,7 @@ export default function Navbar() {
 
               <div className="flex flex-col gap-px border-l border-[rgba(200,190,170,0.35)] pl-2.5">
                 <span className="whitespace-nowrap font-serif text-[0.62rem] italic leading-[1.2] tracking-[0.02em] text-stone-500">
-                  Since 2024
+                  Since 2017
                 </span>
                 <span className="whitespace-nowrap font-sans text-[0.5rem] font-semibold uppercase tracking-[0.14em] text-stone-400">
                   Lucknow

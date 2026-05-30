@@ -37,7 +37,7 @@ function useCountUp(target, duration = 2.0, start = false) {
 }
 
 const STATS_DATA = [
-  { value: "2+", label: "Years Experience" },
+  { value: "9+", label: "Years Experience" },
   { value: "150+", label: "Projects Delivered" },
   { value: "5000+", label: "Installs" },
   { value: "100%", label: "Client Satisfaction" },
@@ -522,7 +522,7 @@ function CopyBlock({
             <path d="M2 17l10 5 10-5" />
             <path d="M2 12l10 5 10-5" />
           </svg>
-          Leading Provider · Est. 2024
+          Leading Provider · Est. 2017
         </span>
         <p
           className={[
