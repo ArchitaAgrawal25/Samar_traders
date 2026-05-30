@@ -11,6 +11,10 @@ const NAV_LINKS = [
   { label: "Projects", path: "/projects" },
   { label: "Contact", path: "/contact" },
 ];
+
+// Must match the key used in App.jsx HomeScrollRestorer
+const HOME_SCROLL_KEY = "samar_home_scrollY";
+
 function MobileMenu({ isOpen, onClose }) {
   const menuRef = useRef(null);
   const overlayRef = useRef(null);
@@ -243,21 +247,30 @@ export default function Navbar() {
   const isActive = (path) =>
     path === "/" ? location.pathname === "/" : location.pathname.startsWith(path);
 
-  // ── Logo click: smooth scroll to top on home, navigate+top on other pages ──
+  // ── Logo click ────────────────────────────────────────────────────────────
+  // Already on home  → smooth scroll to top (no navigation needed).
+  // On another page  → clear the saved scroll position so HomeScrollRestorer
+  //                    does NOT restore a non-zero Y, then navigate to "/",
+  //                    then wait one macrotask (setTimeout 0) for React to
+  //                    commit the new route before forcing scroll to 0.
   const handleLogoClick = (e) => {
     e.preventDefault();
 
     if (location.pathname === "/") {
-      // Already on home — just smooth scroll to top, no reload
+      // Already home — just scroll up smoothly.
       window.scrollTo({ top: 0, behavior: "smooth" });
     } else {
-      // Navigate to home; scroll to top is handled by the home page's
-      // existing scroll restoration logic (sessionStorage cleared on nav)
+      // Clear any saved home scroll so the restorer starts fresh.
+      sessionStorage.removeItem(HOME_SCROLL_KEY);
+
       navigate("/");
-      // Defer the scroll so the new route has time to mount
-      requestAnimationFrame(() => {
+
+      // setTimeout 0 yields to the event loop after navigate() has queued
+      // the route change, giving React time to commit the new tree before
+      // we assert the scroll position.
+      setTimeout(() => {
         window.scrollTo({ top: 0, behavior: "instant" });
-      });
+      }, 0);
     }
   };
 
