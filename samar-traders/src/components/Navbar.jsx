@@ -134,11 +134,31 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
 
   const navRef = useRef(null);
-  const isHidden = useRef(false);
-  const isAnimating = useRef(false);
   const entranceDone = useRef(false);
   const lastScrollY = useRef(0);
   const ticking = useRef(false);
+
+  // ─── FIX ────────────────────────────────────────────────────────────────────
+  // The original code used TWO refs to track state:
+  //   isHidden   → only set to true inside hideNav's onComplete callback
+  //   isAnimating → only cleared inside show/hide onComplete callbacks
+  //
+  // Both refs are updated AFTER the animation finishes, not when the decision
+  // is made. On a very fast down→up scroll:
+  //
+  //   1. hideNav() fires → isAnimating = true, isHidden still false (not done yet)
+  //   2. User reverses → showNav() is called
+  //   3. showNav() guard: (!isHidden.current || isAnimating.current)
+  //      → isHidden is false → first condition is true → early return. Done.
+  //      The navbar stays hidden.
+  //
+  // Fix: replace the two-ref system with a single `navState` ref that records
+  // INTENT ("visible" | "hidden") set IMMEDIATELY when the decision is made —
+  // not deferred to onComplete. showNav/hideNav then simply check whether the
+  // target state is already set and skip if so, with no isAnimating mutex
+  // blocking a direction reversal. gsap.killTweensOf() handles interruption.
+  // ────────────────────────────────────────────────────────────────────────────
+  const navState = useRef("visible"); // "visible" | "hidden"
 
   const location = useLocation();
   const navigate = useNavigate();
@@ -173,38 +193,32 @@ export default function Navbar() {
     const el = navRef.current;
 
     const showNav = () => {
-      if (!isHidden.current || isAnimating.current) return;
-
-      isAnimating.current = true;
+      // Already targeting visible — nothing to do, even mid-animation.
+      if (navState.current === "visible") return;
+      // Record intent immediately — not in onComplete.
+      navState.current = "visible";
+      // Kill any in-progress hide tween and animate back into view.
       gsap.killTweensOf(el);
-
       gsap.to(el, {
         y: 0,
         opacity: 1,
         duration: 0.45,
         ease: "power3.out",
-        onComplete: () => {
-          isHidden.current = false;
-          isAnimating.current = false;
-        },
       });
     };
 
     const hideNav = () => {
-      if (isHidden.current || isAnimating.current) return;
-
-      isAnimating.current = true;
+      // Already targeting hidden — nothing to do, even mid-animation.
+      if (navState.current === "hidden") return;
+      // Record intent immediately — not in onComplete.
+      navState.current = "hidden";
+      // Kill any in-progress show tween and animate out.
       gsap.killTweensOf(el);
-
       gsap.to(el, {
         y: "-100%",
         opacity: 0,
         duration: 0.35,
         ease: "power3.in",
-        onComplete: () => {
-          isHidden.current = true;
-          isAnimating.current = false;
-        },
       });
     };
 
@@ -226,7 +240,7 @@ export default function Navbar() {
 
         if (currentY > HIDE_THRESHOLD) {
           if (diff > 4) hideNav();
-          else if (diff < -4) showNav();
+          else if (diff < -2) showNav();
         } else {
           showNav();
         }
@@ -247,27 +261,16 @@ export default function Navbar() {
   const isActive = (path) =>
     path === "/" ? location.pathname === "/" : location.pathname.startsWith(path);
 
-  // ── Logo click ────────────────────────────────────────────────────────────
-  // Already on home  → smooth scroll to top (no navigation needed).
-  // On another page  → clear the saved scroll position so HomeScrollRestorer
-  //                    does NOT restore a non-zero Y, then navigate to "/",
-  //                    then wait one macrotask (setTimeout 0) for React to
-  //                    commit the new route before forcing scroll to 0.
   const handleLogoClick = (e) => {
     e.preventDefault();
 
     if (location.pathname === "/") {
-      // Already home — just scroll up smoothly.
       window.scrollTo({ top: 0, behavior: "smooth" });
     } else {
-      // Clear any saved home scroll so the restorer starts fresh.
       sessionStorage.removeItem(HOME_SCROLL_KEY);
 
       navigate("/");
 
-      // setTimeout 0 yields to the event loop after navigate() has queued
-      // the route change, giving React time to commit the new tree before
-      // we assert the scroll position.
       setTimeout(() => {
         window.scrollTo({ top: 0, behavior: "instant" });
       }, 0);
