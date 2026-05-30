@@ -114,7 +114,7 @@ const SERVICES = [
     accent: "#c8822a",
 
     image: "/images/kitchen.webp",
-    image2: "/images/show1.JPG",
+    image2: "/images/kitchen2.jpg",
 
     seeAllLink: null,
     seeAllLabel: null,

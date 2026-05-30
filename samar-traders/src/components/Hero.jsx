@@ -328,13 +328,13 @@ export default function Hero() {
 
   const gridImages = [
     "/images/door4.jpg",
-    "/images/show3.JPG",
+    "/images/win5.png",
     "/images/door2.jpg",
     "/images/door1.jpg",
-    "/images/show6.JPG",
-    "/images/show5.JPG",
+    "/images/door3.png",
+    "/images/win2.webp",
   ];
-  const wideImage = "/images/show1.JPG";
+  const wideImage = "/images/kitchen.webp";
   const stackImages = ["/images/wardrobe.jpg", "/images/interior.jpg"];
 
   return (

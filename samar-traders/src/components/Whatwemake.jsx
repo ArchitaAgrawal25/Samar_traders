@@ -26,7 +26,7 @@ const SERVICES = [
     id: "03",
     name: "Modular Kitchen Solutions",
     desc: "Customized modular kitchens with smart layouts, cabinets, and accessories.",
-    bg: "/images/show1.JPG",
+    bg: "/images/kitchen.webp",
     color: "rgba(200,185,155,0.85)",
     path: "/services#chapter-kitchen",
   },
@@ -219,7 +219,7 @@ function ServiceCard({ service, cardRef }) {
   className="absolute inset-0 z-0 bg-cover transition-transform duration-700 ease-out group-hover:scale-105"
   style={{ 
     backgroundImage: `url(${service.bg})`,
-    backgroundPosition: service.bg === "/images/show1.JPG" ? "center bottom" : "center",
+    backgroundPosition: service.bg === "/images/kitchen2.jpg" ? "center bottom" : "center",
   }}
 />
 
