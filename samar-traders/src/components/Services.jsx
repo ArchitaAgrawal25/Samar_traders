@@ -11,138 +11,226 @@ const SERVICES = [
     id: "01",
     name: "uPVC Windows",
     desc: "Premium sliding, casement, tilt-turn and French-style uPVC windows engineered for Indian climates. Multi-chamber profiles reduce heat, block noise and resist rust, termites and weathering — all with zero maintenance.",
+
     whyItLasts: [
       "Multi-chamber thermal insulation profiles",
       "German ROTO hardware fittings",
       "UV-stabilised, termite & rust proof",
       "Weather-sealed gaskets, zero seepage",
     ],
+
     specs: [
-      { label: "Styles", value: "Sliding · Casement · Tilt-Turn · French" },
-      { label: "Hardware", value: "ROTO Germany" },
-      { label: "Lead time", value: "2 – 4 weeks" },
+      {
+        label: "Styles",
+        value: "Sliding · Casement · Tilt-Turn · French",
+      },
+      {
+        label: "Hardware",
+        value: "ROTO Germany",
+      },
+      {
+        label: "Lead time",
+        value: "2 – 4 weeks",
+      },
     ],
+
     enquire: "windows",
     accent: "#2a7a6a",
+
     image: "/images/door1.jpg",
     image2: "/images/door3.png",
+
     // "See All" link for this category
     seeAllLink: "/windows",
     seeAllLabel: "See all window types",
   },
+
   {
     id: "02",
     name: "uPVC Doors",
     desc: "Durable uPVC entry, sliding and casement doors built to withstand India's harsh climate. Termite-proof, rust-resistant frames with multi-point locking systems — delivering security, insulation and style with no upkeep.",
+
     whyItLasts: [
       "Multi-point locking for enhanced security",
       "German ROTO hardware fittings",
       "UV-stabilised, termite & rust proof",
       "Noise-dampening weather seals",
     ],
+
     specs: [
-      { label: "Styles", value: "Sliding · Casement · Entry · French" },
-      { label: "Hardware", value: "ROTO Germany" },
-      { label: "Lead time", value: "2 – 4 weeks" },
+      {
+        label: "Styles",
+        value: "Sliding · Casement · Entry · French",
+      },
+      {
+        label: "Hardware",
+        value: "ROTO Germany",
+      },
+      {
+        label: "Lead time",
+        value: "2 – 4 weeks",
+      },
     ],
-    enquire:"doors",
+
+    enquire: "doors",
     accent: "#3a6a8a",
+
     image: "/images/door2.jpg",
     image2: "/images/door4.jpg",
+
     // "See All" link for this category
     seeAllLink: "/doors",
     seeAllLabel: "See all door types",
   },
+
   {
     id: "03",
     name: "Modular Kitchen Solutions",
     desc: "Fully customised modular kitchens designed around your cooking style, space and taste. From layout planning to final installation — smart cabinets, premium accessories and a finish that lasts decades.",
+
     whyItLasts: [
       "Soft-close hinges and drawer systems",
       "High-gloss, matte & wood-finish shutters",
       "Quartz, granite & laminate countertops",
       "Built-in appliance integration",
     ],
+
     specs: [
-      { label: "Layouts", value: "Parallel · L-shape · U-shape · Island" },
-      { label: "Finish", value: "200+ options" },
-      { label: "Lead time", value: "3 – 5 weeks" },
+      {
+        label: "Layouts",
+        value: "Parallel · L-shape · U-shape · Island",
+      },
+      {
+        label: "Finish",
+        value: "200+ options",
+      },
+      {
+        label: "Lead time",
+        value: "3 – 5 weeks",
+      },
     ],
-    enquire:"kitchen",
+
+    enquire: "kitchen",
     accent: "#c8822a",
+
     image: "/images/kitchen.webp",
     image2: "/images/show1.JPG",
+
     seeAllLink: null,
     seeAllLabel: null,
   },
+
   {
     id: "04",
     name: "Custom Wardrobes",
     desc: "Sliding, hinged and walk-in wardrobes crafted to make every inch count. Designed to match your room's aesthetic — from minimal whites to rich wood finishes — with interiors tailored to exactly how you organise.",
+
     whyItLasts: [
       "Soft-close track systems",
       "Internal fittings: drawers, shelves, rails",
       "Mirror, glass & frosted panel options",
       "Fits any room size or shape",
     ],
+
     specs: [
-      { label: "Types", value: "Sliding · Hinged · Walk-in" },
-      { label: "Panels", value: "Mirror · Glass · Frosted" },
-      { label: "Lead time", value: "2 – 3 weeks" },
+      {
+        label: "Types",
+        value: "Sliding · Hinged · Walk-in",
+      },
+      {
+        label: "Panels",
+        value: "Mirror · Glass · Frosted",
+      },
+      {
+        label: "Lead time",
+        value: "2 – 3 weeks",
+      },
     ],
-    enquire:"wardrobes",
+
+    enquire: "wardrobes",
     accent: "#6a5acd",
+
     image: "/images/wardrobe.jpg",
     image2: "/images/furniture.jpg",
+
     seeAllLink: null,
     seeAllLabel: null,
   },
+
   {
     id: "05",
     name: "Interior Design",
     desc: "Complete interior solutions for homes and commercial spaces — from concept to completion. We design living rooms, bedrooms, offices, showrooms and more with a focus on functionality, natural light and your personal style.",
+
     whyItLasts: [
       "False ceiling and lighting planning",
       "Flooring, wall finishes & wallpapers",
       "Furniture selection & space planning",
       "3D visualization before execution",
     ],
+
     specs: [
-      { label: "Scope", value: "Home · Office · Showroom · Retail" },
-      { label: "Delivery", value: "End-to-end" },
-      { label: "Consultation", value: "In-home, free" },
+      {
+        label: "Scope",
+        value: "Home · Office · Showroom · Retail",
+      },
+      {
+        label: "Delivery",
+        value: "End-to-end",
+      },
+      {
+        label: "Consultation",
+        value: "In-home, free",
+      },
     ],
-    enquire:"interior design",
+
+    enquire: "interior design",
     accent: "#2a7a6a",
+
     image: "/images/interior.jpg",
     image2: "/images/interior2.png",
+
     seeAllLink: null,
     seeAllLabel: null,
   },
+
   {
     id: "06",
     name: "Furniture & Space Planning",
     desc: "Smart furniture layout and space optimisation for homes, apartments and offices. We analyse your space, understand how you live or work, and design a plan that eliminates wasted area.",
+
     whyItLasts: [
       "Room-by-room space analysis",
       "Custom furniture sizing and placement",
       "Traffic flow and ergonomics planning",
       "Multi-functional and convertible furniture",
     ],
+
     specs: [
-      { label: "Works with", value: "New & existing furniture" },
-      { label: "Spaces", value: "Home · Office · Studio" },
-      { label: "Consultation", value: "In-person" },
+      {
+        label: "Works with",
+        value: "New & existing furniture",
+      },
+      {
+        label: "Spaces",
+        value: "Home · Office · Studio",
+      },
+      {
+        label: "Consultation",
+        value: "In-person",
+      },
     ],
-    enquire:"furniture",
+
+    enquire: "furniture",
     accent: "#2f6f6a",
+
     image: "/images/furniture2.jpeg",
     image2: "/images/furniture3.webp",
+
     seeAllLink: null,
     seeAllLabel: null,
   },
 ];
-
 /* ── Index row ── */
 function IndexRow({ service, index, last }) {
   const rowRef = useRef(null);
@@ -167,24 +255,24 @@ function IndexRow({ service, index, last }) {
     <div
       ref={rowRef}
       onClick={scrollTo}
-      className={`group flex cursor-pointer items-center gap-5 px-5 py-5 opacity-0 transition-all duration-200 hover:bg-white/50 ${!last ? "border-b border-stone-200/70" : ""}`}
+      className={[
+        "group flex cursor-pointer items-center gap-5 px-5 py-5 opacity-0 transition-all duration-200 hover:bg-white/50",
+        !last ? "border-b border-stone-200/70" : "",
+      ].join(" ")}
     >
-      <span className="hidden sm:inline w-8 shrink-0 font-sans text-[0.58rem] tracking-[0.1em] text-stone-400">
+      <span className="hidden w-8 shrink-0 font-sans text-[0.58rem] tracking-[0.1em] text-stone-400 sm:inline">
         {service.id}
       </span>
-      <span className="flex-1 font-serif text-[clamp(1rem,1.8vw,1.45rem)] font-normal leading-none text-stone-900 transition-colors group-hover:text-stone-500" style={{ letterSpacing: "-0.01em" }}>
+      <span
+        className="flex-1 font-serif font-normal leading-none text-stone-900 transition-colors group-hover:text-stone-500"
+        style={{ fontSize: "clamp(1rem,1.8vw,1.45rem)", letterSpacing: "-0.01em" }}
+      >
         {service.name}
       </span>
       <span className="hidden w-32 shrink-0 font-sans text-[0.58rem] uppercase tracking-[0.12em] text-stone-400 md:block">
         {service.category}
       </span>
-      <span
-        className="flex items-center gap-1 rounded-full px-3 py-1.5 font-sans text-[0.55rem] font-bold uppercase tracking-[0.12em] text-stone-500 transition-all duration-200 group-hover:text-stone-900"
-        style={{
-          background: "rgba(255,255,255,0.6)",
-          border: "1px solid rgba(200,190,170,0.4)",
-        }}
-      >
+      <span className="flex items-center gap-1 rounded-full border border-[rgba(200,190,170,0.4)] bg-white/60 px-3 py-1.5 font-sans text-[0.55rem] font-bold uppercase tracking-[0.12em] text-stone-500 transition-all duration-200 group-hover:text-stone-900">
         Read
         <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
           <path d="M7 17L17 7M7 7h10v10" />
@@ -205,8 +293,7 @@ function ImagesBlock({ service, flipSmall }) {
         <img
           src={service.image}
           alt={service.name}
-          className="h-full w-full object-cover"
-          style={{ transition: "transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94)" }}
+          className="h-full w-full object-cover transition-transform duration-[600ms] cubic-bezier-[0.25,0.46,0.45,0.94]"
           onMouseEnter={e => { e.currentTarget.style.transform = "scale(1.08)"; }}
           onMouseLeave={e => { e.currentTarget.style.transform = "scale(1)"; }}
         />
@@ -240,7 +327,7 @@ function ContentBlock({ service }) {
   const { open } = useQuoteModal();
 
   return (
-    <div className="flex flex-col justify-center px-8 py-16 md:px-14 md:py-20" style={{ background: "#f5f3ee" }}>
+    <div className="flex flex-col justify-center bg-[#f5f3ee] px-8 py-16 md:px-14 md:py-20">
       {/* ── Heading row with "See All" button ── */}
       <div className="chapter-animate mb-2 flex items-start justify-between gap-4">
         <h2
@@ -250,11 +337,10 @@ function ContentBlock({ service }) {
           {service.name}.
         </h2>
 
-        {/* "See All" button — only for Doors and Windows */}
         {service.seeAllLink && (
           <Link
             to={service.seeAllLink}
-            className="group mt-2 shrink-0 inline-flex items-center gap-2 rounded-full border border-stone-300 bg-white/80 px-5 py-2.5 font-sans text-[0.72rem] font-bold uppercase tracking-[0.14em] text-stone-700 no-underline shadow-[0_4px_16px_rgba(0,0,0,0.06)] backdrop-blur-xl transition-all duration-200 hover:-translate-y-0.5 hover:border-stone-900 hover:bg-white hover:text-stone-900 hover:shadow-[0_8px_24px_rgba(0,0,0,0.12)]"
+            className="group mt-2 inline-flex shrink-0 items-center gap-2 rounded-full border border-stone-300 bg-white/80 px-5 py-2.5 font-sans text-[0.72rem] font-bold uppercase tracking-[0.14em] text-stone-700 no-underline shadow-[0_4px_16px_rgba(0,0,0,0.06)] backdrop-blur-xl transition-all duration-200 hover:-translate-y-0.5 hover:border-stone-900 hover:bg-white hover:text-stone-900 hover:shadow-[0_8px_24px_rgba(0,0,0,0.12)]"
             title={service.seeAllLabel}
           >
             See All
@@ -328,11 +414,10 @@ function ContentBlock({ service }) {
           Enquire about {service.enquire} ↗
         </button>
 
-        {/* Secondary "See all types" link — for doors/windows only */}
         {service.seeAllLink && (
           <Link
             to={service.seeAllLink}
-            className="inline-flex items-center gap-2 rounded-full border border-stone-200 bg-white/70 px-7 py-3.5 font-sans text-[0.82rem] font-semibold text-stone-700 no-underline transition-all duration-200 hover:border-stone-900 hover:text-stone-900 hover:bg-white"
+            className="inline-flex items-center gap-2 rounded-full border border-stone-200 bg-white/70 px-7 py-3.5 font-sans text-[0.82rem] font-semibold text-stone-700 no-underline transition-all duration-200 hover:border-stone-900 hover:bg-white hover:text-stone-900"
           >
             View all {service.category}
             <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
@@ -378,17 +463,14 @@ function Chapter({ service, index }) {
       className="grid min-h-[600px] md:grid-cols-2"
       style={{ scrollMarginTop: "80px" }}
     >
-      {isEven ? (
-        <>
-          <ContentBlock service={service} />
-          <ImagesBlock service={service} flipSmall={true} />
-        </>
-      ) : (
-        <>
-          <ImagesBlock service={service} flipSmall={false} />
-          <ContentBlock service={service} />
-        </>
-      )}
+      {/* Mobile: ContentBlock always first (order-1), ImagesBlock always second (order-2).
+          md+: restore alternating layout via md:order-* overrides. */}
+      <div className={isEven ? "order-1 md:order-2" : "order-1 md:order-1"}>
+        <ContentBlock service={service} />
+      </div>
+      <div className={isEven ? "order-2 md:order-1" : "order-2 md:order-2"}>
+        <ImagesBlock service={service} flipSmall={isEven} />
+      </div>
     </div>
   );
 }
@@ -426,7 +508,7 @@ export default function Services() {
       <div ref={heroRef} className="px-6 pb-12 pt-32 md:px-12 md:pt-20">
         <div className="mx-[2px]">
 
-          <div className="hero-fade mb-0 flex flex-col gap-8 md:flex-row md:items-start md:justify-evenly opacity-0">
+          <div className="hero-fade mb-0 flex flex-col gap-8 opacity-0 md:flex-row md:items-start md:justify-evenly">
             <div>
               <p className="mb-2 font-sans text-[0.6rem] font-bold uppercase tracking-[0.22em] text-stone-800">
                 Samar Trading · Est. 2024
@@ -461,7 +543,7 @@ export default function Services() {
           <div className="hero-fade my-10 border-t border-stone-300/50 opacity-0" />
 
           {/* Index */}
-          <div className="hero-fade flex flex-col gap-0 md:flex-row md:gap-16 opacity-0">
+          <div className="hero-fade flex flex-col gap-0 opacity-0 md:flex-row md:gap-16">
             <div className="mb-6 shrink-0 md:mb-0 md:w-52">
               <p className="font-sans text-[0.58rem] font-bold uppercase tracking-[0.2em] text-stone-400">Index</p>
               <p className="mt-1.5 font-sans text-[0.82rem] leading-relaxed text-stone-800">
@@ -469,11 +551,14 @@ export default function Services() {
               </p>
             </div>
 
-            <div className="flex-1 overflow-hidden rounded-2xl border border-stone-200/80" style={{
-              background: "linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(248,244,236,0.85) 50%, rgba(240,235,225,0.8) 100%)",
-              backdropFilter: "blur(12px)",
-              boxShadow: "0 4px 32px rgba(0,0,0,0.06), 0 1px 0 rgba(255,255,255,0.9) inset",
-            }}>
+            <div
+              className="flex-1 overflow-hidden rounded-2xl border border-stone-200/80"
+              style={{
+                background: "linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(248,244,236,0.85) 50%, rgba(240,235,225,0.8) 100%)",
+                backdropFilter: "blur(12px)",
+                boxShadow: "0 4px 32px rgba(0,0,0,0.06), 0 1px 0 rgba(255,255,255,0.9) inset",
+              }}
+            >
               {SERVICES.map((s, i) => (
                 <IndexRow key={s.slug} service={s} index={i} last={i === SERVICES.length - 1} />
               ))}
@@ -492,7 +577,7 @@ export default function Services() {
       </div>
 
       {/* ── BOTTOM CTA ── */}
-      <div className="px-6 py-20 md:px-16" style={{ background: "#1a1714" }}>
+      <div className="bg-[#1a1714] px-6 py-20 md:px-16">
         <div className="mx-auto max-w-3xl text-center">
           <p className="mb-3 font-sans text-[0.62rem] font-bold uppercase tracking-[0.22em] text-[#c8b99a]">
             Not sure where to start?
@@ -511,7 +596,10 @@ export default function Services() {
             <button
               onClick={open}
               className="inline-flex items-center gap-2 rounded-full px-8 py-4 font-sans text-[0.88rem] font-semibold text-white transition-all duration-200 hover:scale-[1.04]"
-              style={{ background: "linear-gradient(135deg,#c8a96e 0%,#a07840 100%)", boxShadow: "0 8px 28px rgba(200,169,110,0.3)" }}
+              style={{
+                background: "linear-gradient(135deg,#c8a96e 0%,#a07840 100%)",
+                boxShadow: "0 8px 28px rgba(200,169,110,0.3)",
+              }}
             >
               Get a free quote
               <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
