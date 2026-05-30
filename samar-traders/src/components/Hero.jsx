@@ -49,26 +49,16 @@ function StatItem({ stat, startCount, mobile }) {
   return (
     <div>
       <p
-        className="font-serif"
-        style={{
-          fontSize: mobile ? "1.4rem" : "clamp(1.4rem,2.2vw,2rem)",
-          fontWeight: 600,
-          color: "#1c1917",
-          margin: 0,
-          lineHeight: 1,
-        }}
+        className={[
+          "font-serif font-semibold text-[#1c1917] m-0 leading-none",
+          mobile
+            ? "text-[1.4rem]"
+            : "text-[clamp(1.4rem,2.2vw,2rem)]",
+        ].join(" ")}
       >
         {startCount ? count : "0"}
       </p>
-      <p
-        style={{
-          fontSize: "0.68rem",
-          color: "#a8a29e",
-          marginTop: "3px",
-          letterSpacing: "0.06em",
-          textTransform: "uppercase",
-        }}
-      >
+      <p className="text-[0.68rem] text-stone-400 mt-[3px] tracking-[0.06em] uppercase">
         {stat.label}
       </p>
     </div>
@@ -79,54 +69,25 @@ function StatItem({ stat, startCount, mobile }) {
 function ImagePane({ imageSrc, style }) {
   return (
     <div
-      style={{
-        position: "relative",
-        overflow: "hidden",
-        borderRadius: "12px",
-        background: imageSrc ? "transparent" : "rgba(0,0,0,0.12)",
-        ...style,
-      }}
+      className={[
+        "relative overflow-hidden rounded-[12px]",
+        imageSrc ? "bg-transparent" : "bg-black/[0.12]",
+      ].join(" ")}
+      style={style}
     >
       {imageSrc && (
-        // The wideImage is passed as imageSrc to ImagePane
-// In ImagePane, change the img style:
-<img
-  src={imageSrc}
-  style={{
-    position: "absolute",
-    inset: 0,
-    
-    width: "100%",
-    height: "100%",
-    objectFit: "cover",
-    objectPosition: imageSrc?.includes("show1.JPG") ? "center 70%" : "center",
-    zIndex: 0,
-  }}
-/>
+        <img
+          src={imageSrc}
+          className="absolute inset-0 w-full h-full object-cover z-0"
+          style={{
+            objectPosition: imageSrc?.includes("show1.JPG") ? "center 70%" : "center",
+          }}
+        />
       )}
-      <div
-        style={{
-          position: "absolute",
-          inset: 0,
-          zIndex: 1,
-          pointerEvents: "none",
-          background:
-            "linear-gradient(135deg,rgba(255,255,255,0.22) 0%,rgba(255,255,255,0.05) 55%,rgba(255,255,255,0.15) 100%)",
-        }}
-      />
-      <div
-        style={{
-          position: "absolute",
-          top: 0,
-          left: 0,
-          width: "55%",
-          height: "48%",
-          zIndex: 2,
-          pointerEvents: "none",
-          background:
-            "radial-gradient(ellipse at 25% 25%,rgba(255,255,255,0.38) 0%,transparent 70%)",
-        }}
-      />
+      {/* shimmer overlay */}
+      <div className="absolute inset-0 z-[1] pointer-events-none bg-[linear-gradient(135deg,rgba(255,255,255,0.22)_0%,rgba(255,255,255,0.05)_55%,rgba(255,255,255,0.15)_100%)]" />
+      {/* top-left glow */}
+      <div className="absolute top-0 left-0 w-[55%] h-[48%] z-[2] pointer-events-none bg-[radial-gradient(ellipse_at_25%_25%,rgba(255,255,255,0.38)_0%,transparent_70%)]" />
     </div>
   );
 }
@@ -136,45 +97,20 @@ function GlassCard({ cardRef, bg, shadow, style, children }) {
   return (
     <div
       ref={cardRef}
+      className="absolute rounded-[22px] overflow-hidden backdrop-blur-[22px] border border-white/[0.82]"
       style={{
-        position: "absolute",
-        borderRadius: "22px",
-        overflow: "hidden",
         background: bg,
-        backdropFilter: "blur(22px)",
-        WebkitBackdropFilter: "blur(22px)",
-        border: "1px solid rgba(255,255,255,0.82)",
         boxShadow:
           shadow ||
           "0 8px 40px rgba(0,0,0,0.09),0 1.5px 0 rgba(255,255,255,0.95) inset",
+        WebkitBackdropFilter: "blur(22px)",
         ...style,
       }}
     >
-      <div
-        style={{
-          position: "absolute",
-          top: 0,
-          left: 0,
-          width: "65%",
-          height: "40%",
-          zIndex: 10,
-          pointerEvents: "none",
-          borderRadius: "22px 0 0 0",
-          background:
-            "radial-gradient(ellipse at 28% 22%,rgba(255,255,255,0.55) 0%,transparent 68%)",
-        }}
-      />
-      <div
-        style={{
-          position: "relative",
-          zIndex: 5,
-          padding: "12px",
-          height: "100%",
-          boxSizing: "border-box",
-          display: "flex",
-          flexDirection: "column",
-        }}
-      >
+      {/* top-left glow */}
+      <div className="absolute top-0 left-0 w-[65%] h-[40%] z-10 pointer-events-none rounded-tl-[22px] bg-[radial-gradient(ellipse_at_28%_22%,rgba(255,255,255,0.55)_0%,transparent_68%)]" />
+      {/* content */}
+      <div className="relative z-[5] p-3 h-full flex flex-col box-border">
         {children}
       </div>
     </div>
@@ -183,18 +119,7 @@ function GlassCard({ cardRef, bg, shadow, style, children }) {
 
 function CardLabel({ text }) {
   return (
-    <p
-      style={{
-        fontSize: "0.58rem",
-        color: "#78716c",
-        letterSpacing: "0.14em",
-        textTransform: "uppercase",
-        textAlign: "center",
-        margin: "8px 0 0",
-        fontWeight: 600,
-        flexShrink: 0,
-      }}
-    >
+    <p className="text-[0.58rem] text-stone-500 tracking-[0.14em] uppercase text-center mt-2 font-semibold shrink-0">
       {text}
     </p>
   );
@@ -207,43 +132,36 @@ function AnimatedHeading({ mobile }) {
       { text: "Premium" },
       { text: "doors," },
       { text: "windows" },
-      { text: "&", style: { fontStyle: "italic", color: "#44403c" } },
+      { text: "&", extraClass: "italic text-stone-700" },
       { text: "interiors" },
-      { text: "designed", style: { fontStyle: "italic", color: "#44403c" } },
+      { text: "designed", extraClass: "italic text-stone-700" },
       { text: "for" },
-      { text: "you.", style: { fontStyle: "italic", color: "#78716c" } },
+      { text: "you.", extraClass: "italic text-stone-500" },
     ],
   ];
 
-  const maskStyle = {
-    display: "inline-block",
-    overflow: "hidden",
-    verticalAlign: "bottom",
-    paddingBottom: "0.08em",
-    marginBottom: "-0.08em",
-  };
-
-  const wordStyle = {
-    display: "inline-block",
-    willChange: "transform, opacity, filter",
-  };
-
   return (
     <h1
-      className="font-serif font-normal text-stone-900"
-      style={{
-        fontSize: mobile ? "clamp(2rem,8vw,2.8rem)" : "clamp(2.4rem,4.5vw,5rem)",
-        lineHeight: 1.06,
-        letterSpacing: "-0.02em",
-        margin: 0,
-      }}
+      className={[
+        "font-serif font-normal text-stone-900 m-0 leading-[1.06] tracking-[-0.02em]",
+        mobile
+          ? "text-[clamp(2rem,8vw,2.8rem)]"
+          : "text-[clamp(2.4rem,4.5vw,5rem)]",
+      ].join(" ")}
     >
       {lines.map((line, lineIndex) => (
-        <span key={lineIndex} style={{ display: "block" }}>
+        <span key={lineIndex} className="block">
           {line.map((word, wordIndex) => (
             <span key={word.text}>
-              <span style={maskStyle}>
-                <span data-hero-word style={{ ...wordStyle, ...word.style }}>
+              {/* mask wrapper — clips the word during GSAP yPercent animation */}
+              <span className="inline-block overflow-hidden align-bottom pb-[0.08em] -mb-[0.08em]">
+                <span
+                  data-hero-word
+                  className={[
+                    "inline-block will-change-[transform,opacity,filter]",
+                    word.extraClass ?? "",
+                  ].join(" ")}
+                >
                   {word.text}
                 </span>
               </span>
@@ -272,9 +190,6 @@ export default function Hero() {
 
   const [startCount, setStartCount] = useState(false);
 
- // src/components/Hero.jsx
-// Replace the full useLayoutEffect inside Hero() with this:
-
   useLayoutEffect(() => {
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
@@ -290,147 +205,79 @@ export default function Hero() {
         y: 60,
         scale: 0.88,
         filter: "blur(12px)",
-        willChange: "auto", // do not keep extra GPU layers alive while idle
+        willChange: "auto",
       });
 
       gsap.set(
         [eyebrowRef.current, subRef.current, ctaRef.current, statsRef.current].filter(Boolean),
-        {
-          opacity: 0,
-          y: 40,
-          filter: "blur(8px)",
-        }
+        { opacity: 0, y: 40, filter: "blur(8px)" }
       );
 
-      gsap.set(wordEls, {
-        opacity: 0,
-        yPercent: 85,
-        filter: "blur(6px)",
-      });
+      gsap.set(wordEls, { opacity: 0, yPercent: 85, filter: "blur(6px)" });
 
       if (reduceMotion) {
         gsap.set(allCards, {
-          opacity: 1,
-          y: 0,
-          x: 0,
-          scale: 1,
-          filter: "blur(0px)",
+          opacity: 1, y: 0, x: 0, scale: 1, filter: "blur(0px)",
           clearProps: "willChange",
         });
-
         gsap.set(
           [eyebrowRef.current, subRef.current, ctaRef.current, statsRef.current].filter(Boolean),
-          {
-            opacity: 1,
-            y: 0,
-            filter: "blur(0px)",
-          }
+          { opacity: 1, y: 0, filter: "blur(0px)" }
         );
-
         gsap.set(wordEls, {
-          opacity: 1,
-          yPercent: 0,
-          filter: "blur(0px)",
-          clearProps: "filter",
+          opacity: 1, yPercent: 0, filter: "blur(0px)", clearProps: "filter",
         });
-
         setStartCount(true);
         return;
       }
 
       const introTl = gsap.timeline({
-        paused: true, // starts only when Hero is actually visible
-        defaults: {
-          ease: "expo.out",
-        },
+        paused: true,
+        defaults: { ease: "expo.out" },
       });
 
       introTl
         .to(
           [dCard1.current, mCard1.current].filter(Boolean),
-          {
-            opacity: 1,
-            y: 0,
-            scale: 1,
-            filter: "blur(0px)",
-            duration: 0.85,
-          },
+          { opacity: 1, y: 0, scale: 1, filter: "blur(0px)", duration: 0.85 },
           0.05
         )
         .to(
           [dCard2.current, mCard2.current].filter(Boolean),
-          {
-            opacity: 1,
-            y: 0,
-            scale: 1,
-            filter: "blur(0px)",
-            duration: 0.78,
-          },
+          { opacity: 1, y: 0, scale: 1, filter: "blur(0px)", duration: 0.78 },
           0.2
         )
         .to(
           [dCard3.current, mCard3.current].filter(Boolean),
-          {
-            opacity: 1,
-            y: 0,
-            scale: 1,
-            filter: "blur(0px)",
-            duration: 0.78,
-          },
+          { opacity: 1, y: 0, scale: 1, filter: "blur(0px)", duration: 0.78 },
           0.34
         )
         .to(
           eyebrowRef.current,
-          {
-            opacity: 1,
-            y: 0,
-            filter: "blur(0px)",
-            duration: 0.65,
-          },
+          { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.65 },
           0.5
         )
         .to(
           wordEls,
           {
-            opacity: 1,
-            yPercent: 0,
-            filter: "blur(0px)",
-            duration: 0.95,
-            ease: "power4.out",
-            stagger: 0.045,
-            clearProps: "filter",
+            opacity: 1, yPercent: 0, filter: "blur(0px)", duration: 0.95,
+            ease: "power4.out", stagger: 0.045, clearProps: "filter",
           },
           0.08
         )
         .to(
           subRef.current,
-          {
-            opacity: 1,
-            y: 0,
-            filter: "blur(0px)",
-            duration: 0.6,
-          },
+          { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.6 },
           1.15
         )
         .to(
           ctaRef.current,
-          {
-            opacity: 1,
-            y: 0,
-            filter: "blur(0px)",
-            duration: 0.55,
-          },
+          { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.55 },
           1.3
         )
         .to(
           statsRef.current,
-          {
-            opacity: 1,
-            y: 0,
-            filter: "blur(0px)",
-            duration: 0.75,
-            ease: "power4.out",
-          },
+          { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.75, ease: "power4.out" },
           0.08
         )
         .call(() => setStartCount(true), [], 0.08);
@@ -438,12 +285,9 @@ export default function Hero() {
       const floatTl = gsap.timeline({
         paused: true,
         repeat: -1,
-        defaults: {
-          ease: "sine.inOut",
-        },
+        defaults: { ease: "sine.inOut" },
       });
 
-      // Staggered transform-only motion: fewer cards move at the same instant.
       floatTl
         .to([dCard1.current, mCard1.current].filter(Boolean), { y: -5, duration: 2.8, yoyo: true, repeat: 1 }, 0)
         .to([dCard2.current, mCard2.current].filter(Boolean), { y: -4, duration: 2.6, yoyo: true, repeat: 1 }, 1.05)
@@ -452,16 +296,13 @@ export default function Hero() {
       let introPlayed = false;
 
       const setFloatingActive = (active) => {
-        gsap.set(allCards, {
-          willChange: active ? "transform" : "auto", // only promote while motion is active
-        });
+        gsap.set(allCards, { willChange: active ? "transform" : "auto" });
 
         if (active) {
           if (!introPlayed) {
             introPlayed = true;
             introTl.play(0);
           }
-
           floatTl.play();
         } else {
           floatTl.pause();
@@ -469,12 +310,8 @@ export default function Hero() {
       };
 
       const observer = new IntersectionObserver(
-        ([entry]) => {
-          setFloatingActive(entry.isIntersecting);
-        },
-        {
-          threshold: 0.18,
-        }
+        ([entry]) => { setFloatingActive(entry.isIntersecting); },
+        { threshold: 0.18 }
       );
 
       if (sectionRef.current) observer.observe(sectionRef.current);
@@ -490,13 +327,12 @@ export default function Hero() {
   }, []);
 
   const gridImages = [
-     "/images/door4.jpg",
+    "/images/door4.jpg",
     "/images/show3.JPG",
     "/images/door2.jpg",
     "/images/door1.jpg",
-      "/images/show6.JPG",
-      "/images/show5.JPG",
-   
+    "/images/show6.JPG",
+    "/images/show5.JPG",
   ];
   const wideImage = "/images/show1.JPG";
   const stackImages = ["/images/wardrobe.jpg", "/images/interior.jpg"];
@@ -504,73 +340,22 @@ export default function Hero() {
   return (
     <section
       ref={sectionRef}
-      className="relative w-full overflow-hidden"
-      style={{
-        minHeight: "100vh",
-        background: "#f5f3ee",
-        display: "flex",
-        alignItems: "flex-start",
-      }}
+      className="relative w-full overflow-hidden min-h-screen bg-[#f5f3ee] flex items-start"
     >
+      {/* ── Background blobs ── */}
       <div className="absolute inset-0 pointer-events-none">
-        <div
-          style={{
-            position: "absolute",
-            top: "-5%",
-            right: "-5%",
-            width: "55vw",
-            height: "55vw",
-            borderRadius: "50%",
-            background:
-              "radial-gradient(circle,rgba(252,195,148,0.5) 0%,transparent 68%)",
-          }}
-        />
-        <div
-          style={{
-            position: "absolute",
-            bottom: "-10%",
-            left: "20%",
-            width: "45vw",
-            height: "45vw",
-            borderRadius: "50%",
-            background:
-              "radial-gradient(circle,rgba(180,230,200,0.4) 0%,transparent 68%)",
-          }}
-        />
-        <div
-          style={{
-            position: "absolute",
-            top: "30%",
-            right: "30%",
-            width: "30vw",
-            height: "30vw",
-            borderRadius: "50%",
-            background:
-              "radial-gradient(circle,rgba(200,185,255,0.28) 0%,transparent 68%)",
-          }}
-        />
+        <div className="absolute -top-[5%] -right-[5%] w-[55vw] h-[55vw] rounded-full bg-[radial-gradient(circle,rgba(252,195,148,0.5)_0%,transparent_68%)]" />
+        <div className="absolute -bottom-[10%] left-[20%] w-[45vw] h-[45vw] rounded-full bg-[radial-gradient(circle,rgba(180,230,200,0.4)_0%,transparent_68%)]" />
+        <div className="absolute top-[30%] right-[30%] w-[30vw] h-[30vw] rounded-full bg-[radial-gradient(circle,rgba(200,185,255,0.28)_0%,transparent_68%)]" />
       </div>
 
-      <div className="relative z-10 w-full" style={{ paddingTop: "88px", paddingBottom: "40px" }}>
+      <div className="relative z-10 w-full pt-[88px] pb-10">
+
         {/* ═══ DESKTOP ═══ */}
-        <div
-          className="hidden md:grid w-full"
-          style={{
-            gridTemplateColumns: "1fr 1fr",
-            gap: "4vw",
-            alignItems: "center",
-            minHeight: "calc(100vh - 128px)",
-            padding: "0 4vw",
-          }}
-        >
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              gap: "clamp(14px,2vh,26px)",
-              justifyContent: "center",
-            }}
-          >
+        <div className="hidden md:grid w-full grid-cols-2 gap-[4vw] items-center min-h-[calc(100vh-128px)] px-[4vw]">
+
+          {/* Left copy column */}
+          <div className="flex flex-col gap-[clamp(14px,2vh,26px)] justify-center">
             <CopyBlock
               eyebrowRef={eyebrowRef}
               subRef={subRef}
@@ -581,51 +366,30 @@ export default function Hero() {
             />
           </div>
 
-          <div style={{ position: "relative", height: "clamp(380px,64vh,600px)" }}>
-            <div
-              style={{
-                position: "absolute",
-                inset: 0,
-                pointerEvents: "none",
-                background:
-                  "radial-gradient(circle at 55% 45%,rgba(168,213,245,0.18) 0%,transparent 65%)",
-                borderRadius: "50%",
-                transform: "scale(1.1)",
-              }}
-            />
+          {/* Right card panel */}
+          <div className="relative h-[clamp(380px,64vh,600px)]">
+            {/* ambient glow */}
+            <div className="absolute inset-0 pointer-events-none rounded-full scale-110 bg-[radial-gradient(circle_at_55%_45%,rgba(168,213,245,0.18)_0%,transparent_65%)]" />
 
+            {/* Card 1 — 2×3 image grid */}
             <GlassCard
               cardRef={dCard1}
               bg="rgba(205,232,245,0.55)"
               shadow="0 8px 40px rgba(0,0,0,0.09),0 1.5px 0 rgba(255,255,255,0.95) inset"
               style={{ top: "0%", left: "0%", width: "52%", bottom: "0%", zIndex: 1 }}
             >
-              <div
-                style={{
-                  display: "grid",
-                  gridTemplateColumns: "1fr 1fr",
-                  gap: "7px",
-                  flex: 1,
-                  minHeight: 0,
-                }}
-              >
+              <div className="grid grid-cols-2 gap-[7px] flex-1 min-h-0">
                 {gridImages.map((src, i) => (
                   <ImagePane key={i} imageSrc={src} style={{ minHeight: 0 }} />
                 ))}
               </div>
-              <div style={{ display: "flex", justifyContent: "center", margin: "8px 0 3px" }}>
-                <div
-                  style={{
-                    width: "34px",
-                    height: "3px",
-                    borderRadius: "99px",
-                    background: "rgba(180,170,155,0.4)",
-                  }}
-                />
+              <div className="flex justify-center mt-2 mb-[3px]">
+                <div className="w-[34px] h-[3px] rounded-full bg-[rgba(180,170,155,0.4)]" />
               </div>
               <CardLabel text="uPVC · Series 90" />
             </GlassCard>
 
+            {/* Card 2 — wide kitchen image */}
             <GlassCard
               cardRef={dCard2}
               bg="rgba(220,210,255,0.52)"
@@ -636,21 +400,14 @@ export default function Hero() {
               <CardLabel text="Modular Kitchens" />
             </GlassCard>
 
+            {/* Card 3 — wardrobe + interior stack */}
             <GlassCard
               cardRef={dCard3}
               bg="rgba(252,220,170,0.55)"
               shadow="0 8px 36px rgba(0,0,0,0.08),0 1.5px 0 rgba(255,255,255,0.90) inset"
               style={{ top: "49%", left: "44%", right: "0%", bottom: "0%", zIndex: 3 }}
             >
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  gap: "7px",
-                  flex: 1,
-                  minHeight: 0,
-                }}
-              >
+              <div className="flex flex-col gap-[7px] flex-1 min-h-0">
                 {stackImages.map((src, i) => (
                   <ImagePane key={i} imageSrc={src} style={{ flex: 1, minHeight: 0 }} />
                 ))}
@@ -661,8 +418,8 @@ export default function Hero() {
         </div>
 
         {/* ═══ MOBILE ═══ */}
-        <div className="md:hidden flex flex-col" style={{ padding: "0 5vw", gap: "36px" }}>
-          <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
+        <div className="md:hidden flex flex-col px-[5vw] gap-9">
+          <div className="flex flex-col gap-5">
             <CopyBlock
               eyebrowRef={eyebrowRef}
               subRef={subRef}
@@ -674,49 +431,29 @@ export default function Hero() {
             />
           </div>
 
-          <div style={{ position: "relative", height: "340px", marginBottom: "8px" }}>
-            <div
-              style={{
-                position: "absolute",
-                inset: 0,
-                pointerEvents: "none",
-                background:
-                  "radial-gradient(circle at 50% 50%,rgba(168,213,245,0.18) 0%,transparent 70%)",
-              }}
-            />
+          <div className="relative h-[340px] mb-2">
+            {/* ambient glow */}
+            <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_50%_50%,rgba(168,213,245,0.18)_0%,transparent_70%)]" />
 
+            {/* Card 1 — 2×3 image grid */}
             <GlassCard
               cardRef={mCard1}
               bg="rgba(205,232,245,0.60)"
               shadow="0 6px 28px rgba(0,0,0,0.09),0 1.5px 0 rgba(255,255,255,0.95) inset"
               style={{ top: "0%", left: "0%", width: "54%", bottom: "0%", zIndex: 1 }}
             >
-              <div
-                style={{
-                  display: "grid",
-                  gridTemplateColumns: "1fr 1fr",
-                  gap: "6px",
-                  flex: 1,
-                  minHeight: 0,
-                }}
-              >
+              <div className="grid grid-cols-2 gap-[6px] flex-1 min-h-0">
                 {gridImages.map((src, i) => (
                   <ImagePane key={i} imageSrc={src} style={{ minHeight: 0 }} />
                 ))}
               </div>
-              <div style={{ display: "flex", justifyContent: "center", margin: "6px 0 2px" }}>
-                <div
-                  style={{
-                    width: "28px",
-                    height: "3px",
-                    borderRadius: "99px",
-                    background: "rgba(180,170,155,0.4)",
-                  }}
-                />
+              <div className="flex justify-center mt-[6px] mb-[2px]">
+                <div className="w-7 h-[3px] rounded-full bg-[rgba(180,170,155,0.4)]" />
               </div>
               <CardLabel text="uPVC · Series 90" />
             </GlassCard>
 
+            {/* Card 2 — wide kitchen image */}
             <GlassCard
               cardRef={mCard2}
               bg="rgba(220,210,255,0.58)"
@@ -727,21 +464,14 @@ export default function Hero() {
               <CardLabel text="Modular Kitchens" />
             </GlassCard>
 
+            {/* Card 3 — wardrobe + interior stack */}
             <GlassCard
               cardRef={mCard3}
               bg="rgba(252,220,170,0.60)"
               shadow="0 6px 24px rgba(0,0,0,0.08),0 1.5px 0 rgba(255,255,255,0.90) inset"
               style={{ top: "50%", left: "46%", right: "0%", bottom: "0%", zIndex: 3 }}
             >
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  gap: "6px",
-                  flex: 1,
-                  minHeight: 0,
-                }}
-              >
+              <div className="flex flex-col gap-[6px] flex-1 min-h-0">
                 {stackImages.map((src, i) => (
                   <ImagePane key={i} imageSrc={src} style={{ flex: 1, minHeight: 0 }} />
                 ))}
@@ -765,22 +495,19 @@ function CopyBlock({
   startCount,
   statsData,
 }) {
-  
   const { open } = useQuoteModal();
+
   return (
-    
     <>
+      {/* Eyebrow */}
       <div ref={eyebrowRef}>
         <span
-          className="inline-flex items-center gap-2 font-medium text-stone-600 tracking-widest uppercase"
-          style={{
-            fontSize: mobile ? "0.65rem" : "0.75rem",
-            padding: "7px 14px",
-            borderRadius: "99px",
-            background: "rgba(255,255,255,0.6)",
-            backdropFilter: "blur(12px)",
-            border: "1px solid rgba(200,190,170,0.5)",
-          }}
+          className={[
+            "inline-flex items-center gap-2 font-medium text-stone-600 tracking-widest uppercase",
+            "rounded-full bg-white/60 backdrop-blur-[12px] border border-[rgba(200,190,170,0.5)]",
+            "py-[7px] px-[14px]",
+            mobile ? "text-[0.65rem]" : "text-[0.75rem]",
+          ].join(" ")}
         >
           <svg
             width="12"
@@ -789,7 +516,7 @@ function CopyBlock({
             fill="none"
             stroke="currentColor"
             strokeWidth="2.5"
-            style={{ color: "#4ade80" }}
+            className="text-green-400"
           >
             <path d="M12 2L2 7l10 5 10-5-10-5z" />
             <path d="M2 17l10 5 10-5" />
@@ -798,50 +525,39 @@ function CopyBlock({
           Leading Provider · Est. 2024
         </span>
         <p
-          style={{
-            fontSize: mobile ? "0.6rem" : "0.68rem",
-            color: "#a8a29e",
-            marginTop: "6px",
-            letterSpacing: "0.04em",
-            fontStyle: "italic",
-            paddingLeft: "2px",
-          }}
+          className={[
+            "text-stone-400 mt-[6px] tracking-[0.04em] italic pl-[2px]",
+            mobile ? "text-[0.6rem]" : "text-[0.68rem]",
+          ].join(" ")}
         >
           Years of industry experience behind every product we deliver
         </p>
       </div>
 
+      {/* Heading */}
       <AnimatedHeading mobile={mobile} />
 
+      {/* Sub */}
       <p
         ref={subRef}
-        style={{
-          color: "#78716c",
-          fontSize: mobile ? "0.9rem" : "clamp(0.95rem,1.2vw,1.1rem)",
-          lineHeight: 1.7,
-          maxWidth: "440px",
-          margin: 0,
-        }}
+        className={[
+          "text-stone-500 leading-[1.7] max-w-[440px] m-0",
+          mobile ? "text-[0.9rem]" : "text-[clamp(0.95rem,1.2vw,1.1rem)]",
+        ].join(" ")}
       >
         Samar Trading delivers premium uPVC doors &amp; windows, modular kitchens, wardrobes and
         complete interior solutions — crafted with precision, tailored to your space.
       </p>
 
-      <div ref={ctaRef} style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>
+      {/* CTAs */}
+      <div ref={ctaRef} className="flex gap-2 flex-wrap">
         <Link
           to="/services"
-          style={{
-            padding: mobile ? "10px 18px" : "12px 26px",
-            borderRadius: "99px",
-            background: "#1c1917",
-            color: "#fff",
-            fontSize: mobile ? "0.8rem" : "0.875rem",
-            fontWeight: 500,
-            textDecoration: "none",
-            transition: "all 0.2s",
-            display: "inline-block",
-            whiteSpace: "nowrap",
-          }}
+          className={[
+            "rounded-full bg-[#1c1917] text-white font-medium no-underline",
+            "transition-all duration-200 inline-block whitespace-nowrap",
+            mobile ? "text-[0.8rem] py-[10px] px-[18px]" : "text-[0.875rem] py-3 px-[26px]",
+          ].join(" ")}
           onMouseEnter={(e) => {
             e.currentTarget.style.background = "#44403c";
             e.currentTarget.style.transform = "scale(1.04)";
@@ -856,20 +572,12 @@ function CopyBlock({
 
         <Link
           to="/projects"
-          style={{
-            padding: mobile ? "10px 18px" : "12px 26px",
-            borderRadius: "99px",
-            background: "rgba(255,255,255,0.6)",
-            backdropFilter: "blur(12px)",
-            border: "1px solid rgba(200,190,170,0.55)",
-            color: "#44403c",
-            fontSize: mobile ? "0.8rem" : "0.875rem",
-            fontWeight: 500,
-            textDecoration: "none",
-            transition: "all 0.2s",
-            display: "inline-block",
-            whiteSpace: "nowrap",
-          }}
+          className={[
+            "rounded-full bg-white/60 backdrop-blur-[12px] border border-[rgba(200,190,170,0.55)]",
+            "text-stone-700 font-medium no-underline",
+            "transition-all duration-200 inline-block whitespace-nowrap",
+            mobile ? "text-[0.8rem] py-[10px] px-[18px]" : "text-[0.875rem] py-3 px-[26px]",
+          ].join(" ")}
           onMouseEnter={(e) => {
             e.currentTarget.style.background = "rgba(255,255,255,0.85)";
             e.currentTarget.style.transform = "scale(1.04)";
@@ -883,48 +591,46 @@ function CopyBlock({
         </Link>
 
         <button
-  onClick={open}
-  style={{
-    padding: mobile ? "10px 18px" : "12px 26px",
-    borderRadius: "99px",
-    background: "linear-gradient(135deg,#c8a96e 0%,#a07840 100%)",
-    color: "#fff",
-    fontSize: mobile ? "0.8rem" : "0.875rem",
-    fontWeight: 500,
-    border: "none",
-    cursor: "pointer",
-    transition: "all 0.2s",
-    display: "inline-flex",
-    alignItems: "center",
-    gap: "5px",
-    whiteSpace: "nowrap",
-    boxShadow: "0 4px 16px rgba(160,120,64,0.28)",
-  }}
-  onMouseEnter={(e) => {
-    e.currentTarget.style.transform = "scale(1.04)";
-    e.currentTarget.style.boxShadow = "0 6px 22px rgba(160,120,64,0.42)";
-  }}
-  onMouseLeave={(e) => {
-    e.currentTarget.style.transform = "scale(1)";
-    e.currentTarget.style.boxShadow = "0 4px 16px rgba(160,120,64,0.28)";
-  }}
->
-  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2">
-    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
-  </svg>
-  Get a Quote
-  
-</button>
+          onClick={open}
+          className={[
+            "rounded-full bg-[linear-gradient(135deg,#c8a96e_0%,#a07840_100%)] text-white",
+            "font-medium border-0 cursor-pointer transition-all duration-200",
+            "inline-flex items-center gap-[5px] whitespace-nowrap",
+            "shadow-[0_4px_16px_rgba(160,120,64,0.28)]",
+            mobile ? "text-[0.8rem] py-[10px] px-[18px]" : "text-[0.875rem] py-3 px-[26px]",
+          ].join(" ")}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.transform = "scale(1.04)";
+            e.currentTarget.style.boxShadow = "0 6px 22px rgba(160,120,64,0.42)";
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.transform = "scale(1)";
+            e.currentTarget.style.boxShadow = "0 4px 16px rgba(160,120,64,0.28)";
+          }}
+        >
+          <svg
+            width="12"
+            height="12"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2.2"
+          >
+            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+          </svg>
+          Get a Quote
+        </button>
       </div>
 
+      {/* Stats */}
       <div
         ref={statsRef}
-        style={{
-          display: "flex",
-          gap: mobile ? "24px" : "clamp(20px,3vw,48px)",
-          paddingTop: "2px",
-          flexWrap: mobile ? "wrap" : "nowrap",
-        }}
+        className={[
+          "flex pt-[2px]",
+          mobile
+            ? "gap-6 flex-wrap"
+            : "gap-[clamp(20px,3vw,48px)] flex-nowrap",
+        ].join(" ")}
       >
         {statsData.map((s) => (
           <StatItem key={s.label} stat={s} startCount={startCount} mobile={mobile} />

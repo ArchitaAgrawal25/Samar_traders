@@ -118,7 +118,8 @@ function MobileMenu({ isOpen, onClose }) {
         </nav>
 
         <div className="border-t border-stone-200 px-6 py-6" onClick={onClose}>
-<QuoteButton mobile className="w-full justify-center bg-black py-3 hover:bg-stone-900" />        </div>
+          <QuoteButton mobile className="w-full justify-center bg-black py-3 hover:bg-stone-900" />
+        </div>
       </div>
     </>
   );
@@ -242,11 +243,22 @@ export default function Navbar() {
   const isActive = (path) =>
     path === "/" ? location.pathname === "/" : location.pathname.startsWith(path);
 
+  // ── Logo click: smooth scroll to top on home, navigate+top on other pages ──
   const handleLogoClick = (e) => {
     e.preventDefault();
 
-    if (location.pathname === "/") window.location.reload();
-    else navigate("/");
+    if (location.pathname === "/") {
+      // Already on home — just smooth scroll to top, no reload
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    } else {
+      // Navigate to home; scroll to top is handled by the home page's
+      // existing scroll restoration logic (sessionStorage cleared on nav)
+      navigate("/");
+      // Defer the scroll so the new route has time to mount
+      requestAnimationFrame(() => {
+        window.scrollTo({ top: 0, behavior: "instant" });
+      });
+    }
   };
 
   return (

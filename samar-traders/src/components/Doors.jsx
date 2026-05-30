@@ -240,26 +240,7 @@ export default function Doors() {
   <div className="pointer-events-none absolute bottom-0 left-10 h-52 w-52 rounded-full bg-[#cfeee5]/55 blur-3xl" />
 
   <div className="relative z-10 mx-auto max-w-[1240px] px-4 pb-12 pt-28 sm:px-5 md:px-3 md:pt-32 lg:px-2">
-    <div className="hero-doors-el mb-8 flex items-center justify-center gap-2 opacity-0">
-      <Link
-        to="/"
-        className="font-sans text-[0.58rem] font-semibold uppercase tracking-[0.16em] text-stone-400 no-underline transition-colors hover:text-stone-700"
-      >
-        Home
-      </Link>
-      <span className="text-stone-300">›</span>
-      <Link
-        to="/services"
-        className="font-sans text-[0.58rem] font-semibold uppercase tracking-[0.16em] text-stone-400 no-underline transition-colors hover:text-stone-700"
-      >
-        Services
-      </Link>
-      <span className="text-stone-300">›</span>
-      <span className="font-sans text-[0.58rem] font-semibold uppercase tracking-[0.16em] text-[#7a5c3a]">
-        Doors
-      </span>
-    </div>
-
+  
     <div className="mx-auto max-w-4xl text-center">
       <div className="hero-doors-el mb-3 flex items-center justify-center gap-3 opacity-0">
         <span className="inline-block h-5 w-5 rounded-full bg-gradient-to-br from-[#c8a96e] to-[#7a5c3a]" />

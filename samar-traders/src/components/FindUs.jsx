@@ -44,7 +44,7 @@ function ContactLine({ icon: Icon, label, value, href }) {
           {label}
         </span>
 
-        <span className="mt-0.5 block break-words font-serif text-[0.92rem] font-semibold leading-tight text-[#241c16]">
+        <span className="mt-0.5 block break-words font-sans text-[0.92rem] font-semibold leading-tight text-[#241c16]">
           {value}
         </span>
       </span>

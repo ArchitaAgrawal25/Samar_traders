@@ -9,11 +9,7 @@ gsap.registerPlugin(ScrollTrigger);
 const SERVICES = [
   {
     id: "01",
-    slug: "upvc-windows",
-    category: "Windows",
     name: "uPVC Windows",
-    tagline: "Built for every season.",
-    chapter: "Termite-treated · Weather-sealed",
     desc: "Premium sliding, casement, tilt-turn and French-style uPVC windows engineered for Indian climates. Multi-chamber profiles reduce heat, block noise and resist rust, termites and weathering — all with zero maintenance.",
     whyItLasts: [
       "Multi-chamber thermal insulation profiles",
@@ -26,6 +22,7 @@ const SERVICES = [
       { label: "Hardware", value: "ROTO Germany" },
       { label: "Lead time", value: "2 – 4 weeks" },
     ],
+    enquire: "windows",
     accent: "#2a7a6a",
     image: "/images/door1.jpg",
     image2: "/images/door3.png",
@@ -35,11 +32,7 @@ const SERVICES = [
   },
   {
     id: "02",
-    slug: "upvc-doors",
-    category: "Doors",
     name: "uPVC Doors",
-    tagline: "Strong, silent, sealed.",
-    chapter: "Weather-proof · Zero maintenance",
     desc: "Durable uPVC entry, sliding and casement doors built to withstand India's harsh climate. Termite-proof, rust-resistant frames with multi-point locking systems — delivering security, insulation and style with no upkeep.",
     whyItLasts: [
       "Multi-point locking for enhanced security",
@@ -52,6 +45,7 @@ const SERVICES = [
       { label: "Hardware", value: "ROTO Germany" },
       { label: "Lead time", value: "2 – 4 weeks" },
     ],
+    enquire:"doors",
     accent: "#3a6a8a",
     image: "/images/door2.jpg",
     image2: "/images/door4.jpg",
@@ -61,11 +55,7 @@ const SERVICES = [
   },
   {
     id: "03",
-    slug: "kitchen",
-    category: "Modular Kitchen",
     name: "Modular Kitchen Solutions",
-    tagline: "Your kitchen, your way.",
-    chapter: "Custom-designed · Fully fitted",
     desc: "Fully customised modular kitchens designed around your cooking style, space and taste. From layout planning to final installation — smart cabinets, premium accessories and a finish that lasts decades.",
     whyItLasts: [
       "Soft-close hinges and drawer systems",
@@ -78,6 +68,7 @@ const SERVICES = [
       { label: "Finish", value: "200+ options" },
       { label: "Lead time", value: "3 – 5 weeks" },
     ],
+    enquire:"kitchen",
     accent: "#c8822a",
     image: "/images/kitchen.webp",
     image2: "/images/show1.JPG",
@@ -86,11 +77,7 @@ const SERVICES = [
   },
   {
     id: "04",
-    slug: "wardrobe",
-    category: "Wardrobes",
     name: "Custom Wardrobes",
-    tagline: "Maximum storage, minimal clutter.",
-    chapter: "Floor-to-ceiling · Soft-close",
     desc: "Sliding, hinged and walk-in wardrobes crafted to make every inch count. Designed to match your room's aesthetic — from minimal whites to rich wood finishes — with interiors tailored to exactly how you organise.",
     whyItLasts: [
       "Soft-close track systems",
@@ -103,6 +90,7 @@ const SERVICES = [
       { label: "Panels", value: "Mirror · Glass · Frosted" },
       { label: "Lead time", value: "2 – 3 weeks" },
     ],
+    enquire:"wardrobes",
     accent: "#6a5acd",
     image: "/images/wardrobe.jpg",
     image2: "/images/furniture.jpg",
@@ -111,11 +99,7 @@ const SERVICES = [
   },
   {
     id: "05",
-    slug: "interior-design",
-    category: "Interior Design",
     name: "Interior Design",
-    tagline: "Spaces that feel right.",
-    chapter: "Concept to completion",
     desc: "Complete interior solutions for homes and commercial spaces — from concept to completion. We design living rooms, bedrooms, offices, showrooms and more with a focus on functionality, natural light and your personal style.",
     whyItLasts: [
       "False ceiling and lighting planning",
@@ -128,6 +112,7 @@ const SERVICES = [
       { label: "Delivery", value: "End-to-end" },
       { label: "Consultation", value: "In-home, free" },
     ],
+    enquire:"interior design",
     accent: "#2a7a6a",
     image: "/images/interior.jpg",
     image2: "/images/interior2.png",
@@ -136,11 +121,7 @@ const SERVICES = [
   },
   {
     id: "06",
-    slug: "space-planning",
-    category: "Furniture & Planning",
     name: "Furniture & Space Planning",
-    tagline: "Every square foot, optimised.",
-    chapter: "Analysis-first · Multi-functional",
     desc: "Smart furniture layout and space optimisation for homes, apartments and offices. We analyse your space, understand how you live or work, and design a plan that eliminates wasted area.",
     whyItLasts: [
       "Room-by-room space analysis",
@@ -153,6 +134,7 @@ const SERVICES = [
       { label: "Spaces", value: "Home · Office · Studio" },
       { label: "Consultation", value: "In-person" },
     ],
+    enquire:"furniture",
     accent: "#2f6f6a",
     image: "/images/furniture2.jpeg",
     image2: "/images/furniture3.webp",
@@ -343,7 +325,7 @@ function ContentBlock({ service }) {
           className="inline-flex items-center gap-2 rounded-full px-7 py-3.5 font-sans text-[0.82rem] font-semibold text-white transition-all duration-200 hover:scale-[1.03] hover:opacity-90"
           style={{ background: "#1c1917", boxShadow: "0 8px 24px rgba(0,0,0,0.18)" }}
         >
-          Enquire about {service.name.split(" ")[0]} ↗
+          Enquire about {service.enquire} ↗
         </button>
 
         {/* Secondary "See all types" link — for doors/windows only */}

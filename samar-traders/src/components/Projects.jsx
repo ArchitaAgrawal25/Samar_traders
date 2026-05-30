@@ -8,25 +8,24 @@ import { useQuoteModal } from "./QuoteModal";
 gsap.registerPlugin(ScrollTrigger);
 
 const PROJECTS = [
-   {
-  id: "01",
-  name: "Group Centre - CRPF Camp",
-  location: "Lucknow, Uttar Pradesh",
-  description:
-    "An ongoing large-scale modular kitchen project for the CRPF Group Centre campus in Lucknow. The contract includes the design, fabrication, and installation of 600 modern modular kitchens built for durability, efficient space utilization, and long-term daily use across residential units.",
-  materials: [
-    "Modular plywood cabinetry",
-    "Premium laminate finishes",
-    "Soft-close hardware systems",
-    "Quartz & granite countertops",
-  ],
-  accent: "#7a5c3a",
-  media: [
-    { type: "image", src: "/images/pr5-1.webp" },
-    { type: "image", src: "/images/pr5-21.jpeg" },
- 
-  ],
-},
+  {
+    id: "01",
+    name: "Group Centre - CRPF Camp",
+    location: "Lucknow, Uttar Pradesh",
+    description:
+      "An ongoing large-scale modular kitchen project for the CRPF Group Centre campus in Lucknow. The contract includes the design, fabrication, and installation of 600 modern modular kitchens built for durability, efficient space utilization, and long-term daily use across residential units.",
+    materials: [
+      "Modular plywood cabinetry",
+      "Premium laminate finishes",
+      "Soft-close hardware systems",
+      "Quartz & granite countertops",
+    ],
+    accent: "#7a5c3a",
+    media: [
+      { type: "image", src: "/images/pr5-1.webp" },
+      { type: "image", src: "/images/pr5-21.jpeg" },
+    ],
+  },
   {
     id: "02",
     name: "The Magnolia – Marriage Lawn",
@@ -165,8 +164,6 @@ function Lightbox({ media, startIdx, onClose }) {
     });
   };
 
-  // ── FIX: render via portal so Lightbox always sits above all
-  //         project sections regardless of their stacking context.
   return createPortal(
     <div
       ref={overlayRef}
@@ -175,29 +172,12 @@ function Lightbox({ media, startIdx, onClose }) {
           handleClose();
         }
       }}
-      className="
-        fixed inset-0 z-[999999]
-        flex items-center justify-center
-        bg-black/75
-        p-2 sm:p-4
-        backdrop-blur-sm
-      "
+      className="fixed inset-0 z-[999999] flex items-center justify-center bg-black/75 p-2 sm:p-4 backdrop-blur-sm"
     >
-      {/* Modal */}
+      {/* ── CHANGE 1: style={{ width, height, maxWidth, maxHeight }} → Tailwind ── */}
       <div
         ref={panelRef}
-        className="
-          relative
-          overflow-hidden
-          rounded-[20px]
-          shadow-[0_24px_70px_rgba(0,0,0,0.4)]
-        "
-        style={{
-          width: "fit-content",
-          height: "fit-content",
-          maxWidth: "94vw",
-          maxHeight: "90vh",
-        }}
+        className="relative overflow-hidden rounded-[20px] shadow-[0_24px_70px_rgba(0,0,0,0.4)] w-fit h-fit max-w-[94vw] max-h-[90vh]"
       >
         {/* Media */}
         {item.type === "video" ? (
@@ -210,26 +190,14 @@ function Lightbox({ media, startIdx, onClose }) {
             playsInline
             autoPlay
             muted
-            className="
-              block
-              max-h-[90vh]
-              max-w-[94vw]
-              rounded-[20px]
-              object-contain
-            "
+            className="block max-h-[90vh] max-w-[94vw] rounded-[20px] object-contain"
           />
         ) : (
           <img
             key={item.src}
             src={item.src}
             alt=""
-            className="
-              block
-              max-h-[90vh]
-              max-w-[94vw]
-              rounded-[20px]
-              object-contain
-            "
+            className="block max-h-[90vh] max-w-[94vw] rounded-[20px] object-contain"
           />
         )}
 
@@ -238,18 +206,7 @@ function Lightbox({ media, startIdx, onClose }) {
           type="button"
           onClick={handleClose}
           aria-label="Close lightbox"
-          className="
-            absolute right-4 top-4 z-50
-            flex h-11 w-11
-            items-center justify-center
-            rounded-full
-            bg-black/80
-            text-white
-            shadow-lg
-            backdrop-blur-md
-            transition
-            hover:scale-110
-          "
+          className="absolute right-4 top-4 z-50 flex h-11 w-11 items-center justify-center rounded-full bg-black/80 text-white shadow-lg backdrop-blur-md transition hover:scale-110"
         >
           <svg
             width="18"
@@ -267,29 +224,12 @@ function Lightbox({ media, startIdx, onClose }) {
 
         {/* Navigation */}
         {n > 1 && (
-          <div
-            className="
-              absolute bottom-4 left-1/2 z-50
-              flex -translate-x-1/2 items-center gap-3
-              rounded-full
-              bg-black/75
-              px-3 py-2
-              backdrop-blur-md
-            "
-          >
+          <div className="absolute bottom-4 left-1/2 z-50 flex -translate-x-1/2 items-center gap-3 rounded-full bg-black/75 px-3 py-2 backdrop-blur-md">
             <button
               type="button"
               onClick={prev}
               aria-label="Previous"
-              className="
-                flex h-10 w-10
-                items-center justify-center
-                rounded-full
-                bg-white
-                text-black
-                transition
-                hover:scale-105
-              "
+              className="flex h-10 w-10 items-center justify-center rounded-full bg-white text-black transition hover:scale-105"
             >
               <svg
                 width="16"
@@ -309,15 +249,7 @@ function Lightbox({ media, startIdx, onClose }) {
               type="button"
               onClick={next}
               aria-label="Next"
-              className="
-                flex h-10 w-10
-                items-center justify-center
-                rounded-full
-                bg-white
-                text-black
-                transition
-                hover:scale-105
-              "
+              className="flex h-10 w-10 items-center justify-center rounded-full bg-white text-black transition hover:scale-105"
             >
               <svg
                 width="16"
@@ -466,10 +398,11 @@ function ProjectSection({ project, index }) {
   const isLast = index === PROJECTS.length - 1;
 
   return (
+    // style={{ scrollMarginTop: "80px" }} converted → scroll-mt-[80px] in className
     <section
       ref={sectionRef}
       id={`project-${project.id}`}
-      className={`w-full scroll-mt-[88px] ${isLast ? "pb-0" : "pb-[clamp(56px,7vw,96px)]"}`}
+      className={`w-full scroll-mt-[80px] ${isLast ? "pb-0" : "pb-[clamp(56px,7vw,96px)]"}`}
     >
       {index > 0 && (
         <div className="mb-[clamp(56px,7vw,96px)] h-px w-full bg-gradient-to-r from-transparent via-[#c8b99a]/25 to-transparent" />
